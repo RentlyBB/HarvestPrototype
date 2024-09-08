@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Enums;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,7 +21,9 @@ namespace _Scripts {
         private bool _mouseOnTile = false;
         private TextMesh _textMesh;
         private string _textToShow;
-        public bool _harvestable = false;
+        private bool _harvestable = false;
+        private bool _decreaseValue = true;
+        private TileType _tileType;
 
         private void OnEnable() {
             PlayerBehaviour.DegreaseTileValueEvent += DecreaseValue;
@@ -55,7 +58,7 @@ namespace _Scripts {
         }
 
         private void DecreaseValue() {
-            
+            if(!_decreaseValue) return;
             tileValue--;
 
             //Refresh text
@@ -72,24 +75,43 @@ namespace _Scripts {
         }
 
         private void TextUpdate(string text) {
+            
             _textToShow = text;
-            _textMesh.text = $"{_textToShow}";
+            
+            switch (_tileType) {
+                case TileType.ClassicTile:
+                    _textMesh.text = $"{_textToShow}";
+                    break;
+                case TileType.ExclamationTile:
+                    _textMesh.text = $"!{_textToShow}";
+                    break;
+            }
         }
 
         private void EvaluateLevelData(string data) {
             if (data.Contains("X")) {
                 moveable = false;
                 _textToShow = "X";
+                _tileType = TileType.ClassicTile;
             }else if (data.Contains("M")) {
                 moveable = true;
                 _textToShow = "";
+                _tileType = TileType.ClassicTile;
             }else if (data.Contains("N")) {
-
               data = data.Replace("N", string.Empty);
               moveable = true;
               _harvestable = true;
               tileValue = Int32.Parse(data); 
               _textToShow = data;
+              _tileType = TileType.ClassicTile;
+            }else if (data.Contains("!")) {
+                data = data.Replace("!", string.Empty);
+                moveable = true;
+                _harvestable = false;
+                _decreaseValue = false;
+                tileValue = Int32.Parse(data); 
+                _textToShow = $"!{tileValue}";
+                _tileType = TileType.ExclamationTile;
             }
         }
 
@@ -106,9 +128,20 @@ namespace _Scripts {
                 TextUpdate("");
                 _harvestable = false;
             }
-
             return true;
         }
 
+        public void OnTileStep() {
+            switch (_tileType) {
+                case TileType.ClassicTile:
+                    Harvest();
+                    break;
+                case TileType.ExclamationTile:
+                    _decreaseValue = true;
+                    _harvestable = true;
+                    _tileType = TileType.ClassicTile;
+                    break;
+            }
+        }
     }
 }

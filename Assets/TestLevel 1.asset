@@ -17,11 +17,11 @@ MonoBehaviour:
   playerStartingPosition: {x: 0, y: 0}
   tileData:
   - M
-  - M
-  - M
+  - X
+  - X
   - M
   - N5
   - M
-  - M
+  - X
   - M
   - N2

@@ -69,9 +69,8 @@ namespace _Scripts {
             //Harvest
             Tile tile = GridManager.Instance.GetTileAtPosition(_targetPosition);
 
-            if (tile.Harvest()) {
-                DegreaseTileValueEvent?.Invoke();
-            }
+            tile.OnTileStep();
+            DegreaseTileValueEvent?.Invoke();
         }
         
         
