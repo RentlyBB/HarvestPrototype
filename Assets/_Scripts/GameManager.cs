@@ -14,7 +14,7 @@ namespace _Scripts {
         
         public int currentLevelGoal;
 
-        private int _currentLevelID = 0;
+        [SerializeField]private int _currentLevelID = 0;
         private GridManager _gridManager;
 
         private void Start() {
@@ -24,17 +24,25 @@ namespace _Scripts {
 
         private void Update() {
             if (currentLevelGoal == 0) {
-                _currentLevelID++;
-                if (_currentLevelID > levels.Count - 1) {
-                    _currentLevelID = 0;
-                }
+                IncreasesCurrentLevelId();
                 LoadLevel(_currentLevelID);
             }
         }
 
-        public void StartGame() {
-            
+        private void IncreasesCurrentLevelId() {
+            _currentLevelID++;
+            if (_currentLevelID > levels.Count - 1) {
+                _currentLevelID = 0;
+            }
         }
+
+        private void DecreasesCurrentLevelId() {
+            _currentLevelID--;
+            if (_currentLevelID < 0) {
+                _currentLevelID = levels.Count - 1;
+            }
+        }
+
 
         [Command]
         public void LoadLevel(int levelID) {
@@ -56,6 +64,18 @@ namespace _Scripts {
                 player.SetPosition(gridData.playerStartingPosition);
 
             }
+        }
+
+        [Command]
+        public void NextLevel() { 
+            IncreasesCurrentLevelId();
+            ResetLevel();
+        }
+
+        [Command]
+        public void PreviousLevel() {
+            DecreasesCurrentLevelId();
+            ResetLevel();
         }
     }
 }

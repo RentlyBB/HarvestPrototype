@@ -15,6 +15,7 @@ namespace _Scripts {
 
         public Vector2Int gridPosition;
         public int tileValue;
+        private int _defaultTileValue;
         public bool moveable;
         
 
@@ -57,23 +58,6 @@ namespace _Scripts {
             }
         }
 
-        private void DecreaseValue() {
-            if(!_decreaseValue) return;
-            tileValue--;
-
-            //Refresh text
-            if (_textToShow.Contains("X") || _textToShow == "" || _textToShow.Length == 0) {
-                return;
-            }
-            
-            if (tileValue < 0) {
-                TextUpdate("");
-                Harvest();
-            } else {
-                TextUpdate(tileValue.ToString());
-            }
-        }
-
         private void TextUpdate(string text) {
             
             _textToShow = text;
@@ -100,16 +84,17 @@ namespace _Scripts {
             }else if (data.Contains("N")) {
               data = data.Replace("N", string.Empty);
               moveable = true;
-              _harvestable = true;
               tileValue = Int32.Parse(data); 
+              _harvestable = true;
+              _defaultTileValue = tileValue;
               _textToShow = data;
               _tileType = TileType.ClassicTile;
             }else if (data.Contains("!")) {
                 data = data.Replace("!", string.Empty);
                 moveable = true;
-                _harvestable = false;
-                _decreaseValue = false;
                 tileValue = Int32.Parse(data); 
+                _harvestable = false;
+                _defaultTileValue = tileValue;
                 _textToShow = $"!{tileValue}";
                 _tileType = TileType.ExclamationTile;
             }
@@ -130,6 +115,28 @@ namespace _Scripts {
             }
             return true;
         }
+        
+        private void DecreaseValue() {
+            if(!_decreaseValue) return;
+            tileValue--;
+
+            //Refresh text
+            if (_textToShow.Contains("X") || _textToShow == "" || _textToShow.Length == 0) {
+                return;
+            }
+            
+            if (tileValue < 0) {
+                if (_tileType == TileType.ExclamationTile) {
+                    _tileType = TileType.ClassicTile;
+                    _renderer.color = _badHarvestColor;
+                }
+
+                TextUpdate("");
+                Harvest();
+            } else {
+                TextUpdate(tileValue.ToString());
+            }
+        }
 
         public void OnTileStep() {
             switch (_tileType) {
@@ -137,9 +144,9 @@ namespace _Scripts {
                     Harvest();
                     break;
                 case TileType.ExclamationTile:
-                    _decreaseValue = true;
                     _harvestable = true;
                     _tileType = TileType.ClassicTile;
+                    tileValue = _defaultTileValue + 1; 
                     break;
             }
         }
