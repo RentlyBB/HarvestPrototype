@@ -18,8 +18,5 @@ namespace _Scripts.SOs {
         /// N5 - Value
         /// </summary>
         public List<string> tileData = new List<string>();
-        
-
-
     }
 }

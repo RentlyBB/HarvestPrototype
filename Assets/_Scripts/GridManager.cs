@@ -64,5 +64,25 @@ namespace _Scripts {
 
             return null;
         }
+
+        public void GetAllInRow(int rowNumber, out List<Tile> tiles) {
+            var allTiles = new List<Tile>();
+
+            for (int i = 0; i < _width; i++) {
+                allTiles.Add(GetTileAtPosition(new Vector2(i, rowNumber)));
+            }
+
+            tiles = allTiles;
+        }
+        
+        public void GetAllInColumn(int columnNumber, out List<Tile> tiles) {
+            var allTiles = new List<Tile>();
+
+            for (int i = 0; i < _height; i++) {
+                allTiles.Add(GetTileAtPosition(new Vector2(columnNumber, i)));
+            }
+
+            tiles = allTiles;
+        }
     }
 }

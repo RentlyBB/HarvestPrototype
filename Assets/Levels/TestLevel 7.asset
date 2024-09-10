@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goal: 4
   gridSize: {x: 4, y: 3}
-  playerStartingPosition: {x: 0, y: 1}
+  playerStartingPosition: {x: 0, y: 0}
   tileData:
   - M
+  - FH
   - M
-  - M
-  - M
-  - '!4'
-  - M
-  - M
-  - '!4'
+  - FV
   - N3
   - M
-  - N2
+  - FV
+  - N3
+  - M
+  - FV
+  - N3
   - M

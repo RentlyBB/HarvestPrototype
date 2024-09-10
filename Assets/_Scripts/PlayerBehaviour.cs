@@ -71,6 +71,7 @@ namespace _Scripts {
 
             tile.OnTileStep();
             DegreaseTileValueEvent?.Invoke();
+            tile.OnTileStepAfter();
         }
         
         
