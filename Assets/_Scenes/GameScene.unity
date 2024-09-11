@@ -1461,42 +1461,6 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 701051833}
-    - target: {fileID: 8188661108116394451, guid: 411a20e1c59c4b04abfb5d301af0015e, type: 3}
-      propertyPath: levels.Array.size
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8188661108116394451, guid: 411a20e1c59c4b04abfb5d301af0015e, type: 3}
-      propertyPath: levels.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9d1298f6bd5724adea41a30d96db402a, type: 2}
-    - target: {fileID: 8188661108116394451, guid: 411a20e1c59c4b04abfb5d301af0015e, type: 3}
-      propertyPath: levels.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 25e90af069f591d4d90962d682565332, type: 2}
-    - target: {fileID: 8188661108116394451, guid: 411a20e1c59c4b04abfb5d301af0015e, type: 3}
-      propertyPath: levels.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: f7cfd5aa09e7e614daed11d2b0f3a059, type: 2}
-    - target: {fileID: 8188661108116394451, guid: 411a20e1c59c4b04abfb5d301af0015e, type: 3}
-      propertyPath: levels.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 116c1b6e514063e4ba5db5b970562ea6, type: 2}
-    - target: {fileID: 8188661108116394451, guid: 411a20e1c59c4b04abfb5d301af0015e, type: 3}
-      propertyPath: levels.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 6f6cc6ea5fdca4569ad35ddfddf82783, type: 2}
-    - target: {fileID: 8188661108116394451, guid: 411a20e1c59c4b04abfb5d301af0015e, type: 3}
-      propertyPath: levels.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: 6a75a90aa2b5c4374964987d97c1392a, type: 2}
-    - target: {fileID: 8188661108116394451, guid: 411a20e1c59c4b04abfb5d301af0015e, type: 3}
-      propertyPath: levels.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: bfe4788ac349e484293bc32696641fbd, type: 2}
-    - target: {fileID: 8188661108116394451, guid: 411a20e1c59c4b04abfb5d301af0015e, type: 3}
-      propertyPath: levels.Array.data[7]
-      value: 
-      objectReference: {fileID: 11400000, guid: 79dc0c1a0fee64813a0dfcfcbded33aa, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -48,4 +48,12 @@ MonoBehaviour:
   levels:
   - {fileID: 11400000, guid: 25e90af069f591d4d90962d682565332, type: 2}
   - {fileID: 11400000, guid: f7cfd5aa09e7e614daed11d2b0f3a059, type: 2}
+  - {fileID: 11400000, guid: 116c1b6e514063e4ba5db5b970562ea6, type: 2}
+  - {fileID: 11400000, guid: 6f6cc6ea5fdca4569ad35ddfddf82783, type: 2}
+  - {fileID: 11400000, guid: 6a75a90aa2b5c4374964987d97c1392a, type: 2}
+  - {fileID: 11400000, guid: bfe4788ac349e484293bc32696641fbd, type: 2}
+  - {fileID: 11400000, guid: 79dc0c1a0fee64813a0dfcfcbded33aa, type: 2}
+  - {fileID: 11400000, guid: 9d1298f6bd5724adea41a30d96db402a, type: 2}
+  - {fileID: 11400000, guid: 3f61b01ebeac7479faf7fc74478801b0, type: 2}
   currentLevelGoal: 1
+  _currentLevelID: 0
