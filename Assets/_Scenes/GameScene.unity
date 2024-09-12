@@ -1082,6 +1082,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 701051833}
+    - target: {fileID: 8188661108116394451, guid: 411a20e1c59c4b04abfb5d301af0015e, type: 3}
+      propertyPath: levels.Array.size
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
