@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using _Scripts.Singleton;
 using _Scripts.SOs;
 using QFSW.QC;
+using UnityEngine.SceneManagement;
+using UnitySingleton;
 
 namespace _Scripts {
 
-    public class GridManager : Singleton<GridManager> {
+    public class GridManager : MonoSingleton<GridManager> {
 
         [SerializeField] private Tile _tilePrefab;
 
@@ -19,7 +20,14 @@ namespace _Scripts {
         private int _width, _height;
 
         private List<string> _tileData = new List<string>();
+        
+        private void OnEnable() {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
 
+        private void OnDisable() {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
 
         public bool LoadGridData(GridLevelData gridLevelData) {
 
@@ -31,11 +39,6 @@ namespace _Scripts {
             _height = gridLevelData.gridSize.y;
             _tileData = gridLevelData.tileData;
             return true;
-        }
-
-        [Command]
-        public void Test(string s) {
-            Debug.Log(s);
         }
 
         public void GenerateGrid() {
@@ -83,6 +86,12 @@ namespace _Scripts {
             }
 
             tiles = allTiles;
+        }
+        
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+            LoadGridData(GameManager.Instance.GetLevel());
+            GenerateGrid();
+            GameManager.Instance.SetPlayerPosition();
         }
     }
 }

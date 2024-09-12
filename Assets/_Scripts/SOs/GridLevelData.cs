@@ -7,6 +7,7 @@ namespace _Scripts.SOs {
     [CreateAssetMenu(fileName = "GridLevelData", menuName = "Custom/GridLevelData", order = 0)]
     public class GridLevelData : ScriptableObject {
 
+        public int levelID;
         public int goal;
         
         public Vector2Int gridSize;
