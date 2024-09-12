@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using _Scripts.LevelEditor;
 using UnityEngine;
 using _Scripts.SOs;
+using _Scripts.UI;
 using QFSW.QC;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -19,13 +20,10 @@ namespace _Scripts {
 
         public int currentLevelID = 0;
 
-        private GridManager _gridManager;
-
         [HideInInspector]
         public int levelToBeEdited = 0;
         
         private void Start() {
-            _gridManager = GridManager.Instance;
 
             for (int i = 0; i < levels.Count; i++) {
                 levels[i].levelID = i;
@@ -37,6 +35,15 @@ namespace _Scripts {
                 IncreasesCurrentLevelId();
                 LoadLevel(currentLevelID);
             }
+        }
+
+        private void OnEnable() {
+            GameLevelBtn.GameControlEvent += GameLevelBtnOnGameControlEvent;
+        }
+        
+       
+        private void OnDisable() {
+            GameLevelBtn.GameControlEvent -= GameLevelBtnOnGameControlEvent;
         }
 
         private void IncreasesCurrentLevelId() {
@@ -57,9 +64,9 @@ namespace _Scripts {
         [Command]
         public void LoadLevel(int levelID) {
             GridLevelData gridData = levels[levelID];
-            if (_gridManager.LoadGridData(gridData)) {
+            if (GridManager.Instance.LoadGridData(gridData)) {
                 currentLevelID = levelID;
-                _gridManager.GenerateGrid();
+                GridManager.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 SetPlayerPosition(gridData);
             }
@@ -68,27 +75,33 @@ namespace _Scripts {
         [Command]
         public void LoadLevel() {
             GridLevelData gridData = levels[currentLevelID];
-            if (_gridManager.LoadGridData(gridData)) {
-                _gridManager.GenerateGrid();
+            if (GridManager.Instance.LoadGridData(gridData)) {
+                GridManager.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 SetPlayerPosition();
             }
         }
 
         public void SetPlayerPosition(GridLevelData gridData) {
-            player.SetPosition((Vector2)gridData.playerStartingPosition);;
+            if (player == null) {
+                player = FindObjectOfType<PlayerBehaviour>();
+            }
+            player.SetPosition((Vector2)gridData.playerStartingPosition);
         }
         
         public void SetPlayerPosition() {
             GridLevelData gridData = levels[currentLevelID];
-            player.SetPosition((Vector2)gridData.playerStartingPosition);;
+            if (player == null) {
+                player = FindObjectOfType<PlayerBehaviour>();
+            }
+            player.SetPosition((Vector2)gridData.playerStartingPosition);
         }
 
         [Command]
         public void ResetLevel() {
             GridLevelData gridData = levels[currentLevelID];
-            if (_gridManager.LoadGridData(gridData)) {
-                _gridManager.GenerateGrid();
+            if (GridManager.Instance.LoadGridData(gridData)) {
+                GridManager.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 player.SetPosition(gridData.playerStartingPosition);
             }
@@ -136,7 +149,10 @@ namespace _Scripts {
         
         [Command]
         public void TestLevel() { 
+            GridManagerEditor.Instance.SaveLevel();
             currentLevelID = GridManagerEditor.Instance.loadedLevelInEditor.levelID;
+            currentLevelGoal = GridManagerEditor.Instance.loadedLevelInEditor.goal;
+            
             ChangeScene("GameScene");
         }
 
@@ -169,7 +185,20 @@ namespace _Scripts {
                 yield return null;
             }
 
+            player = FindObjectOfType<PlayerBehaviour>();
+            
             Debug.Log("Scene fully loaded and activated.");
         }
+        
+        private void GameLevelBtnOnGameControlEvent(int controlId) {
+            if (controlId == 0) {
+                PreviousLevel();
+            }else if (controlId == 1) {
+                ResetLevel();
+            }else if (controlId == 2) {
+                NextLevel();
+            }
+        }
+
     }
 }

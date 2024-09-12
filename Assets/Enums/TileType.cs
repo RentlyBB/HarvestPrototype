@@ -4,6 +4,8 @@
         ClassicTile,
         ExclamationTile,
         FreezeTileHorizontal,
-        FreezeTileVertical
+        FreezeTileVertical,
+        NotMoveable,
+        Moveable
     }
 }

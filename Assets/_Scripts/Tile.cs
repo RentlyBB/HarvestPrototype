@@ -9,7 +9,7 @@ namespace _Scripts {
         public static event UnityAction<Vector2Int> PlayerMove = delegate { };
 
         [SerializeField]
-        private Color _baseColor, _offsetColor, _harvestedColor, _badHarvestColor;
+        private Color _baseColor, _offsetColor, _harvestedColor, _badHarvestColor, _freezedColor;
 
         [SerializeField]
         private SpriteRenderer _renderer;
@@ -29,6 +29,8 @@ namespace _Scripts {
         private bool _decreaseValue = true;
         private bool _isFreeze = false;
         private TileType _tileType;
+        private bool _isOffset;
+        private TileState _tileState;
 
         private void OnEnable() {
             PlayerBehaviour.DegreaseTileValueEvent += DecreaseValue;
@@ -39,10 +41,10 @@ namespace _Scripts {
         }
 
         public void Init(bool isOffset, string gridLevelData) {
-            _renderer.color = isOffset ? _offsetColor : _baseColor;
+            _isOffset = isOffset;
+            ChangeTileColor();
 
             EvaluateLevelData(gridLevelData);
-            //_textMesh = Utils.CreateTextWorld($"{gridPosition.x},{gridPosition.y}", transform.position, 32, transform, Color.white);
             _textMesh = Utils.CreateTextWorld($"{_textToShow}", transform.position, 32, transform, Color.white);
         }
 
@@ -75,15 +77,32 @@ namespace _Scripts {
             }
         }
 
+        private void ChangeTileColor() {
+            if (_tileState == TileState.Freeze) {
+                _renderer.color = _freezedColor;
+            }else if (_tileState == TileState.Normal) {
+                _renderer.color = _isOffset ? _offsetColor : _baseColor;
+            }else if (_tileState == TileState.BadHarvested) {
+                _renderer.color = _badHarvestColor;
+            }else if (_tileState == TileState.GoodHarvested) {
+                _renderer.color = _harvestedColor;
+            } else if (_tileState == TileState.Invisible) {
+                _renderer.color = new Color(0, 0, 0, 0);
+            }
+        }
+
         private void EvaluateLevelData(string data) {
             if (data.Contains("X")) {
                 moveable = false;
-                _textToShow = "X";
-                _tileType = TileType.ClassicTile;
+                // _textToShow = "X";
+                _textToShow = "";
+                _tileType = TileType.NotMoveable;
+                _tileState = TileState.Invisible;
             } else if (data.Contains("M")) {
                 moveable = true;
                 _textToShow = "";
-                _tileType = TileType.ClassicTile;
+                _tileType = TileType.Moveable;
+                _tileState = TileState.Normal;
             } else if (data.Contains("N")) {
                 data = data.Replace("N", string.Empty);
                 moveable = true;
@@ -92,8 +111,10 @@ namespace _Scripts {
                 _defaultTileValue = tileValue;
                 _textToShow = data;
                 _tileType = TileType.ClassicTile;
+                _tileState = TileState.Normal;
             } else if (data.Contains("!")) {
                 data = data.Replace("!", string.Empty);
+                _tileState = TileState.Normal;
                 moveable = true;
                 tileValue = Int32.Parse(data);
                 _harvestable = false;
@@ -101,6 +122,7 @@ namespace _Scripts {
                 _textToShow = $"!{tileValue}";
                 _tileType = TileType.ExclamationTile;
             } else if (data.Contains("F")) {
+                _tileState = TileState.Freeze;
                 if (data.Contains("H")) {
                     _tileType = TileType.FreezeTileHorizontal;
                 } else if (data.Contains("V")) {
@@ -112,6 +134,8 @@ namespace _Scripts {
                 moveable = true;
                 _textToShow = data;
             }
+
+            ChangeTileColor();
         }
 
         public bool Harvest() {
@@ -119,12 +143,12 @@ namespace _Scripts {
                 if (tileValue == 0) {
                     //Good
                     GameManager.Instance.currentLevelGoal -= 1;
-                    _renderer.color = _harvestedColor;
+                    _tileState = TileState.GoodHarvested;
                 } else {
                     //Bad
-                    _renderer.color = _badHarvestColor;
+                    _tileState = TileState.BadHarvested;
                 }
-
+                ChangeTileColor();
                 TextUpdate("");
                 _harvestable = false;
             }
@@ -139,10 +163,14 @@ namespace _Scripts {
 
             if (_isFreeze) {
                 _isFreeze = false;
+                if(_tileState == TileState.Freeze) {
+                    _tileState = TileState.Normal;
+                    ChangeTileColor();
+                }
                 return;
-            }
-
-
+            } 
+            
+            
             tileValue--;
 
             //Refresh text
@@ -158,6 +186,7 @@ namespace _Scripts {
 
                 TextUpdate("");
                 Harvest();
+                ChangeTileColor();
             } else {
                 TextUpdate(tileValue.ToString());
             }
@@ -187,19 +216,29 @@ namespace _Scripts {
 
 
         private void FreezeLine() {
-            
             if (_tileType == TileType.FreezeTileHorizontal) {
+                // Using GetRow method to get all tiles in row
                 GridManager.Instance.GetAllInRow(gridPosition.y, out var allTiles);
                 foreach (var tile in allTiles) {
                     tile._isFreeze = true;
+                    if (tile._tileState == TileState.Normal) {
+                        tile._tileState = TileState.Freeze;
+                        tile.ChangeTileColor();
+                    }
                 }
-                
             } else if (_tileType == TileType.FreezeTileVertical) {
+                // Using GetColumn method to get all tiles in column
                 GridManager.Instance.GetAllInColumn(gridPosition.x, out var allTiles);
                 foreach (var tile in allTiles) {
                     tile._isFreeze = true;
+                    if (tile._tileState == TileState.Normal) {
+                        tile._tileState = TileState.Freeze;
+                        tile.ChangeTileColor();
+                    }
                 }
             }
+            
+            
         }
     }
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14a6e768902b48518b69fb55661456e0, type: 3}
-  m_Name: TestLevel 1
+  m_Name: Level_ST_0
   m_EditorClassIdentifier: 
   goal: 1
   gridSize: {x: 3, y: 3}
@@ -21,7 +21,7 @@ MonoBehaviour:
   - X
   - M
   - M
-  - N3
+  - N1
   - X
   - X
   - X

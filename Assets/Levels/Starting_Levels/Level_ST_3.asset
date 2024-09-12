@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14a6e768902b48518b69fb55661456e0, type: 3}
-  m_Name: TestLevel 3
+  m_Name: Level_ST_3
   m_EditorClassIdentifier: 
+  levelID: 3
   goal: 2
   gridSize: {x: 3, y: 3}
-  playerStartingPosition: {x: 0, y: 2}
+  playerStartingPosition: {x: 0, y: 1}
   tileData:
   - M
+  - M
+  - M
+  - M
   - X
-  - M
-  - M
-  - M
-  - N3
+  - N4
   - N1
-  - M
-  - M
+  - X
+  - X

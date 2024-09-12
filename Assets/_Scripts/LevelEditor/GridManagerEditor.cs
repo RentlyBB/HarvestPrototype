@@ -35,7 +35,6 @@ namespace _Scripts.LevelEditor {
         }
 
         private void Start() {
-            levelGoal = 1;
             valueToSave = "";
         }
 
@@ -49,6 +48,7 @@ namespace _Scripts.LevelEditor {
 
         [Command]
         public void GenerateGrid() {
+            
             foreach (Transform child in transform) {
                 Destroy(child.gameObject);
             }
@@ -114,8 +114,36 @@ namespace _Scripts.LevelEditor {
             _cam.transform.position = new Vector3((float)loadedLevelInEditor.gridSize.x / 2 - 0.5f, (float)loadedLevelInEditor.gridSize.y / 2 - 0.5f, -10);
         }
 
+        [Command]
+        public void EditorLoadLevelData() {
+            if (loadedLevelInEditor == null) return;
+
+            levelGoal = loadedLevelInEditor.goal;
+
+            width = loadedLevelInEditor.gridSize.x;
+            height = loadedLevelInEditor.gridSize.y;
+
+            levelPlayerStartingPosition = loadedLevelInEditor.playerStartingPosition;
+        }
+
         public void SaveValueToTile(out string value) {
             value = valueToSave;
+        }
+
+        [Command]
+        public void CreateNewLevel(string levelName) {
+            GridLevelData gridLevelData = ScriptableObject.CreateInstance<GridLevelData>();
+            string path = "Assets/Levels/" + levelName + ".asset";
+            AssetDatabase.CreateAsset(gridLevelData, path);
+
+            loadedLevelInEditor = gridLevelData;
+            EditorLoadLevelData();
+            GenerateGrid();
+            // Save the asset database and refresh the editor to reflect the changes
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            Debug.Log("ScriptableObject created and saved at: " + path);
         }
 
         [Command]
@@ -148,6 +176,8 @@ namespace _Scripts.LevelEditor {
             Debug.Log("ScriptableObject created and saved at: " + path);
         }
 
+        
+        //Save current loaded level
         [Command]
         public void SaveLevel() {
             loadedLevelInEditor.goal = levelGoal;

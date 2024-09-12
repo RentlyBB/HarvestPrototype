@@ -10,21 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14a6e768902b48518b69fb55661456e0, type: 3}
-  m_Name: TestLevel 7
+  m_Name: Level_ST_1
   m_EditorClassIdentifier: 
-  goal: 4
-  gridSize: {x: 4, y: 3}
-  playerStartingPosition: {x: 0, y: 0}
+  goal: 1
+  gridSize: {x: 3, y: 3}
+  playerStartingPosition: {x: 1, y: 0}
   tileData:
+  - X
+  - X
+  - X
   - M
-  - FH
   - M
-  - FV
   - N3
-  - M
-  - FV
-  - N3
-  - M
-  - FV
-  - N3
-  - M
+  - X
+  - X
+  - X
