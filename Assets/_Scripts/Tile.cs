@@ -9,7 +9,7 @@ namespace _Scripts {
         public static event UnityAction<Vector2Int> PlayerMove = delegate { };
 
         [SerializeField]
-        private Color _baseColor, _offsetColor, _harvestedColor, _badHarvestColor, _freezedColor;
+        private Color _baseColor, _offsetColor, _harvestedColor, _badHarvestColor, _freezedColor, _exclamationColor;
 
         [SerializeField]
         private SpriteRenderer _renderer;
@@ -23,7 +23,8 @@ namespace _Scripts {
         public bool moveable;
 
         private bool _mouseOnTile = false;
-        private TextMesh _textMesh;
+        private TextMesh _middleText;
+        private TextMesh _leftCornerText;
         private string _textToShow;
         private bool _harvestable = false;
         private bool _decreaseValue = true;
@@ -45,7 +46,7 @@ namespace _Scripts {
             ChangeTileColor();
 
             EvaluateLevelData(gridLevelData);
-            _textMesh = Utils.CreateTextWorld($"{_textToShow}", transform.position, 32, transform, Color.white);
+            _middleText = Utils.CreateTextWorld($"{_textToShow}", transform.position, 32, transform, Color.white);
         }
 
         void OnMouseEnter() {
@@ -69,10 +70,10 @@ namespace _Scripts {
 
             switch (_tileType) {
                 case TileType.ClassicTile:
-                    _textMesh.text = $"{_textToShow}";
+                    _middleText.text = $"{_textToShow}";
                     break;
                 case TileType.ExclamationTile:
-                    _textMesh.text = $"!{_textToShow}";
+                    _middleText.text = $"!{_textToShow}";
                     break;
             }
         }
@@ -88,13 +89,14 @@ namespace _Scripts {
                 _renderer.color = _harvestedColor;
             } else if (_tileState == TileState.Invisible) {
                 _renderer.color = new Color(0, 0, 0, 0);
+            }else if (_tileState == TileState.Exclamation) {
+                _renderer.color = _exclamationColor;
             }
         }
 
         private void EvaluateLevelData(string data) {
             if (data.Contains("X")) {
                 moveable = false;
-                // _textToShow = "X";
                 _textToShow = "";
                 _tileType = TileType.NotMoveable;
                 _tileState = TileState.Invisible;
@@ -114,10 +116,11 @@ namespace _Scripts {
                 _tileState = TileState.Normal;
             } else if (data.Contains("!")) {
                 data = data.Replace("!", string.Empty);
-                _tileState = TileState.Normal;
+                _tileState = TileState.Exclamation;
                 moveable = true;
                 tileValue = Int32.Parse(data);
                 _harvestable = false;
+                _leftCornerText = Utils.CreateTextWorld($"{tileValue}", transform.position + new Vector3(0.35f, -0.35f), 24, transform, Color.white);
                 _defaultTileValue = tileValue;
                 _textToShow = $"!{tileValue}";
                 _tileType = TileType.ExclamationTile;
@@ -181,7 +184,7 @@ namespace _Scripts {
             if (tileValue < 0) {
                 if (_tileType == TileType.ExclamationTile) {
                     _tileType = TileType.ClassicTile;
-                    _renderer.color = _badHarvestColor;
+                    _tileState = TileState.BadHarvested;
                 }
 
                 TextUpdate("");
@@ -199,8 +202,11 @@ namespace _Scripts {
                     break;
                 case TileType.ExclamationTile:
                     _harvestable = true;
+                    _tileState = TileState.Normal;
                     _tileType = TileType.ClassicTile;
+                    _leftCornerText.text = "";
                     tileValue = _defaultTileValue + 1;
+                    ChangeTileColor();
                     break;
             }
         }

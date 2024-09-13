@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,11 +15,11 @@ namespace _Scripts {
         public bool orthogonalMovement = false;
         private Vector2Int _targetPosition;
         private Vector2 _velocity = Vector2.zero; // Used by SmoothDamp for smooth movement
-        private bool _hasReachedTarget = true;
-        
-        
+
+        public List<Vector2Int> _nextTargetPosition = new List<Vector2Int>();
+
         public static event UnityAction DegreaseTileValueEvent = delegate { };
-        
+
         private void OnEnable() {
             Tile.PlayerMove += SetTargetPosition;
         }
@@ -27,30 +29,41 @@ namespace _Scripts {
         }
 
         private void Start() {
-            _hasReachedTarget = true;
         }
 
         private void Update() {
-            if (!_hasReachedTarget) {
-                MoveToTarget();
-            }
+           
+            MoveToTarget();
         }
 
-        private void SetTargetPosition(Vector2Int pos) { 
-            if(!_hasReachedTarget || !ValidateNextMove(_targetPosition, pos)) return;
-            _targetPosition = pos;
-            _hasReachedTarget = false;
+        
+
+        private void SetTargetPosition(Vector2Int pos) {
+            Vector2Int _lastPos;
+            if (_nextTargetPosition.Count > 0) {
+                _lastPos = _nextTargetPosition[^1];
+            } else {
+                _lastPos = _targetPosition;
+            }
+
+            if (!ValidateNextMove(_lastPos, pos)) return;
+
+            _nextTargetPosition.Add(pos);
         }
 
         public void SetPosition(Vector2 position) {
             _targetPosition = new Vector2Int((int)position.x, (int)position.y);
             transform.position = new Vector3(position.x, position.y, transform.position.z);
-            _hasReachedTarget = true;
         }
 
         private void MoveToTarget() {
+            
+            if(_nextTargetPosition.Count == 0) return;
+            
             // Get the current position in Vector2 form (ignore Z)
             Vector2 currentPos2D = new Vector2(transform.position.x, transform.position.y);
+
+            _targetPosition = _nextTargetPosition[0];
 
             // SmoothDamp only the X and Y axis
             Vector2 newPos2D = Vector2.SmoothDamp(currentPos2D, _targetPosition, ref _velocity, smoothTime, speed);
@@ -59,9 +72,10 @@ namespace _Scripts {
             transform.position = new Vector3(newPos2D.x, newPos2D.y, transform.position.z);
 
             // Check if the object has reached the target position
-            if (!_hasReachedTarget && Vector2.Distance(transform.position, _targetPosition) <= targetThreshold)
-            {
-                _hasReachedTarget = true;
+            if (Vector2.Distance(transform.position, _targetPosition) <= targetThreshold) {
+                _nextTargetPosition.RemoveAt(0);
+                
+                
                 OnReachedTarget(); // Call the method when the target is reached
             }
         }
@@ -73,10 +87,10 @@ namespace _Scripts {
             DegreaseTileValueEvent?.Invoke();
             tile.OnTileStepAfter();
         }
-        
-        
+
+
         private bool ValidateNextMove(Vector2Int currentPos, Vector2Int nextPos) {
-            
+
             //Check if we are already on tile
             if (currentPos.x == nextPos.x && currentPos.y == nextPos.y) return false;
 
@@ -86,10 +100,10 @@ namespace _Scripts {
 
             // Check diagonals
             if (orthogonalMovement) {
-                if(nextPos.x > currentPos.x && nextPos.y > currentPos.y) return false;
-                if(nextPos.x < currentPos.x && nextPos.y < currentPos.y) return false;
-                if(nextPos.x > currentPos.x && nextPos.y < currentPos.y) return false;
-                if(nextPos.x < currentPos.x && nextPos.y > currentPos.y) return false;
+                if (nextPos.x > currentPos.x && nextPos.y > currentPos.y) return false;
+                if (nextPos.x < currentPos.x && nextPos.y < currentPos.y) return false;
+                if (nextPos.x > currentPos.x && nextPos.y < currentPos.y) return false;
+                if (nextPos.x < currentPos.x && nextPos.y > currentPos.y) return false;
             }
 
             return true;

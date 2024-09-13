@@ -188,6 +188,7 @@ MonoBehaviour:
   _harvestedColor: {r: 0.084154375, g: 0.735849, b: 0.03123886, a: 1}
   _badHarvestColor: {r: 0, g: 0, b: 0, a: 1}
   _freezedColor: {r: 0, g: 0.9013953, b: 1, a: 0.45490196}
+  _exclamationColor: {r: 1, g: 0, b: 0, a: 0.5176471}
   _renderer: {fileID: 335905769486264400}
   _highlight: {fileID: 1203410746928733404}
   gridPosition: {x: 0, y: 0}

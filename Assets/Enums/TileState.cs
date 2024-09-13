@@ -4,6 +4,7 @@
         Freeze,
         BadHarvested,
         GoodHarvested,
-        Invisible
+        Invisible,
+        Exclamation
     }
 }

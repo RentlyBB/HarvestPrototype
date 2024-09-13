@@ -16,7 +16,6 @@ namespace _Scripts.LevelEditor {
 
         public Vector2Int gridPosition;
 
-        private bool _mouseOnTile = false;
         private TextMesh _textMesh;
 
         public int _harvestValue = -1;
@@ -32,12 +31,10 @@ namespace _Scripts.LevelEditor {
 
         void OnMouseEnter() {
             _highlight.SetActive(true);
-            _mouseOnTile = true;
         }
 
         void OnMouseExit() {
             _highlight.SetActive(false);
-            _mouseOnTile = false;
         }
 
         private void OnMouseDown() {

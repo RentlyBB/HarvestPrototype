@@ -28,7 +28,7 @@ namespace _Scripts.LevelEditor {
 
         public GridLevelData loadedLevelInEditor;
 
-        private void Awake() {
+        private new void Awake() {
             if (_cam == null) {
                 _cam = Camera.main?.transform;
             }
@@ -71,6 +71,13 @@ namespace _Scripts.LevelEditor {
             }
 
             _cam.transform.position = new Vector3((float)width / 2 - 0.5f, (float)height / 2 - 0.5f, -10);
+        }
+
+        [Command]
+        public void GenerateGrid(int gridWidth, int gridHeight) {
+            width = gridWidth;
+            height = gridHeight;
+            GenerateGrid();
         }
 
         [Command]
@@ -131,12 +138,14 @@ namespace _Scripts.LevelEditor {
         }
 
         [Command]
-        public void CreateNewLevel(string levelName) {
+        public void CreateNewLevel(string levelName, int gridWidth, int gridHeight) {
             GridLevelData gridLevelData = ScriptableObject.CreateInstance<GridLevelData>();
             string path = "Assets/Levels/" + levelName + ".asset";
             AssetDatabase.CreateAsset(gridLevelData, path);
 
             loadedLevelInEditor = gridLevelData;
+            GameManager.Instance.levelsInGame.levels.Add(gridLevelData);
+            GameManager.Instance.SetLevelsIds();
             EditorLoadLevelData();
             GenerateGrid();
             // Save the asset database and refresh the editor to reflect the changes
@@ -144,6 +153,10 @@ namespace _Scripts.LevelEditor {
             AssetDatabase.Refresh();
 
             Debug.Log("ScriptableObject created and saved at: " + path);
+
+            this.width = gridWidth;
+            this.height = gridHeight;
+            GenerateGrid();
         }
 
         [Command]
@@ -202,7 +215,10 @@ namespace _Scripts.LevelEditor {
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-            EditorLoadLevel(GameManager.Instance.levelToBeEdited);
+
+            if (GameManager.Instance.editLevelInEditor) {
+                EditorLoadLevel(GameManager.Instance.levelToBeEdited);
+            }
         }
     }
 }

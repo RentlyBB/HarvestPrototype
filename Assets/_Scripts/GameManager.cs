@@ -14,7 +14,9 @@ namespace _Scripts {
     public class GameManager : PersistentMonoSingleton<GameManager> {
         public PlayerBehaviour player;
 
-        public List<GridLevelData> levels = new List<GridLevelData>();
+        //public List<GridLevelData> levells = new List<GridLevelData>();
+
+        public Levels levelsInGame;
 
         public int currentLevelGoal;
 
@@ -22,17 +24,23 @@ namespace _Scripts {
 
         [HideInInspector]
         public int levelToBeEdited = 0;
+        [HideInInspector] public bool editLevelInEditor = false;
         
         private void Start() {
 
-            for (int i = 0; i < levels.Count; i++) {
-                levels[i].levelID = i;
+            SetLevelsIds();
+        }
+
+        public void SetLevelsIds() {
+            for (int i = 0; i < levelsInGame.levels.Count; i++) {
+                levelsInGame.levels[i].levelID = i;
             }
         }
 
         private void Update() {
             if (currentLevelGoal == 0) {
                 IncreasesCurrentLevelId();
+                player._nextTargetPosition = new List<Vector2Int>();
                 LoadLevel(currentLevelID);
             }
         }
@@ -46,9 +54,16 @@ namespace _Scripts {
             GameLevelBtn.GameControlEvent -= GameLevelBtnOnGameControlEvent;
         }
 
+        [Command]
+        private void LevelList() {
+            foreach (var level in levelsInGame.levels) {
+                Debug.Log("ID: " + level.levelID + ", Name: " + level.name);
+            }
+        }
+
         private void IncreasesCurrentLevelId() {
             currentLevelID++;
-            if (currentLevelID > levels.Count - 1) {
+            if (currentLevelID > levelsInGame.levels.Count - 1) {
                 currentLevelID = 0;
             }
         }
@@ -56,25 +71,26 @@ namespace _Scripts {
         private void DecreasesCurrentLevelId() {
             currentLevelID--;
             if (currentLevelID < 0) {
-                currentLevelID = levels.Count - 1;
+                currentLevelID = levelsInGame.levels.Count - 1;
             }
         }
 
 
         [Command]
         public void LoadLevel(int levelID) {
-            GridLevelData gridData = levels[levelID];
+            GridLevelData gridData = levelsInGame.levels[levelID];
             if (GridManager.Instance.LoadGridData(gridData)) {
                 currentLevelID = levelID;
                 GridManager.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 SetPlayerPosition(gridData);
+                Debug.Log("Current level: " + gridData.name);
             }
         }
 
         [Command]
         public void LoadLevel() {
-            GridLevelData gridData = levels[currentLevelID];
+            GridLevelData gridData = levelsInGame.levels[currentLevelID];
             if (GridManager.Instance.LoadGridData(gridData)) {
                 GridManager.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
@@ -83,14 +99,14 @@ namespace _Scripts {
         }
 
         public void SetPlayerPosition(GridLevelData gridData) {
-            if (player == null) {
+            if (!player) {
                 player = FindObjectOfType<PlayerBehaviour>();
             }
             player.SetPosition((Vector2)gridData.playerStartingPosition);
         }
         
         public void SetPlayerPosition() {
-            GridLevelData gridData = levels[currentLevelID];
+            GridLevelData gridData = levelsInGame.levels[currentLevelID];
             if (player == null) {
                 player = FindObjectOfType<PlayerBehaviour>();
             }
@@ -99,11 +115,13 @@ namespace _Scripts {
 
         [Command]
         public void ResetLevel() {
-            GridLevelData gridData = levels[currentLevelID];
+            GridLevelData gridData = levelsInGame.levels[currentLevelID];
             if (GridManager.Instance.LoadGridData(gridData)) {
                 GridManager.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 player.SetPosition(gridData.playerStartingPosition);
+                player._nextTargetPosition = new List<Vector2Int>();
+                Debug.Log("Current level: " + gridData.name);
             }
         }
 
@@ -120,22 +138,23 @@ namespace _Scripts {
         }
 
         public GridLevelData GetLevel(int i) {
-            if (i >= levels.Count) {
+            if (i >= levelsInGame.levels.Count) {
                 Debug.LogWarning("Level number:" + i + " is not exist in GameManager level list");
                 return null;
             }
 
-            return levels[i];
+            return levelsInGame.levels[i];
         }
         
         public GridLevelData GetLevel() {
-            return levels[currentLevelID];
+            return levelsInGame.levels[currentLevelID];
         }
 
         //Edit current level
         [Command]
         public void EditLevel() {
             levelToBeEdited = currentLevelID;
+            editLevelInEditor = true;
             ChangeScene("EditorScene");
         }
 
@@ -144,6 +163,7 @@ namespace _Scripts {
         [Command]
         public void EditLevel(int i) {
             levelToBeEdited = i;
+            editLevelInEditor = true;
             ChangeScene("EditorScene");
         }
         
@@ -154,6 +174,12 @@ namespace _Scripts {
             currentLevelGoal = GridManagerEditor.Instance.loadedLevelInEditor.goal;
             
             ChangeScene("GameScene");
+        }
+
+        [Command]
+        private void OpenEditor() {
+            editLevelInEditor = false;
+            ChangeScene("EditorScene");
         }
 
         public void ChangeScene(string sceneName) {

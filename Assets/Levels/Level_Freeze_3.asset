@@ -10,22 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14a6e768902b48518b69fb55661456e0, type: 3}
-  m_Name: Level_Freeze_0
+  m_Name: Level_Freeze_3
   m_EditorClassIdentifier: 
-  levelID: 10
-  goal: 3
-  gridSize: {x: 4, y: 3}
+  levelID: 13
+  goal: 4
+  gridSize: {x: 3, y: 3}
   playerStartingPosition: {x: 0, y: 0}
   tileData:
   - M
   - FH
   - M
   - FV
-  - N3
-  - FV
-  - FV
-  - N3
+  - N1
+  - N1
   - M
-  - FV
-  - N3
-  - M
+  - N2
+  - N4

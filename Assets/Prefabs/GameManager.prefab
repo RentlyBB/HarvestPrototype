@@ -45,17 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  levels:
-  - {fileID: 11400000, guid: 7f41b2b2d3d298d46bd140f3ff382390, type: 2}
-  - {fileID: 11400000, guid: 25e90af069f591d4d90962d682565332, type: 2}
-  - {fileID: 11400000, guid: f7cfd5aa09e7e614daed11d2b0f3a059, type: 2}
-  - {fileID: 11400000, guid: 116c1b6e514063e4ba5db5b970562ea6, type: 2}
-  - {fileID: 11400000, guid: 6f6cc6ea5fdca4569ad35ddfddf82783, type: 2}
-  - {fileID: 11400000, guid: 6a75a90aa2b5c4374964987d97c1392a, type: 2}
-  - {fileID: 11400000, guid: bfe4788ac349e484293bc32696641fbd, type: 2}
-  - {fileID: 11400000, guid: 79dc0c1a0fee64813a0dfcfcbded33aa, type: 2}
-  - {fileID: 11400000, guid: 9d1298f6bd5724adea41a30d96db402a, type: 2}
-  - {fileID: 11400000, guid: cf563c407c69d4723b69537b95831042, type: 2}
+  levelsInGame: {fileID: 11400000, guid: 2987ca14942d42942907ecf5caa66f90, type: 2}
   currentLevelGoal: 1
   currentLevelID: 0
   levelToBeEdited: 0
+  editLevelInEditor: 0
