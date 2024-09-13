@@ -5,6 +5,7 @@
         BadHarvested,
         GoodHarvested,
         Invisible,
-        Exclamation
+        Exclamation,
+        Pushing
     }
 }

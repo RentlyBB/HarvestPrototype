@@ -10,18 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14a6e768902b48518b69fb55661456e0, type: 3}
-  m_Name: Level_EXC_0
+  m_Name: Level_Push_0
   m_EditorClassIdentifier: 
-  levelID: 5
-  goal: 2
-  gridSize: {x: 4, y: 2}
-  playerStartingPosition: {x: 0, y: 0}
+  levelID: 14
+  goal: 1
+  gridSize: {x: 3, y: 6}
+  playerStartingPosition: {x: 1, y: 0}
   tileData:
-  - M
+  - X
+  - X
+  - X
+  - X
+  - X
   - X
   - M
-  - N4
   - M
   - M
-  - '!3'
+  - PU
+  - M
+  - N3
+  - X
+  - X
+  - X
+  - X
+  - X
   - X

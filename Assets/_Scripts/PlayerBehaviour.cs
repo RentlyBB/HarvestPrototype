@@ -1,54 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Enums;
+using QFSW.QC;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace _Scripts {
     public class PlayerBehaviour : MonoBehaviour {
-
+        
         public float speed; // Speed of the movement
         public float smoothTime = 0.3f; // How smooth the movement is
         public float targetThreshold = 0.1f; // Distance to consider as "reached"
 
         public bool orthogonalMovement = false;
-        private Vector2Int _targetPosition;
+        [SerializeField]private Vector2Int _targetPosition;
         private Vector2 _velocity = Vector2.zero; // Used by SmoothDamp for smooth movement
 
         public List<Vector2Int> _nextTargetPosition = new List<Vector2Int>();
+        public List<Vector2Int> _waitingTargetPosition = new List<Vector2Int>();
 
-        public static event UnityAction DegreaseTileValueEvent = delegate { };
+        public bool _isBeingPushed = false;
+        
+        public static event UnityAction DecreaseTileValueEvent = delegate { };
 
         private void OnEnable() {
             Tile.PlayerMove += SetTargetPosition;
+            Tile.PushPlayer += ForceMove;
         }
 
         private void OnDisable() {
             Tile.PlayerMove -= SetTargetPosition;
+            Tile.PushPlayer -= ForceMove;
         }
-
-        private void Start() {
-        }
-
+        
         private void Update() {
-           
             MoveToTarget();
         }
-
-        
 
         private void SetTargetPosition(Vector2Int pos) {
             Vector2Int _lastPos;
             if (_nextTargetPosition.Count > 0) {
+                if (GridManager.Instance.GetTileAtPosition(pos)._tileType == TileType.PushingTile) {
+                    _isBeingPushed = true;
+                }
                 _lastPos = _nextTargetPosition[^1];
             } else {
                 _lastPos = _targetPosition;
             }
 
-            if (!ValidateNextMove(_lastPos, pos)) return;
-
-            _nextTargetPosition.Add(pos);
+            
+            
+            if (!_isBeingPushed) {
+                if (!ValidateNextMove(_lastPos, pos)) return;
+                _nextTargetPosition.Add(pos);
+            } else {
+                _waitingTargetPosition.Add(pos);
+            }
         }
 
         public void SetPosition(Vector2 position) {
@@ -57,7 +66,6 @@ namespace _Scripts {
         }
 
         private void MoveToTarget() {
-            
             if(_nextTargetPosition.Count == 0) return;
             
             // Get the current position in Vector2 form (ignore Z)
@@ -74,20 +82,25 @@ namespace _Scripts {
             // Check if the object has reached the target position
             if (Vector2.Distance(transform.position, _targetPosition) <= targetThreshold) {
                 _nextTargetPosition.RemoveAt(0);
-                
-                
                 OnReachedTarget(); // Call the method when the target is reached
             }
         }
+        
         private void OnReachedTarget() {
             //Harvest
             Tile tile = GridManager.Instance.GetTileAtPosition(_targetPosition);
 
             tile.OnTileStep();
-            DegreaseTileValueEvent?.Invoke();
+            if (tile._tileType != TileType.PushingTile) {
+                _isBeingPushed = false;
+                ValidateWaitingMove();
+                DecreaseTileValueEvent?.Invoke();
+            } else {
+                _isBeingPushed = true;
+            }
+
             tile.OnTileStepAfter();
         }
-
 
         private bool ValidateNextMove(Vector2Int currentPos, Vector2Int nextPos) {
 
@@ -107,6 +120,29 @@ namespace _Scripts {
             }
 
             return true;
+        }
+        
+        [Command]
+        private void ValidateWaitingMove() {
+            if(_waitingTargetPosition.Count == 0)return;
+            
+            for (int i = 0; i < _waitingTargetPosition.Count; i++) {
+                if (!ValidateNextMove(_targetPosition, _waitingTargetPosition[i])) {
+                    //_nextTargetPosition.Add(_waitingTargetPosition[i]);
+                    _waitingTargetPosition.RemoveAt(i);
+                    Debug.Log("Validating with: " + _targetPosition);
+                    i = -1;
+                } 
+            }
+
+            _nextTargetPosition = _waitingTargetPosition;
+            _waitingTargetPosition = new List<Vector2Int>();
+        }
+
+     
+        //Used when player step on the pushing tile
+        private void ForceMove(Vector2Int pushDirection) {
+            _nextTargetPosition.Insert(0, _targetPosition + pushDirection);
         }
     }
 }

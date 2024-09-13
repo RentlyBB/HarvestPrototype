@@ -6,6 +6,7 @@
         FreezeTileHorizontal,
         FreezeTileVertical,
         NotMoveable,
-        Moveable
+        Moveable,
+        PushingTile
     }
 }

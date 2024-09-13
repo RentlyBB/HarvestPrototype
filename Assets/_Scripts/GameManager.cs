@@ -121,6 +121,8 @@ namespace _Scripts {
                 currentLevelGoal = gridData.goal;
                 player.SetPosition(gridData.playerStartingPosition);
                 player._nextTargetPosition = new List<Vector2Int>();
+                player._waitingTargetPosition = new List<Vector2Int>();
+                player._isBeingPushed = false;
                 Debug.Log("Current level: " + gridData.name);
             }
         }

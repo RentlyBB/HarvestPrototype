@@ -7,6 +7,7 @@ using UnityEngine.Events;
 namespace _Scripts {
     public class Tile : MonoBehaviour {
         public static event UnityAction<Vector2Int> PlayerMove = delegate { };
+        public static event UnityAction<Vector2Int> PushPlayer = delegate { };
 
         [SerializeField]
         private Color _baseColor, _offsetColor, _harvestedColor, _badHarvestColor, _freezedColor, _exclamationColor;
@@ -29,16 +30,16 @@ namespace _Scripts {
         private bool _harvestable = false;
         private bool _decreaseValue = true;
         private bool _isFreeze = false;
-        private TileType _tileType;
+        public TileType _tileType;
         private bool _isOffset;
-        private TileState _tileState;
+        public TileState _tileState;
 
         private void OnEnable() {
-            PlayerBehaviour.DegreaseTileValueEvent += DecreaseValue;
+            PlayerBehaviour.DecreaseTileValueEvent += DecreaseValue;
         }
 
         private void OnDisable() {
-            PlayerBehaviour.DegreaseTileValueEvent -= DecreaseValue;
+            PlayerBehaviour.DecreaseTileValueEvent -= DecreaseValue;
         }
 
         public void Init(bool isOffset, string gridLevelData) {
@@ -131,11 +132,19 @@ namespace _Scripts {
                 } else if (data.Contains("V")) {
                     _tileType = TileType.FreezeTileVertical;
                 }
-
                 data = data.Replace("F", "*");
                 _decreaseValue = false;
                 moveable = true;
                 _textToShow = data;
+            }else if (data.Contains("P")) {
+                moveable = true;
+                _tileState = TileState.Pushing;
+                _tileType = TileType.PushingTile;
+                _textToShow = $"{data}";
+                _decreaseValue = false;
+                _harvestable = false;
+                
+                
             }
 
             ChangeTileColor();
@@ -208,6 +217,25 @@ namespace _Scripts {
                     tileValue = _defaultTileValue + 1;
                     ChangeTileColor();
                     break;
+                case TileType.PushingTile:
+                    var pushDir = new Vector2Int();
+                    if (_textToShow.Contains("U")) {
+                        // Move Up
+                        pushDir = new Vector2Int(0,1);
+                    } else if (_textToShow.Contains("D")) {
+                        // Move Down
+                        pushDir = new Vector2Int(0,-1);
+                    } else if (_textToShow.Contains("L")) {
+                        // Move L
+                        pushDir = new Vector2Int(-1,0);
+                    } else if (_textToShow.Contains("R")) {
+                        // Move R
+                        pushDir = new Vector2Int(1,0);
+                    } else {
+                        return;
+                    }
+                    PushPlayer?.Invoke(pushDir);
+                    break;
             }
         }
 
@@ -219,7 +247,6 @@ namespace _Scripts {
                     break;
             }
         }
-
 
         private void FreezeLine() {
             if (_tileType == TileType.FreezeTileHorizontal) {

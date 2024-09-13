@@ -156,6 +156,7 @@ namespace _Scripts.LevelEditor {
 
             this.width = gridWidth;
             this.height = gridHeight;
+            levelGoal = 1;
             GenerateGrid();
         }
 
