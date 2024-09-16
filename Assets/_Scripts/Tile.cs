@@ -33,6 +33,8 @@ namespace _Scripts {
         public TileType _tileType;
         private bool _isOffset;
         public TileState _tileState;
+        private bool _canBreak = false;
+        private bool _breakable = false;
 
         private void OnEnable() {
             PlayerBehaviour.DecreaseTileValueEvent += DecreaseValue;
@@ -96,6 +98,13 @@ namespace _Scripts {
         }
 
         private void EvaluateLevelData(string data) {
+
+            if (data.Contains("*")) {
+                //Breakable tile – breaks after player leaves the tile    
+                data = data.Replace("*", string.Empty);
+                _breakable = true;
+            }
+
             if (data.Contains("X")) {
                 moveable = false;
                 _textToShow = "";
@@ -143,8 +152,6 @@ namespace _Scripts {
                 _textToShow = $"{data}";
                 _decreaseValue = false;
                 _harvestable = false;
-                
-                
             }
 
             ChangeTileColor();
@@ -162,6 +169,7 @@ namespace _Scripts {
                 }
                 ChangeTileColor();
                 TextUpdate("");
+                
                 _harvestable = false;
             }
 
@@ -180,9 +188,18 @@ namespace _Scripts {
                     ChangeTileColor();
                 }
                 return;
-            } 
-            
-            
+            }
+
+            if (_canBreak) {
+                moveable = false;
+                _tileType = TileType.NotMoveable;
+                _tileState = TileState.Invisible;
+                TextUpdate("");
+                ChangeTileColor();
+                return;
+            }
+
+
             tileValue--;
 
             //Refresh text
@@ -192,6 +209,7 @@ namespace _Scripts {
 
             if (tileValue < 0) {
                 if (_tileType == TileType.ExclamationTile) {
+                    _leftCornerText.text = "";
                     _tileType = TileType.ClassicTile;
                     _tileState = TileState.BadHarvested;
                 }
@@ -240,6 +258,10 @@ namespace _Scripts {
         }
 
         public void OnTileStepAfter() {
+            if (_breakable) {
+                _canBreak = true;
+            }
+            
             switch (_tileType) {
                 case TileType.FreezeTileHorizontal:
                 case TileType.FreezeTileVertical:

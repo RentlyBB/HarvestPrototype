@@ -124,7 +124,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2660957087206923620}
         m_TargetAssemblyTypeName: _Scripts.LevelEditor.EditorBtn, Assembly-CSharp
-        m_MethodName: SetTileVauleToManager
+        m_MethodName: SetTileValueToManager
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -672,7 +672,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6275801282338915656}
         m_TargetAssemblyTypeName: _Scripts.LevelEditor.EditorBtn, Assembly-CSharp
-        m_MethodName: SetTileVauleToManager
+        m_MethodName: SetTileValueToManager
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1220,7 +1220,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4409311167685163805}
         m_TargetAssemblyTypeName: _Scripts.LevelEditor.EditorBtn, Assembly-CSharp
-        m_MethodName: SetTileVauleToManager
+        m_MethodName: SetTileValueToManager
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1366,7 +1366,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3724167413137880565}
         m_TargetAssemblyTypeName: _Scripts.LevelEditor.EditorBtn, Assembly-CSharp
-        m_MethodName: SetTileVauleToManager
+        m_MethodName: SetTileValueToManager
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1512,7 +1512,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8961771895450486582}
         m_TargetAssemblyTypeName: _Scripts.LevelEditor.EditorBtn, Assembly-CSharp
-        m_MethodName: SetTileVauleToManager
+        m_MethodName: SetTileValueToManager
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1658,7 +1658,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3731376978427859426}
         m_TargetAssemblyTypeName: _Scripts.LevelEditor.EditorBtn, Assembly-CSharp
-        m_MethodName: SetTileVauleToManager
+        m_MethodName: SetTileValueToManager
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1938,7 +1938,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1887061780409809245}
         m_TargetAssemblyTypeName: _Scripts.LevelEditor.EditorBtn, Assembly-CSharp
-        m_MethodName: SetTileVauleToManager
+        m_MethodName: SetTileValueToManager
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2218,7 +2218,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2313818986853036870}
         m_TargetAssemblyTypeName: _Scripts.LevelEditor.EditorBtn, Assembly-CSharp
-        m_MethodName: SetTileVauleToManager
+        m_MethodName: SetTileValueToManager
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2364,7 +2364,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 524581145009194422}
         m_TargetAssemblyTypeName: _Scripts.LevelEditor.EditorBtn, Assembly-CSharp
-        m_MethodName: SetTileVauleToManager
+        m_MethodName: SetTileValueToManager
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2912,7 +2912,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8545825382280899684}
         m_TargetAssemblyTypeName: _Scripts.LevelEditor.EditorBtn, Assembly-CSharp
-        m_MethodName: SetTileVauleToManager
+        m_MethodName: SetTileValueToManager
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2960,7 +2960,7 @@ PrefabInstance:
       objectReference: {fileID: 1768929460015455805}
     - target: {fileID: 1051808745891345914, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetTileVauleToManager
+      value: SetTileValueToManager
       objectReference: {fileID: 0}
     - target: {fileID: 1051808745891345914, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName

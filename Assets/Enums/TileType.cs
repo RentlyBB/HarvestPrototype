@@ -7,6 +7,6 @@
         FreezeTileVertical,
         NotMoveable,
         Moveable,
-        PushingTile
+        PushingTile,
     }
 }
