@@ -1125,6 +1125,10 @@ PrefabInstance:
       propertyPath: _cam
       value: 
       objectReference: {fileID: 519420032}
+    - target: {fileID: 3047826124511964377, guid: 21d92c0002972784c923b6b5b38e11ae, type: 3}
+      propertyPath: _tilePrefab
+      value: 
+      objectReference: {fileID: 2960745351445850524, guid: 36d554cc86c31bd45a9c354d6fb677fc, type: 3}
     - target: {fileID: 7788356731204410672, guid: 21d92c0002972784c923b6b5b38e11ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
