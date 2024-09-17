@@ -201,11 +201,15 @@ namespace _Scripts.LevelEditor {
 
             var tileData = new List<string>();
             var arr = _tiles.Values.ToArray();
-
+            int finalGoal = 0;
             for (var i = 0; i < arr.Length; i++) {
                 tileData.Add(arr[i]._editorTextValue);
+                if (arr[i]._editorTextValue.Contains("N") || arr[i]._editorTextValue.Contains("!")) {
+                    finalGoal++;
+                }
             }
 
+            loadedLevelInEditor.goal = finalGoal;
             loadedLevelInEditor.tileData = tileData;
 
             EditorUtility.SetDirty(loadedLevelInEditor);

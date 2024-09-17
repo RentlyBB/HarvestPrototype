@@ -184,9 +184,13 @@ namespace _Scripts {
             if (_isFreeze) {
                 _isFreeze = false;
                 if(_tileState == TileState.Freeze) {
-                    _tileState = TileState.Normal;
-                    ChangeTileColor();
+                    if (_tileType is TileType.ClassicTile or TileType.Moveable or TileType.PushingTile) {
+                        _tileState = TileState.Normal;
+                    }else if (_tileType == TileType.ExclamationTile) {
+                        _tileState = TileState.Exclamation;
+                    }
                 }
+                ChangeTileColor();
                 return;
             }
 
@@ -276,7 +280,7 @@ namespace _Scripts {
                 GridManager.Instance.GetAllInRow(gridPosition.y, out var allTiles);
                 foreach (var tile in allTiles) {
                     tile._isFreeze = true;
-                    if (tile._tileState == TileState.Normal) {
+                    if (tile._tileState is TileState.Normal or TileState.Exclamation or TileState.Pushing) {
                         tile._tileState = TileState.Freeze;
                         tile.ChangeTileColor();
                     }
@@ -286,7 +290,7 @@ namespace _Scripts {
                 GridManager.Instance.GetAllInColumn(gridPosition.x, out var allTiles);
                 foreach (var tile in allTiles) {
                     tile._isFreeze = true;
-                    if (tile._tileState == TileState.Normal) {
+                    if (tile._tileState is TileState.Normal or TileState.Exclamation or TileState.Pushing) {
                         tile._tileState = TileState.Freeze;
                         tile.ChangeTileColor();
                     }
