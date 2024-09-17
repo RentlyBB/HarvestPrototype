@@ -14,8 +14,6 @@ namespace _Scripts {
     public class GameManager : PersistentMonoSingleton<GameManager> {
         public PlayerBehaviour player;
 
-        //public List<GridLevelData> levells = new List<GridLevelData>();
-
         public Levels levelsInGame;
 
         public int currentLevelGoal;

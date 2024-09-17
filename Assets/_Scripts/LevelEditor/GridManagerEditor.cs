@@ -63,7 +63,6 @@ namespace _Scripts.LevelEditor {
 
                     var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
                     spawnedTile.gridPosition = new Vector2Int(x, y);
-
                     spawnedTile.Init(isOffset);
                     _tiles[new Vector2(x, y)] = spawnedTile;
                     i++;
@@ -147,7 +146,7 @@ namespace _Scripts.LevelEditor {
             GameManager.Instance.levelsInGame.levels.Add(gridLevelData);
             GameManager.Instance.SetLevelsIds();
             EditorLoadLevelData();
-            GenerateGrid();
+            //GenerateGrid();
             // Save the asset database and refresh the editor to reflect the changes
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -209,6 +208,7 @@ namespace _Scripts.LevelEditor {
                 }
             }
 
+            if (finalGoal == 0) finalGoal = 1;
             loadedLevelInEditor.goal = finalGoal;
             loadedLevelInEditor.tileData = tileData;
 
