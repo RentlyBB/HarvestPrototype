@@ -67,7 +67,8 @@ namespace _Scripts {
             spriteRenderer.sprite = sprite;
 
             // Set the size of the sprite (by adjusting the scale)
-            transform.localScale = new Vector3(size.x / spriteRenderer.sprite.bounds.size.x, size.y / spriteRenderer.sprite.bounds.size.y, 1);
+            //transform.localScale = new Vector3(size.x / spriteRenderer.sprite.bounds.size.x, size.y / spriteRenderer.sprite.bounds.size.y, 1);
+            transform.localScale = new Vector3(size.x , size.y, 1);
 
             // Set the color of the sprite
             spriteRenderer.color = color ?? Color.white; // Use the provided color or default to white
