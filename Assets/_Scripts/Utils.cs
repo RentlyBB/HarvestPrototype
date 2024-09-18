@@ -45,7 +45,35 @@ namespace _Scripts {
             return textMesh; // Return the created GameObject
         }
         
-        
-        
+        public static SpriteRenderer CreateSpriteWorld(Sprite sprite, Vector3 position, Vector2 size, Transform parent = null, Color? color = null)
+        {
+            // If color is not provided, default to white
+            if (color == null) color = Color.white;
+
+            // Create a new GameObject to hold the SpriteRenderer
+            GameObject spriteObject = new GameObject("WorldSprite");
+            Transform transform = spriteObject.transform;
+
+            // Add a SpriteRenderer component to the GameObject
+            SpriteRenderer spriteRenderer = spriteObject.AddComponent<SpriteRenderer>();
+
+            // Set the parent transform if provided
+            transform.SetParent(parent);
+
+            // Set the position of the sprite in world space
+            transform.position = position;
+
+            // Set the sprite for the SpriteRenderer
+            spriteRenderer.sprite = sprite;
+
+            // Set the size of the sprite (by adjusting the scale)
+            transform.localScale = new Vector3(size.x / spriteRenderer.sprite.bounds.size.x, size.y / spriteRenderer.sprite.bounds.size.y, 1);
+
+            // Set the color of the sprite
+            spriteRenderer.color = color ?? Color.white; // Use the provided color or default to white
+
+            // Return the created SpriteRenderer
+            return spriteRenderer;
+        }
     }
 }

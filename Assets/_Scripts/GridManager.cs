@@ -60,6 +60,8 @@ namespace _Scripts {
             }
 
             _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
+
+            //transform.position = new Vector3(_cam.transform.position.x - (float)(_width / 2 - 0.5) , _cam.transform.position.y - (float)(_height / 2 - 0.5), transform.position.z);
         }
 
         public Tile GetTileAtPosition(Vector2 pos) {

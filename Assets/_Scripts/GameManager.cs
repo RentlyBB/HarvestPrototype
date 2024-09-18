@@ -57,8 +57,10 @@ namespace _Scripts {
             foreach (var level in levelsInGame.levels) {
                 if (level.levelID == currentLevelID) {
                     Debug.Log("ID: " + level.levelID + ", Name: " + level.name + " – [Current Level]");
+                } else {
+                    Debug.Log("ID: " + level.levelID + ", Name: " + level.name);
+
                 }
-                Debug.Log("ID: " + level.levelID + ", Name: " + level.name);
             }
         }
 

@@ -12,6 +12,9 @@ namespace _Scripts {
 
         [SerializeField]
         private Color _baseColor, _offsetColor, _harvestedColor, _badHarvestColor, _freezedColor, _exclamationColor;
+        
+        [SerializeField]
+        private Sprite _sprDefaultTile, _sprGoodHarvestTile, _sprBadHarvestTile, _sprFreezeTile, _sprExclamationTile;
 
         [SerializeField]
         private SpriteRenderer _renderer;
@@ -36,6 +39,7 @@ namespace _Scripts {
         public TileState _tileState;
         private bool _canBreak = false;
         private bool _breakable = false;
+        private SpriteRenderer _tileImg;
 
         private void OnEnable() {
             PlayerBehaviour.DecreaseTileValueEvent += DecreaseValue;
@@ -54,16 +58,19 @@ namespace _Scripts {
         }
 
         void OnMouseEnter() {
+            if(_tileType == TileType.NotMoveable) return;
             _highlight.SetActive(true);
             _mouseOnTile = true;
         }
 
         void OnMouseExit() {
+            if(_tileType == TileType.NotMoveable) return;
             _highlight.SetActive(false);
             _mouseOnTile = false;
         }
 
         private void OnMouseDown() {
+            if(_tileType == TileType.NotMoveable) return;
             if (_mouseOnTile && moveable) {
                 PlayerMove?.Invoke(gridPosition);
             }
@@ -84,17 +91,17 @@ namespace _Scripts {
 
         private void ChangeTileColor() {
             if (_tileState == TileState.Freeze) {
-                _renderer.color = _freezedColor;
+                _renderer.sprite = _sprFreezeTile;
             }else if (_tileState == TileState.Normal) {
-                _renderer.color = _isOffset ? _offsetColor : _baseColor;
+                _renderer.sprite = _sprDefaultTile;
             }else if (_tileState == TileState.BadHarvested) {
-                _renderer.color = _badHarvestColor;
+                _renderer.sprite = _sprBadHarvestTile;
             }else if (_tileState == TileState.GoodHarvested) {
-                _renderer.color = _harvestedColor;
+                _renderer.sprite = _sprGoodHarvestTile;
             } else if (_tileState == TileState.Invisible) {
-                _renderer.color = new Color(0, 0, 0, 0);
+                _renderer.sprite = null;
             }else if (_tileState == TileState.Exclamation) {
-                _renderer.color = _exclamationColor;
+                _renderer.sprite = _sprExclamationTile;
             }
         }
 
@@ -121,8 +128,13 @@ namespace _Scripts {
                 moveable = true;
                 tileValue = Int32.Parse(data);
                 _harvestable = true;
+                if (tileValue == 0) {
+                    _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("icon_outline_checkmark"), transform.position + new Vector3(0, 0, -1), new Vector2(0.5f,0.5f), this.transform);
+                    _textToShow = "";
+                } else {
+                    _textToShow = data;
+                }
                 _defaultTileValue = tileValue;
-                _textToShow = data;
                 _tileType = TileType.ClassicTile;
                 _tileState = TileState.Normal;
             } else if (data.Contains("!")) {
@@ -131,7 +143,7 @@ namespace _Scripts {
                 moveable = true;
                 tileValue = Int32.Parse(data);
                 _harvestable = false;
-                _leftCornerText = Utils.CreateTextWorld($"{tileValue}", transform.position + new Vector3(0.35f, -0.35f), 24, transform, Color.white);
+                _leftCornerText = Utils.CreateTextWorld($"{tileValue}", transform.position + new Vector3(0.3f, -0.3f), 24, transform, Color.white);
                 _defaultTileValue = tileValue;
                 _textToShow = $"!{tileValue}";
                 _tileType = TileType.ExclamationTile;
@@ -142,7 +154,6 @@ namespace _Scripts {
                 } else if (data.Contains("V")) {
                     _tileType = TileType.FreezeTileVertical;
                 }
-                data = data.Replace("F", "*");
                 _decreaseValue = false;
                 moveable = true;
                 _textToShow = data;
@@ -164,9 +175,15 @@ namespace _Scripts {
                     //Good
                     GameManager.Instance.currentLevelGoal -= 1;
                     _tileState = TileState.GoodHarvested;
+                    if (_tileImg) {
+                        Destroy(_tileImg.gameObject);
+                    }
                 } else {
                     //Bad
                     _tileState = TileState.BadHarvested;
+                    if (_tileImg) {
+                        _tileImg.sprite = Resources.Load<Sprite>("icon_cross");
+                    }
                 }
                 ChangeTileColor();
                 TextUpdate("");
@@ -207,22 +224,33 @@ namespace _Scripts {
 
             tileValue--;
 
-            //Refresh text
-            if (_textToShow.Contains("X") || _textToShow == "" || _textToShow.Length == 0) {
-                return;
+            if (tileValue == 0) {
+                TextUpdate("");
+                _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("icon_outline_checkmark"), transform.position + new Vector3(0, 0, -1), new Vector2(0.5f,0.5f), this.transform);
             }
+
+            //Refresh text
+            // if (_textToShow.Contains("X") || _textToShow == "" || _textToShow.Length == 0) {
+            //     
+            //     return;
+            // }
 
             if (tileValue < 0) {
                 if (_tileType == TileType.ExclamationTile) {
                     _leftCornerText.text = "";
                     _tileType = TileType.ClassicTile;
                     _tileState = TileState.BadHarvested;
+                    _tileImg.sprite = Resources.Load<Sprite>("icon_cross");
                 }
+                
+                // if (_tileImg) {
+                //     Destroy(_tileImg.gameObject);
+                // }
 
                 TextUpdate("");
                 Harvest();
                 ChangeTileColor();
-            } else {
+            } else if(tileValue != 0){
                 TextUpdate(tileValue.ToString());
             }
         }
@@ -237,6 +265,10 @@ namespace _Scripts {
                     _tileState = TileState.Normal;
                     _tileType = TileType.ClassicTile;
                     _leftCornerText.text = "";
+                    if (_tileImg) {
+                        Destroy(_tileImg.gameObject);
+                    }
+
                     tileValue = _defaultTileValue + 1;
                     ChangeTileColor();
                     break;
