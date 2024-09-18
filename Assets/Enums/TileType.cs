@@ -8,5 +8,6 @@
         NotMoveable,
         Moveable,
         PushingTile,
+        SplitTile
     }
 }

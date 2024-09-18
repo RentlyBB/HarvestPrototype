@@ -204,6 +204,13 @@ namespace _Scripts {
                     // Move R
                     _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("ArrowsRight"), transform.position + new Vector3(0, 0, -1), new Vector2(0.5f, 0.5f), this.transform);
                 }
+            }else if(data.Contains("S")) {
+                moveable = true;
+                _tileState = TileState.Normal;
+                _tileType = TileType.SplitTile;
+                _textToShow = "S";
+                _decreaseValue = false;
+                _harvestable = false;
             }
 
             ChangeTileSprite();
@@ -276,7 +283,11 @@ namespace _Scripts {
                     _leftCornerText.text = "";
                     _tileType = TileType.ClassicTile;
                     _tileState = TileState.BadHarvested;
-                    _tileImg.sprite = Resources.Load<Sprite>("icon_cross");
+                    
+                    if (_tileImg) {
+                        Destroy(_tileImg.gameObject);
+                    }
+                    _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("icon_cross"), transform.position + new Vector3(0, 0, -1), new Vector2(1f, 1f), this.transform);
                 }
 
                 TextUpdate("");

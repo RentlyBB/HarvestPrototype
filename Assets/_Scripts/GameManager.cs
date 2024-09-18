@@ -125,7 +125,7 @@ namespace _Scripts {
                 player.SetPosition(gridData.playerStartingPosition);
                 player._nextTargetPosition = new List<Vector2Int>();
                 player._waitingTargetPosition = new List<Vector2Int>();
-                player._isBeingPushed = false;
+                player.isBeingPushed = false;
                 Debug.Log("Current level: " + gridData.name);
             }
         }

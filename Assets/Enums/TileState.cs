@@ -6,6 +6,6 @@
         GoodHarvested,
         Invisible,
         Exclamation,
-        Pushing
+        Pushing,
     }
 }

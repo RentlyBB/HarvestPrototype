@@ -6,6 +6,7 @@ using QFSW.QC;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace _Scripts {
     public class PlayerBehaviour : MonoBehaviour {
@@ -21,7 +22,8 @@ namespace _Scripts {
         public List<Vector2Int> _nextTargetPosition = new List<Vector2Int>();
         public List<Vector2Int> _waitingTargetPosition = new List<Vector2Int>();
 
-        public bool _isBeingPushed = false;
+        public bool isBeingPushed = false;
+        public bool reverseMovement = false;
         
         public static event UnityAction DecreaseTileValueEvent = delegate { };
 
@@ -41,23 +43,53 @@ namespace _Scripts {
 
         private void SetTargetPosition(Vector2Int pos) {
             Vector2Int _lastPos;
+
+            if (reverseMovement) {
+                pos = ReverseNextMove(pos);
+            }
+
             if (_nextTargetPosition.Count > 0) {
                 if (GridManager.Instance.GetTileAtPosition(pos)._tileType == TileType.PushingTile) {
-                    _isBeingPushed = true;
+                    isBeingPushed = true;
                 }
                 _lastPos = _nextTargetPosition[^1];
             } else {
                 _lastPos = _targetPosition;
             }
 
-            
-            
-            if (!_isBeingPushed) {
+            if (!isBeingPushed) {
                 if (!ValidateNextMove(_lastPos, pos)) return;
                 _nextTargetPosition.Add(pos);
             } else {
                 _waitingTargetPosition.Add(pos);
             }
+        }
+
+        private Vector2Int ReverseNextMove(Vector2Int pos) {
+            Vector2Int reversedNextMove = new Vector2Int();
+            
+            Debug.Log("current pos: " + _targetPosition);
+            Debug.Log("Before reverse: " + pos);
+            
+            if (pos.x > _targetPosition.x) {
+                reversedNextMove.x = pos.x - 2;
+            } else if (pos.x < _targetPosition.x) {
+                reversedNextMove.x = pos.x + 2;
+            } else {
+                reversedNextMove.x = pos.x;
+            }
+
+            if (pos.y > _targetPosition.y) {
+                reversedNextMove.y = pos.y - 2;
+            } else if(pos.y < _targetPosition.y){
+                reversedNextMove.y = pos.y + 2;
+            } else {
+                reversedNextMove.y = pos.y;
+            }
+
+            Debug.Log("After reverse: " + reversedNextMove);
+
+            return reversedNextMove;
         }
 
         public void SetPosition(Vector2 position) {
@@ -92,11 +124,11 @@ namespace _Scripts {
 
             tile.OnTileStep();
             if (tile._tileType != TileType.PushingTile) {
-                _isBeingPushed = false;
+                isBeingPushed = false;
                 ValidateWaitingMove();
                 DecreaseTileValueEvent?.Invoke();
             } else {
-                _isBeingPushed = true;
+                isBeingPushed = true;
             }
 
             tile.OnTileStepAfter();
