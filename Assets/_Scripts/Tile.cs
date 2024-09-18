@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Enums;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -110,7 +111,7 @@ namespace _Scripts {
                 _textToShow = "";
                 _tileType = TileType.NotMoveable;
                 _tileState = TileState.Invisible;
-            } else if (data.Contains("M")) {
+            } else if (data.Contains("M") || string.IsNullOrWhiteSpace(data)) {
                 moveable = true;
                 _textToShow = "";
                 _tileType = TileType.Moveable;
@@ -241,7 +242,19 @@ namespace _Scripts {
                     break;
                 case TileType.PushingTile:
                     var pushDir = new Vector2Int();
-                    if (_textToShow.Contains("U")) {
+                    if (_textToShow.Contains("U") && _textToShow.Contains("R")) {
+                        // Move Up Right
+                        pushDir = new Vector2Int(1,1);
+                    }else if (_textToShow.Contains("U") && _textToShow.Contains("L")) {
+                        // Move Up Left
+                        pushDir = new Vector2Int(-1,1);
+                    } else if (_textToShow.Contains("D") && _textToShow.Contains("R")) {
+                        // Move Down Right
+                        pushDir = new Vector2Int(1,-1);
+                    } else if (_textToShow.Contains("D") && _textToShow.Contains("L")) {
+                        // Move Down Left
+                        pushDir = new Vector2Int(-1,-1);
+                    } else if (_textToShow.Contains("U")) {
                         // Move Up
                         pushDir = new Vector2Int(0,1);
                     } else if (_textToShow.Contains("D")) {

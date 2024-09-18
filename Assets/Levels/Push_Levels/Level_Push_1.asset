@@ -12,33 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a6e768902b48518b69fb55661456e0, type: 3}
   m_Name: Level_Push_1
   m_EditorClassIdentifier: 
-  levelID: 19
-  goal: 1
-  gridSize: {x: 5, y: 5}
-  playerStartingPosition: {x: 1, y: 4}
+  levelID: 15
+  goal: 3
+  gridSize: {x: 3, y: 4}
+  playerStartingPosition: {x: 1, y: 1}
   tileData:
-  - M
-  - M
-  - M
-  - M
-  - M
-  - M
-  - PU
-  - PU
   - '!4'
   - M
+  - PD
+  - N9
   - M
   - M
+  - PD
+  - '!4'
   - M
-  - PR
-  - M
-  - M
-  - M
-  - PL
-  - M
-  - M
-  - M
-  - M
-  - M
+  - PU
   - M
   - M

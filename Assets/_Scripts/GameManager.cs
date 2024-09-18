@@ -55,6 +55,9 @@ namespace _Scripts {
         [Command]
         private void LevelList() {
             foreach (var level in levelsInGame.levels) {
+                if (level.levelID == currentLevelID) {
+                    Debug.Log("ID: " + level.levelID + ", Name: " + level.name + " – [Current Level]");
+                }
                 Debug.Log("ID: " + level.levelID + ", Name: " + level.name);
             }
         }
@@ -82,7 +85,7 @@ namespace _Scripts {
                 GridManager.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 SetPlayerPosition(gridData);
-                Debug.Log("Current level: " + gridData.name);
+                Debug.Log("Loaded level: ID: " + gridData.levelID + ", Name: " + gridData.name);
             }
         }
 
