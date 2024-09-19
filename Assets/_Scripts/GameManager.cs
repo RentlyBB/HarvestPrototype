@@ -155,6 +155,8 @@ namespace _Scripts {
             return levelsInGame.levels[currentLevelID];
         }
 
+        #if UNITY_EDITOR
+
         //Edit current level
         [Command]
         public void EditLevel() {
@@ -186,6 +188,7 @@ namespace _Scripts {
             editLevelInEditor = false;
             ChangeScene("EditorScene");
         }
+        #endif
 
         public void ChangeScene(string sceneName) {
             StartCoroutine(LoadSceneAsync(sceneName));

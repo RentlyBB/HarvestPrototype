@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Scripts.LevelEditor {
+    #if UNITY_EDITOR
     public class TileEditor : MonoBehaviour {
 
         [SerializeField]
@@ -79,4 +80,5 @@ namespace _Scripts.LevelEditor {
             _textMesh.text = _editorTextValue;
         }
     }
+    #endif
 }

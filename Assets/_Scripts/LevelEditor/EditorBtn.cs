@@ -1,6 +1,9 @@
 using UnityEngine;
 
 namespace _Scripts.LevelEditor {
+    
+    #if UNITY_EDITOR
+
     public class EditorBtn : MonoBehaviour {
 
         public void SetTileValueToManager(string value) {
@@ -11,4 +14,5 @@ namespace _Scripts.LevelEditor {
             GridManagerEditor.Instance.valueToSave += value;
         }
     }
+    #endif
 }

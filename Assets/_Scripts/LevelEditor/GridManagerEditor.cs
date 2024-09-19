@@ -8,6 +8,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+#if UNITY_EDITOR
+
 namespace _Scripts.LevelEditor {
     public class GridManagerEditor : MonoSingleton<GridManagerEditor> {
         [SerializeField]
@@ -135,7 +137,6 @@ namespace _Scripts.LevelEditor {
         public void SaveValueToTile(out string value) {
             value = valueToSave;
         }
-
         [Command]
         public void CreateNewLevel(string levelName, int gridWidth, int gridHeight) {
             GridLevelData gridLevelData = ScriptableObject.CreateInstance<GridLevelData>();
@@ -227,3 +228,4 @@ namespace _Scripts.LevelEditor {
         }
     }
 }
+#endif
