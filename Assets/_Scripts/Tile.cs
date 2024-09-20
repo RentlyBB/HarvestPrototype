@@ -10,8 +10,9 @@ namespace _Scripts {
     public class Tile : MonoBehaviour {
         public static event UnityAction<Vector2Int> PlayerMove = delegate { };
         public static event UnityAction<Vector2Int> PushPlayer = delegate { };
+        public static event UnityAction SpawnGhost = delegate { };
 
-        [SerializeField]
+            [SerializeField]
         private Sprite _sprDefaultTile, _sprGoodHarvestTile, _sprBadHarvestTile, _sprFreezeTile, _sprExclamationTile;
 
         [SerializeField]
@@ -347,6 +348,10 @@ namespace _Scripts {
                         return;
                     }
                     PushPlayer?.Invoke(pushDir);
+                    break;
+                case TileType.SplitTile:
+                    // Spawn ghost player
+                    SpawnGhost?.Invoke();
                     break;
             }
         }

@@ -1,24 +1,18 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using Enums;
 using QFSW.QC;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace _Scripts {
-    public class PlayerBehaviour : MonoBehaviour {
+    public class GhostPlayerBehaviour : MonoBehaviour {
         public float speed; // Speed of the movement
         public float smoothTime = 0.3f; // How smooth the movement is
         public float targetThreshold = 0.1f; // Distance to consider as "reached"
 
         public bool orthogonalMovement = false;
-
-        [SerializeField]
-        private Vector2Int _targetPosition;
-
+        public Vector2Int _targetPosition;
         private Vector2 _velocity = Vector2.zero; // Used by SmoothDamp for smooth movement
 
         public List<Vector2Int> _nextTargetPosition = new List<Vector2Int>();
@@ -27,119 +21,43 @@ namespace _Scripts {
         public bool isBeingPushed = false;
         public bool reverseMovement = false;
 
-        private bool _ghostPlayerSpawned = false;
-        public GhostPlayerBehaviour ghostPlayer;
-
-        public static event UnityAction DecreaseTileValueEvent = delegate { };
-
-        private void Awake() {
-            ghostPlayer.gameObject.SetActive(false);
-        }
-
-        private void OnEnable() {
-            Tile.PlayerMove += SetTargetPosition;
-            Tile.PushPlayer += ForceMove;
-            Tile.SpawnGhost += SpawnGhost;
-        }
-
-        private void OnDisable() {
-            Tile.PlayerMove -= SetTargetPosition;
-            Tile.PushPlayer -= ForceMove;
-            Tile.SpawnGhost -= SpawnGhost;
-        }
-
         private void Update() {
             MoveToTarget();
         }
 
         private void SetTargetPosition(Vector2Int pos) {
-            Vector2Int _lastPos;
-
-            if (reverseMovement) {
-                pos = ReverseNextMove(pos);
-            }
-
-            if (_nextTargetPosition.Count > 0) {
-                if (GridManager.Instance.GetTileAtPosition(pos)._tileType == TileType.PushingTile) {
-                    isBeingPushed = true;
-                }
-
-                _lastPos = _nextTargetPosition[^1];
-            } else {
-                _lastPos = _targetPosition;
-            }
-
-            if (!isBeingPushed) {
-                if (!ValidateNextMove(_lastPos, pos)) return;
-                //Get direction
-                if (_ghostPlayerSpawned) {
-                    ghostPlayer.MoveByDirection(GetMovementDirection(pos));
-                }
-                _nextTargetPosition.Add(pos);
-            } else {
-                _waitingTargetPosition.Add(pos);
-            }
             
-        }
-
-        [Command]
-        public void SpawnGhost() {
-            if (!_ghostPlayerSpawned) {
-                ghostPlayer.gameObject.SetActive(true);
-                ghostPlayer.transform.position = transform.position;
-                _ghostPlayerSpawned = true;
-                ghostPlayer._targetPosition = _targetPosition;
+            var nextPos = _targetPosition + pos;
+            
+            if (!ValidateNextMove(_targetPosition, nextPos)) {
+                return;
             }
-        }
+            _nextTargetPosition.Add(nextPos);
 
-        private Directions GetMovementDirection(Vector2Int pos) {
-            if (pos.x > _targetPosition.x && pos.y == _targetPosition.y) {
-                //RIGHT
-                return Directions.RIGHT;
-            }
+            // if (reverseMovement) {
+            //     pos = ReverseNextMove(pos);
+            // }
 
-            if (pos.x < _targetPosition.x && pos.y == _targetPosition.y) {
-                //LEFT
-                return Directions.LEFT;
-            }
+            // if (_nextTargetPosition.Count > 0) {
+            //     if (GridManager.Instance.GetTileAtPosition(pos)._tileType == TileType.PushingTile) {
+            //         isBeingPushed = true;
+            //     }
+            //     _lastPos = _nextTargetPosition[^1];
+            // } else {
+            //     _lastPos = _targetPosition;
+            // }
 
-            if (pos.x == _targetPosition.x && pos.y > _targetPosition.y) {
-                //UP
-                return Directions.UP;
-            }
 
-            if (pos.x == _targetPosition.x && pos.y < _targetPosition.y) {
-                //DOWN
-                return Directions.DOWN;
-            }
-
-            if (pos.x > _targetPosition.x && pos.y > _targetPosition.y) {
-                //UP-RIGHT
-                return Directions.UPRIGHT;
-            }
-
-            if (pos.x > _targetPosition.x && pos.y < _targetPosition.y) {
-                //DOWN-RIGHT
-                return Directions.DOWNRIGHT;
-            }
-
-            if (pos.x < _targetPosition.x && pos.y > _targetPosition.y) {
-                //UP-LEFT
-                return Directions.UPLEFT;
-            }
-
-            if (pos.x < _targetPosition.x && pos.y < _targetPosition.y) {
-                //DOWN-LEFT
-                return Directions.DOWNLEFT;
-            }
-
-            return Directions.NONE;
+            // if (!isBeingPushed) {
+            //     if (!ValidateNextMove(_lastPos, pos)) return;
+            //     _nextTargetPosition.Add(pos);
+            // } else {
+            //     _waitingTargetPosition.Add(pos);
+            // }
         }
 
         private Vector2Int ReverseNextMove(Vector2Int pos) {
             Vector2Int reversedNextMove = new Vector2Int();
-
-            //this not works... i need direction and then reverse the direction and move player that way
 
             if (pos.x > _targetPosition.x) {
                 reversedNextMove.x = pos.x - 2;
@@ -196,7 +114,6 @@ namespace _Scripts {
             if (tile._tileType != TileType.PushingTile) {
                 isBeingPushed = false;
                 ValidateWaitingMove();
-                DecreaseTileValueEvent?.Invoke();
             } else {
                 isBeingPushed = true;
             }
@@ -244,6 +161,43 @@ namespace _Scripts {
         //Used when player step on the pushing tile
         private void ForceMove(Vector2Int pushDirection) {
             _nextTargetPosition.Insert(0, _targetPosition + pushDirection);
+        }
+
+        public void MoveByDirection(Directions direction) {
+            Vector2Int nextMove = Vector2Int.zero;
+            switch (direction) {
+                case Directions.NONE:
+                    nextMove = Vector2Int.zero;
+                    break;
+                case Directions.UP:
+                    nextMove = new Vector2Int(0,-1);
+                    break;
+                case Directions.DOWN:
+                    nextMove = new Vector2Int(0,1);
+                    break;
+                case Directions.LEFT:
+                    nextMove = new Vector2Int(1,0);
+                    break;
+                case Directions.RIGHT:
+                    nextMove = new Vector2Int(-1,0);
+                    break;
+                case Directions.UPLEFT:
+                    nextMove = new Vector2Int(1,-1);
+                    break;
+                case Directions.UPRIGHT:
+                    nextMove = new Vector2Int(-1,-1);
+                    break;
+                case Directions.DOWNLEFT:
+                    nextMove = new Vector2Int(1,1);
+                    break;
+                case Directions.DOWNRIGHT:
+                    nextMove = new Vector2Int(-1,1);
+                    break;
+                default:
+                    nextMove = Vector2Int.zero;
+                    break;
+            }
+            SetTargetPosition(nextMove);
         }
     }
 }

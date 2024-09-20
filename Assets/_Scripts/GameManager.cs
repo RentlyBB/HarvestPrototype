@@ -12,7 +12,7 @@ using UnitySingleton;
 
 namespace _Scripts {
     public class GameManager : PersistentMonoSingleton<GameManager> {
-        public PlayerBehaviour player;
+        public PlayerBehaviour playerBehaviour;
 
         public Levels levelsInGame;
 
@@ -22,10 +22,12 @@ namespace _Scripts {
 
         [HideInInspector]
         public int levelToBeEdited = 0;
-        [HideInInspector] public bool editLevelInEditor = false;
-        
-        private void Start() {
 
+        [HideInInspector]
+        public bool editLevelInEditor = false;
+
+
+        private void Start() {
             SetLevelsIds();
         }
 
@@ -38,7 +40,7 @@ namespace _Scripts {
         private void Update() {
             if (currentLevelGoal == 0) {
                 IncreasesCurrentLevelId();
-                player._nextTargetPosition = new List<Vector2Int>();
+                playerBehaviour._nextTargetPosition = new List<Vector2Int>();
                 LoadLevel(currentLevelID);
             }
         }
@@ -46,8 +48,8 @@ namespace _Scripts {
         private void OnEnable() {
             GameLevelBtn.GameControlEvent += GameLevelBtnOnGameControlEvent;
         }
-        
-       
+
+
         private void OnDisable() {
             GameLevelBtn.GameControlEvent -= GameLevelBtnOnGameControlEvent;
         }
@@ -59,7 +61,6 @@ namespace _Scripts {
                     Debug.Log("ID: " + level.levelID + ", Name: " + level.name + " – [Current Level]");
                 } else {
                     Debug.Log("ID: " + level.levelID + ", Name: " + level.name);
-
                 }
             }
         }
@@ -102,18 +103,20 @@ namespace _Scripts {
         }
 
         public void SetPlayerPosition(GridLevelData gridData) {
-            if (!player) {
-                player = FindObjectOfType<PlayerBehaviour>();
+            if (!playerBehaviour) {
+                playerBehaviour = FindObjectOfType<PlayerBehaviour>();
             }
-            player.SetPosition((Vector2)gridData.playerStartingPosition);
+
+            playerBehaviour.SetPosition((Vector2)gridData.playerStartingPosition);
         }
-        
+
         public void SetPlayerPosition() {
             GridLevelData gridData = levelsInGame.levels[currentLevelID];
-            if (player == null) {
-                player = FindObjectOfType<PlayerBehaviour>();
+            if (playerBehaviour == null) {
+                playerBehaviour = FindObjectOfType<PlayerBehaviour>();
             }
-            player.SetPosition((Vector2)gridData.playerStartingPosition);
+
+            playerBehaviour.SetPosition((Vector2)gridData.playerStartingPosition);
         }
 
         [Command]
@@ -122,10 +125,10 @@ namespace _Scripts {
             if (GridManager.Instance.LoadGridData(gridData)) {
                 GridManager.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
-                player.SetPosition(gridData.playerStartingPosition);
-                player._nextTargetPosition = new List<Vector2Int>();
-                player._waitingTargetPosition = new List<Vector2Int>();
-                player.isBeingPushed = false;
+                playerBehaviour.SetPosition(gridData.playerStartingPosition);
+                playerBehaviour._nextTargetPosition = new List<Vector2Int>();
+                playerBehaviour._waitingTargetPosition = new List<Vector2Int>();
+                playerBehaviour.isBeingPushed = false;
                 Debug.Log("Current level: " + gridData.name);
             }
         }
@@ -150,12 +153,12 @@ namespace _Scripts {
 
             return levelsInGame.levels[i];
         }
-        
+
         public GridLevelData GetLevel() {
             return levelsInGame.levels[currentLevelID];
         }
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
 
         //Edit current level
         [Command]
@@ -173,13 +176,13 @@ namespace _Scripts {
             editLevelInEditor = true;
             ChangeScene("EditorScene");
         }
-        
+
         [Command]
-        public void TestLevel() { 
+        public void TestLevel() {
             GridManagerEditor.Instance.SaveLevel();
             currentLevelID = GridManagerEditor.Instance.loadedLevelInEditor.levelID;
             currentLevelGoal = GridManagerEditor.Instance.loadedLevelInEditor.goal;
-            
+
             ChangeScene("GameScene");
         }
 
@@ -188,7 +191,7 @@ namespace _Scripts {
             editLevelInEditor = false;
             ChangeScene("EditorScene");
         }
-        #endif
+#endif
 
         public void ChangeScene(string sceneName) {
             StartCoroutine(LoadSceneAsync(sceneName));
@@ -211,7 +214,7 @@ namespace _Scripts {
                     // Optional: You can wait for user input or a specific event before continuing
                     // Debug.Log("Press any key to activate the scene");
                     // if (Input.anyKeyDown) {
-                        asyncOperation.allowSceneActivation = true; // Activate the scene
+                    asyncOperation.allowSceneActivation = true; // Activate the scene
                     // }
                 }
 
@@ -219,20 +222,19 @@ namespace _Scripts {
                 yield return null;
             }
 
-            player = FindObjectOfType<PlayerBehaviour>();
-            
+            playerBehaviour = FindObjectOfType<PlayerBehaviour>();
+
             Debug.Log("Scene fully loaded and activated.");
         }
-        
+
         private void GameLevelBtnOnGameControlEvent(int controlId) {
             if (controlId == 0) {
                 PreviousLevel();
-            }else if (controlId == 1) {
+            } else if (controlId == 1) {
                 ResetLevel();
-            }else if (controlId == 2) {
+            } else if (controlId == 2) {
                 NextLevel();
             }
         }
-
     }
 }
