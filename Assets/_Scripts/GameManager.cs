@@ -88,6 +88,7 @@ namespace _Scripts {
                 GridManager.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 SetPlayerPosition(gridData);
+                playerBehaviour.ResetGhost();
                 Debug.Log("Loaded level: ID: " + gridData.levelID + ", Name: " + gridData.name);
             }
         }
@@ -98,6 +99,7 @@ namespace _Scripts {
             if (GridManager.Instance.LoadGridData(gridData)) {
                 GridManager.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
+                playerBehaviour.ResetGhost();
                 SetPlayerPosition();
             }
         }
@@ -129,6 +131,7 @@ namespace _Scripts {
                 playerBehaviour._nextTargetPosition = new List<Vector2Int>();
                 playerBehaviour._waitingTargetPosition = new List<Vector2Int>();
                 playerBehaviour.isBeingPushed = false;
+                playerBehaviour.ResetGhost();
                 Debug.Log("Current level: " + gridData.name);
             }
         }

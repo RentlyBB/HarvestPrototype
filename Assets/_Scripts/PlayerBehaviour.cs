@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Enums;
@@ -26,6 +27,7 @@ namespace _Scripts {
 
         public bool isBeingPushed = false;
         public bool reverseMovement = false;
+
 
         private bool _ghostPlayerSpawned = false;
         public GhostPlayerBehaviour ghostPlayer;
@@ -90,6 +92,13 @@ namespace _Scripts {
                 _ghostPlayerSpawned = true;
                 ghostPlayer._targetPosition = _targetPosition;
             }
+        }
+
+        public void ResetGhost() {
+            ghostPlayer.gameObject.SetActive(false);
+            ghostPlayer.transform.position = transform.position;
+            _ghostPlayerSpawned = false;
+            ghostPlayer._targetPosition = _targetPosition;
         }
 
         private Directions GetMovementDirection(Vector2Int pos) {
@@ -189,19 +198,32 @@ namespace _Scripts {
         }
 
         private void OnReachedTarget() {
+            
+            StartCoroutine(Waiter());
+            
             //Harvest
             Tile tile = GridManager.Instance.GetTileAtPosition(_targetPosition);
+            Tile ghostTile = GridManager.Instance.GetTileAtPosition(ghostPlayer._targetPosition);
 
             tile.OnTileStep();
+            ghostTile.OnTileStep();
+            
             if (tile._tileType != TileType.PushingTile) {
                 isBeingPushed = false;
+                
                 ValidateWaitingMove();
+
                 DecreaseTileValueEvent?.Invoke();
             } else {
                 isBeingPushed = true;
             }
 
             tile.OnTileStepAfter();
+            ghostTile.OnTileStepAfter();
+        }
+        
+        private IEnumerator Waiter() {
+            yield return new WaitForSeconds (0.1f);
         }
 
         private bool ValidateNextMove(Vector2Int currentPos, Vector2Int nextPos) {
@@ -224,6 +246,7 @@ namespace _Scripts {
         }
 
         [Command]
+        //Validate all target pos from pushable tiles
         private void ValidateWaitingMove() {
             if (_waitingTargetPosition.Count == 0) return;
 

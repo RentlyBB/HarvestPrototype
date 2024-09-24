@@ -226,6 +226,8 @@ namespace _Scripts {
                     if (_tileImg) {
                         Destroy(_tileImg.gameObject);
                     }
+                    Debug.Log("Harvested good");
+
                 } else {
                     //Bad
                     _tileState = TileState.BadHarvested;
@@ -234,6 +236,7 @@ namespace _Scripts {
                     }
                     tileValue = -1;
                     _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("icon_cross"), transform.position + new Vector3(0, 0, -1), new Vector2(1f, 1f), this.transform);
+                    Debug.Log("Harvested bad");
 
                 }
                 ChangeTileSprite();
@@ -299,11 +302,11 @@ namespace _Scripts {
             }
         }
 
-        public void OnTileStep() {
+        public bool OnTileStep() {
             switch (_tileType) {
                 case TileType.ClassicTile:
                     Harvest();
-                    break;
+                    return true;
                 case TileType.ExclamationTile:
                     _harvestable = true;
                     _tileState = TileState.Normal;
@@ -317,7 +320,7 @@ namespace _Scripts {
 
                     tileValue = _defaultTileValue + 1;
                     ChangeTileSprite();
-                    break;
+                    return true;
                 case TileType.PushingTile:
                     var pushDir = new Vector2Int();
                     if (_pushDirection.Contains("U") && _pushDirection.Contains("R")) {
@@ -345,15 +348,17 @@ namespace _Scripts {
                         // Move R
                         pushDir = new Vector2Int(1,0);
                     } else {
-                        return;
+                        return false;
                     }
                     PushPlayer?.Invoke(pushDir);
-                    break;
+                    return true;
                 case TileType.SplitTile:
                     // Spawn ghost player
                     SpawnGhost?.Invoke();
-                    break;
+                    return true;
             }
+            
+            return false;
         }
 
         public void OnTileStepAfter() {

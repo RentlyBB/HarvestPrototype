@@ -107,18 +107,24 @@ namespace _Scripts {
         }
 
         private void OnReachedTarget() {
-            //Harvest
-            Tile tile = GridManager.Instance.GetTileAtPosition(_targetPosition);
+            
 
-            tile.OnTileStep();
-            if (tile._tileType != TileType.PushingTile) {
-                isBeingPushed = false;
-                ValidateWaitingMove();
-            } else {
-                isBeingPushed = true;
-            }
-
-            tile.OnTileStepAfter();
+            // //Harvest
+            // Tile tile = GridManager.Instance.GetTileAtPosition(_targetPosition);
+            //
+            // tile.OnTileStep();
+            // Debug.Log("Ghost Step on tile: " + tile.name);
+            // Debug.Log("Tile value: " + tile.tileValue);
+            // Debug.Log("Ghost position is: " + _targetPosition);
+            //
+            // if (tile._tileType != TileType.PushingTile) {
+            //     isBeingPushed = false;
+            //     ValidateWaitingMove();
+            // } else {
+            //     isBeingPushed = true;
+            // }
+            //
+            // tile.OnTileStepAfter();
         }
 
         private bool ValidateNextMove(Vector2Int currentPos, Vector2Int nextPos) {
