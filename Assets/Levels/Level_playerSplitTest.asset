@@ -13,32 +13,32 @@ MonoBehaviour:
   m_Name: Level_playerSplitTest
   m_EditorClassIdentifier: 
   levelID: 19
-  goal: 2
+  goal: 4
   gridSize: {x: 5, y: 5}
   playerStartingPosition: {x: 2, y: 0}
   tileData:
   - 
-  - 
-  - N3
-  - 
-  - 
+  - '!3'
+  - M
   - 
   - 
   - 
+  - N1
   - 
   - 
   - 
   - 
   - S
+  - M
+  - 
+  - 
+  - 
+  - N1
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - N3
-  - 
+  - '!3'
+  - FV
+  - FH
   - 

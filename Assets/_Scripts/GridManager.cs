@@ -17,7 +17,7 @@ namespace _Scripts {
 
         private Dictionary<Vector2, Tile> _tiles;
 
-        private int _width, _height;
+        public int _width, _height;
 
         private List<string> _tileData = new List<string>();
         

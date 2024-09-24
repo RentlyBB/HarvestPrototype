@@ -128,6 +128,10 @@ namespace _Scripts {
         }
 
         private bool ValidateNextMove(Vector2Int currentPos, Vector2Int nextPos) {
+
+            if (nextPos.x < 0 || nextPos.y < 0) return false;
+            if (nextPos.x > GridManager.Instance._width || nextPos.y > GridManager.Instance._height) return false;
+            
             //Check if we are already on tile
             if (currentPos.x == nextPos.x && currentPos.y == nextPos.y) return false;
 
