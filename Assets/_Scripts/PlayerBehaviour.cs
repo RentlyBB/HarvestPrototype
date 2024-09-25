@@ -95,10 +95,12 @@ namespace _Scripts {
         }
 
         public void ResetGhost() {
-            ghostPlayer.gameObject.SetActive(false);
             ghostPlayer.transform.position = transform.position;
             _ghostPlayerSpawned = false;
+            ghostPlayer._nextTargetPosition = new List<Vector2Int>();
+            ghostPlayer._waitingTargetPosition = new List<Vector2Int>();
             ghostPlayer._targetPosition = _targetPosition;
+            ghostPlayer.gameObject.SetActive(false);
         }
 
         private Directions GetMovementDirection(Vector2Int pos) {
@@ -207,7 +209,7 @@ namespace _Scripts {
 
             tile.OnTileStep();
             ghostTile.OnTileStep();
-            
+
             if (tile._tileType != TileType.PushingTile) {
                 isBeingPushed = false;
                 

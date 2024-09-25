@@ -1104,6 +1104,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3299005790111496025, guid: 24f15a180595545f395234dc6e0ebde1, type: 3}
+      propertyPath: m_Color.b
+      value: 0.493948
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299005790111496025, guid: 24f15a180595545f395234dc6e0ebde1, type: 3}
+      propertyPath: m_Color.g
+      value: 0.493948
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299005790111496025, guid: 24f15a180595545f395234dc6e0ebde1, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9433962
+      objectReference: {fileID: 0}
     - target: {fileID: 5163930072852039935, guid: 24f15a180595545f395234dc6e0ebde1, type: 3}
       propertyPath: m_Name
       value: GhostPlayer
