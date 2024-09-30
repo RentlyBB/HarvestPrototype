@@ -42,12 +42,21 @@ namespace _Scripts {
             Tile.PlayerMove += SetTargetPosition;
             Tile.PushPlayer += ForceMove;
             Tile.SpawnGhost += SpawnGhost;
+            Tile.RemoveGhost += RemoveGhost;
+
         }
 
         private void OnDisable() {
             Tile.PlayerMove -= SetTargetPosition;
             Tile.PushPlayer -= ForceMove;
             Tile.SpawnGhost -= SpawnGhost;
+            Tile.RemoveGhost -= RemoveGhost;
+        }
+
+        private void RemoveGhost(Vector2Int pos) {
+            if (pos == ghostPlayer._targetPosition) {
+                ResetGhost();
+            }
         }
 
         private void Update() {
@@ -81,7 +90,6 @@ namespace _Scripts {
             } else {
                 _waitingTargetPosition.Add(pos);
             }
-            
         }
 
         [Command]
@@ -95,11 +103,11 @@ namespace _Scripts {
         }
 
         public void ResetGhost() {
-            ghostPlayer.transform.position = transform.position;
+            ghostPlayer.transform.position = new Vector3(100,100,-1);
             _ghostPlayerSpawned = false;
             ghostPlayer._nextTargetPosition = new List<Vector2Int>();
             ghostPlayer._waitingTargetPosition = new List<Vector2Int>();
-            ghostPlayer._targetPosition = _targetPosition;
+            ghostPlayer._targetPosition = new Vector2Int(0,0);
             ghostPlayer.gameObject.SetActive(false);
         }
 
@@ -208,24 +216,35 @@ namespace _Scripts {
             Tile ghostTile = GridManager.Instance.GetTileAtPosition(ghostPlayer._targetPosition);
 
             tile.OnTileStep();
-            ghostTile.OnTileStep();
 
-            if (tile._tileType != TileType.PushingTile) {
+            if (_ghostPlayerSpawned) {
+                if (ghostTile._tileType == TileType.PushingTile) {
+                    ghostPlayer.ForceMove(ghostTile);
+                } else {
+                    ghostTile.OnTileStep();
+                }
+            }
+
+            
+
+            if (tile._tileType != TileType.PushingTile || (tile._tileType == TileType.PushingTile && tile._tileState == TileState.Freeze)) {
                 isBeingPushed = false;
                 
                 ValidateWaitingMove();
-
                 DecreaseTileValueEvent?.Invoke();
             } else {
                 isBeingPushed = true;
             }
 
             tile.OnTileStepAfter();
-            ghostTile.OnTileStepAfter();
+            
+            if (_ghostPlayerSpawned) {
+                ghostTile.OnTileStepAfter();
+            }
         }
         
         private IEnumerator Waiter() {
-            yield return new WaitForSeconds (0.1f);
+            yield return new WaitForSeconds (0.3f);
         }
 
         private bool ValidateNextMove(Vector2Int currentPos, Vector2Int nextPos) {

@@ -12,13 +12,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: GhostPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 4846203185913452121, guid: adce798271cb5f34c9e19a159ae112fd, type: 3}
+      propertyPath: m_Color.b
+      value: 0.493948
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846203185913452121, guid: adce798271cb5f34c9e19a159ae112fd, type: 3}
+      propertyPath: m_Color.g
+      value: 0.493948
+      objectReference: {fileID: 0}
+    - target: {fileID: 4846203185913452121, guid: adce798271cb5f34c9e19a159ae112fd, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9433962
+      objectReference: {fileID: 0}
     - target: {fileID: 7095137364698721530, guid: adce798271cb5f34c9e19a159ae112fd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.05817306
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7095137364698721530, guid: adce798271cb5f34c9e19a159ae112fd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.06657651
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7095137364698721530, guid: adce798271cb5f34c9e19a159ae112fd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -82,6 +94,7 @@ MonoBehaviour:
   smoothTime: 0.05
   targetThreshold: 0.0005
   orthogonalMovement: 0
+  _targetPosition: {x: 0, y: 0}
   _nextTargetPosition: []
   _waitingTargetPosition: []
   isBeingPushed: 0

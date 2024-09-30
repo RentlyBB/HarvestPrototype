@@ -15,30 +15,30 @@ MonoBehaviour:
   levelID: 19
   goal: 4
   gridSize: {x: 5, y: 5}
-  playerStartingPosition: {x: 2, y: 0}
+  playerStartingPosition: {x: 3, y: 0}
   tileData:
   - 
-  - '!3'
+  - '!4'
   - M
   - 
   - 
   - 
   - N1
-  - 
-  - 
-  - 
-  - 
   - S
+  - 
+  - 
+  - FV
   - M
   - 
   - 
   - 
+  - 
   - N1
+  - S
+  - PL
   - 
   - 
-  - 
-  - 
-  - '!3'
+  - '!4'
   - FV
   - FH
   - 

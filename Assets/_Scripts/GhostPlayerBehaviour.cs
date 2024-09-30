@@ -24,7 +24,7 @@ namespace _Scripts {
         private void Update() {
             MoveToTarget();
         }
-
+        
         private void SetTargetPosition(Vector2Int pos) {
             
             var nextPos = _targetPosition + pos;
@@ -33,51 +33,7 @@ namespace _Scripts {
                 return;
             }
             _nextTargetPosition.Add(nextPos);
-
-            // if (reverseMovement) {
-            //     pos = ReverseNextMove(pos);
-            // }
-
-            // if (_nextTargetPosition.Count > 0) {
-            //     if (GridManager.Instance.GetTileAtPosition(pos)._tileType == TileType.PushingTile) {
-            //         isBeingPushed = true;
-            //     }
-            //     _lastPos = _nextTargetPosition[^1];
-            // } else {
-            //     _lastPos = _targetPosition;
-            // }
-
-
-            // if (!isBeingPushed) {
-            //     if (!ValidateNextMove(_lastPos, pos)) return;
-            //     _nextTargetPosition.Add(pos);
-            // } else {
-            //     _waitingTargetPosition.Add(pos);
-            // }
-        }
-
-        private Vector2Int ReverseNextMove(Vector2Int pos) {
-            Vector2Int reversedNextMove = new Vector2Int();
-
-            if (pos.x > _targetPosition.x) {
-                reversedNextMove.x = pos.x - 2;
-            } else if (pos.x < _targetPosition.x) {
-                reversedNextMove.x = pos.x + 2;
-            } else {
-                reversedNextMove.x = pos.x;
-            }
-
-            if (pos.y > _targetPosition.y) {
-                reversedNextMove.y = pos.y - 2;
-            } else if (pos.y < _targetPosition.y) {
-                reversedNextMove.y = pos.y + 2;
-            } else {
-                reversedNextMove.y = pos.y;
-            }
-
-            Debug.Log("After reverse: " + reversedNextMove);
-
-            return reversedNextMove;
+            
         }
 
         public void SetPosition(Vector2 position) {
@@ -108,29 +64,12 @@ namespace _Scripts {
 
         private void OnReachedTarget() {
             
-
-            // //Harvest
-            // Tile tile = GridManager.Instance.GetTileAtPosition(_targetPosition);
-            //
-            // tile.OnTileStep();
-            // Debug.Log("Ghost Step on tile: " + tile.name);
-            // Debug.Log("Tile value: " + tile.tileValue);
-            // Debug.Log("Ghost position is: " + _targetPosition);
-            //
-            // if (tile._tileType != TileType.PushingTile) {
-            //     isBeingPushed = false;
-            //     ValidateWaitingMove();
-            // } else {
-            //     isBeingPushed = true;
-            // }
-            //
-            // tile.OnTileStepAfter();
         }
 
         private bool ValidateNextMove(Vector2Int currentPos, Vector2Int nextPos) {
 
             if (nextPos.x < 0 || nextPos.y < 0) return false;
-            if (nextPos.x > GridManager.Instance._width || nextPos.y > GridManager.Instance._height) return false;
+            if (nextPos.x > (GridManager.Instance._width - 1) || nextPos.y > (GridManager.Instance._height - 1)) return false;
             
             //Check if we are already on tile
             if (currentPos.x == nextPos.x && currentPos.y == nextPos.y) return false;
@@ -169,8 +108,36 @@ namespace _Scripts {
 
 
         //Used when player step on the pushing tile
-        private void ForceMove(Vector2Int pushDirection) {
-            _nextTargetPosition.Insert(0, _targetPosition + pushDirection);
+        public void ForceMove(Tile tile) {
+            Vector2Int pushDirection = new Vector2Int();
+            
+            if (tile._pushDirection.Contains("U") && tile._pushDirection.Contains("R")) {
+                // Move Up Right
+                pushDirection = new Vector2Int(1,1);
+            }else if (tile._pushDirection.Contains("U") && tile._pushDirection.Contains("L")) {
+                // Move Up Left
+                pushDirection = new Vector2Int(-1,1);
+            } else if (tile._pushDirection.Contains("D") && tile._pushDirection.Contains("R")) {
+                // Move Down Right
+                pushDirection = new Vector2Int(1,-1);
+            } else if (tile._pushDirection.Contains("D") && tile._pushDirection.Contains("L")) {
+                // Move Down Left
+                pushDirection = new Vector2Int(-1,-1);
+            } else if (tile._pushDirection.Contains("U")) {
+                // Move Up
+                pushDirection = new Vector2Int(0,1);
+            } else if (tile._pushDirection.Contains("D")) {
+                // Move Down
+                pushDirection = new Vector2Int(0,-1);
+            } else if (tile._pushDirection.Contains("L")) {
+                // Move L
+                pushDirection = new Vector2Int(-1,0);
+            } else if (tile._pushDirection.Contains("R")) {
+                // Move R
+                pushDirection = new Vector2Int(1,0);
+            }
+            
+            _nextTargetPosition.Add( _targetPosition + pushDirection);
         }
 
         public void MoveByDirection(Directions direction) {
