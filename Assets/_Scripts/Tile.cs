@@ -37,7 +37,7 @@ namespace _Scripts {
         public TileState _tileState;
         private bool _canBreak = false;
         private bool _breakable = false;
-        private SpriteRenderer _tileImg;
+        public SpriteRenderer _tileImg;
         public string _pushDirection;
 
         private void OnEnable() {
@@ -88,11 +88,7 @@ namespace _Scripts {
                     break;
                 case TileType.ExclamationTile:
                     //Have to remove ! if tileValue is 0
-                    if (tileValue == 0) {
-                        _middleText.text = $"{_textToShow}";
-                    } else {
-                        _middleText.text = $"!{_textToShow}";
-                    }
+                    _leftCornerText.text = tileValue < 0 ? "" : $"{_textToShow}";
                     break;
                 case TileType.PushingTile:
                     _middleText.text = "";
@@ -155,8 +151,10 @@ namespace _Scripts {
                 tileValue = Int32.Parse(data);
                 _harvestable = false;
                 _leftCornerText = Utils.CreateTextWorld($"{tileValue}", transform.position + new Vector3(0.3f, -0.3f), 24, transform, Color.white);
+                _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("button_round_flat"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f,0.5f), this.transform);
                 _defaultTileValue = tileValue;
-                _textToShow = $"!{tileValue}";
+                _textToShow = "";
+                //_textToShow = $"!{tileValue}";
                 _tileType = TileType.ExclamationTile;
             } else if (data.Contains("F")) {
                 _tileState = TileState.Freeze;
@@ -281,8 +279,12 @@ namespace _Scripts {
             tileValue--;
 
             if (tileValue == 0) {
-                TextUpdate("");
-                _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("button_round_flat"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f,0.5f), this.transform);
+                if (_tileType != TileType.ExclamationTile) {
+                    TextUpdate("");
+                    _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("button_round_flat"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f,0.5f), this.transform);
+                } else {
+                    TextUpdate("0"); 
+                }
             }
 
             if (tileValue < 0) {
