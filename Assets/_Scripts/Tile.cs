@@ -11,8 +11,11 @@ namespace _Scripts {
         public static event UnityAction SpawnGhost = delegate { };
         public static event UnityAction<Vector2Int> RemoveGhost = delegate { };
 
-            [SerializeField]
+        [SerializeField]
         private Sprite _sprDefaultTile, _sprGoodHarvestTile, _sprBadHarvestTile, _sprFreezeTile, _sprExclamationTile;
+
+        [SerializeField]
+        private AudioClip goodCollect, badCollect, moveSound;
 
         [SerializeField]
         private SpriteRenderer _renderer;
@@ -24,6 +27,7 @@ namespace _Scripts {
         public int tileValue;
         private int _defaultTileValue;
         public bool moveable;
+
 
         private bool _mouseOnTile = false;
         private TextMesh _middleText;
@@ -54,22 +58,23 @@ namespace _Scripts {
 
             EvaluateLevelData(gridLevelData);
             _middleText = Utils.CreateTextWorld($"{_textToShow}", transform.position, 32, transform, Color.white);
+
         }
 
         void OnMouseEnter() {
-            if(_tileType == TileType.NotMoveable) return;
+            if (_tileType == TileType.NotMoveable) return;
             _highlight.SetActive(true);
             _mouseOnTile = true;
         }
 
         void OnMouseExit() {
-            if(_tileType == TileType.NotMoveable) return;
+            if (_tileType == TileType.NotMoveable) return;
             _highlight.SetActive(false);
             _mouseOnTile = false;
         }
 
         private void OnMouseDown() {
-            if(_tileType == TileType.NotMoveable) return;
+            if (_tileType == TileType.NotMoveable) return;
             if (_mouseOnTile && moveable) {
                 PlayerMove?.Invoke(gridPosition);
             }
@@ -99,21 +104,20 @@ namespace _Scripts {
         private void ChangeTileSprite() {
             if (_tileState == TileState.Freeze) {
                 _renderer.sprite = _sprFreezeTile;
-            }else if (_tileState == TileState.Normal) {
+            } else if (_tileState == TileState.Normal) {
                 _renderer.sprite = _sprDefaultTile;
-            }else if (_tileState == TileState.BadHarvested) {
+            } else if (_tileState == TileState.BadHarvested) {
                 _renderer.sprite = _sprBadHarvestTile;
-            }else if (_tileState == TileState.GoodHarvested) {
+            } else if (_tileState == TileState.GoodHarvested) {
                 _renderer.sprite = _sprGoodHarvestTile;
             } else if (_tileState == TileState.Invisible) {
                 _renderer.sprite = null;
-            }else if (_tileState == TileState.Exclamation) {
+            } else if (_tileState == TileState.Exclamation) {
                 _renderer.sprite = _sprExclamationTile;
             }
         }
 
         private void EvaluateLevelData(string data) {
-
             if (data.Contains("*")) {
                 //Breakable tile – breaks after player leaves the tile    
                 data = data.Replace("*", string.Empty);
@@ -136,11 +140,12 @@ namespace _Scripts {
                 tileValue = Int32.Parse(data);
                 _harvestable = true;
                 if (tileValue == 0) {
-                    _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("button_round_flat"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f,0.5f), this.transform);
+                    _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("button_round_flat"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f, 0.5f), this.transform);
                     _textToShow = "";
                 } else {
                     _textToShow = data;
                 }
+
                 _defaultTileValue = tileValue;
                 _tileType = TileType.ClassicTile;
                 _tileState = TileState.Normal;
@@ -151,7 +156,7 @@ namespace _Scripts {
                 tileValue = Int32.Parse(data);
                 _harvestable = false;
                 _leftCornerText = Utils.CreateTextWorld($"{tileValue}", transform.position + new Vector3(0.3f, -0.3f), 24, transform, Color.white);
-                _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("button_round_flat"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f,0.5f), this.transform);
+                _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("button_round_flat"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f, 0.5f), this.transform);
                 _defaultTileValue = tileValue;
                 _textToShow = "";
                 //_textToShow = $"!{tileValue}";
@@ -165,10 +170,11 @@ namespace _Scripts {
                     _tileType = TileType.FreezeTileVertical;
                     _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("FreezeVertical"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f, 0.5f), this.transform);
                 }
+
                 _decreaseValue = false;
                 moveable = true;
                 _textToShow = "";
-            }else if (data.Contains("P")) {
+            } else if (data.Contains("P")) {
                 moveable = true;
                 _tileState = TileState.Pushing;
                 _tileType = TileType.PushingTile;
@@ -176,11 +182,11 @@ namespace _Scripts {
                 _pushDirection = data;
                 _decreaseValue = false;
                 _harvestable = false;
-                
+
                 if (data.Contains("U") && data.Contains("R")) {
                     // Move Up Right
                     _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("ArrowsUpRight"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f, 0.5f), this.transform);
-                }else if (data.Contains("U") && data.Contains("L")) {
+                } else if (data.Contains("U") && data.Contains("L")) {
                     // Move Up Left
                     _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("ArrowsUpLeft"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f, 0.5f), this.transform);
                 } else if (data.Contains("D") && data.Contains("R")) {
@@ -202,7 +208,7 @@ namespace _Scripts {
                     // Move R
                     _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("ArrowsRight"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f, 0.5f), this.transform);
                 }
-            }else if(data.Contains("S")) {
+            } else if (data.Contains("S")) {
                 moveable = true;
                 _tileState = TileState.Normal;
                 _tileType = TileType.SplitTile;
@@ -218,28 +224,32 @@ namespace _Scripts {
         public void Harvest() {
             if (_harvestable) {
                 if (tileValue == 0) {
+                    AudioManager.Instance.PlaySound(goodCollect);
                     //Good
                     GameManager.Instance.currentLevelGoal -= 1;
                     _tileState = TileState.GoodHarvested;
                     if (_tileImg) {
                         Destroy(_tileImg.gameObject);
                     }
-                    Debug.Log("Harvested good");
 
+                    Debug.Log("Harvested good");
+                    
                 } else {
+                    AudioManager.Instance.PlaySound(badCollect);
                     //Bad
                     _tileState = TileState.BadHarvested;
                     if (_tileImg) {
                         Destroy(_tileImg.gameObject);
                     }
+
                     tileValue = -1;
                     _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("icon_cross"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(1f, 1f), this.transform);
                     Debug.Log("Harvested bad");
-
                 }
+
                 ChangeTileSprite();
                 TextUpdate("");
-                
+
                 _harvestable = false;
 
                 RemoveGhost?.Invoke(gridPosition);
@@ -247,22 +257,22 @@ namespace _Scripts {
         }
 
         private void DecreaseValue() {
-            
             if (_isFreeze) {
                 _isFreeze = false;
-                if(_tileState == TileState.Freeze) {
+                if (_tileState == TileState.Freeze) {
                     if (_tileType is TileType.ClassicTile or TileType.Moveable or TileType.PushingTile) {
                         _tileState = TileState.Normal;
-                    }else if (_tileType == TileType.ExclamationTile) {
+                    } else if (_tileType == TileType.ExclamationTile) {
                         _tileState = TileState.Exclamation;
-                    }else if (_tileType == TileType.SplitTile) {
+                    } else if (_tileType == TileType.SplitTile) {
                         _tileState = TileState.Normal;
                     }
                 }
+
                 ChangeTileSprite();
                 return;
             }
-            
+
             if (!_decreaseValue) {
                 return;
             }
@@ -281,28 +291,30 @@ namespace _Scripts {
             if (tileValue == 0) {
                 if (_tileType != TileType.ExclamationTile) {
                     TextUpdate("");
-                    _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("button_round_flat"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f,0.5f), this.transform);
+                    _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("button_round_flat"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f, 0.5f), this.transform);
                 } else {
-                    TextUpdate("0"); 
+                    TextUpdate("0");
                 }
             }
 
             if (tileValue < 0) {
                 if (_tileType == TileType.ExclamationTile) {
+                    AudioManager.Instance.PlaySound(badCollect);
                     _leftCornerText.text = "";
                     _tileType = TileType.ClassicTile;
                     _tileState = TileState.BadHarvested;
-                    
+
                     if (_tileImg) {
                         Destroy(_tileImg.gameObject);
                     }
+
                     _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("icon_cross"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(1f, 1f), this.transform);
                 }
 
                 TextUpdate("");
                 Harvest();
                 ChangeTileSprite();
-            } else if(tileValue != 0){
+            } else if (tileValue != 0) {
                 TextUpdate(tileValue.ToString());
             }
         }
@@ -317,7 +329,7 @@ namespace _Scripts {
                     _tileState = TileState.Normal;
                     _tileType = TileType.ClassicTile;
                     _leftCornerText.text = "";
-                    
+
                     //Delete a image in case that ReadyToHarvest icon is shown
                     if (_tileImg) {
                         Destroy(_tileImg.gameObject);
@@ -332,31 +344,32 @@ namespace _Scripts {
                     var pushDir = new Vector2Int();
                     if (_pushDirection.Contains("U") && _pushDirection.Contains("R")) {
                         // Move Up Right
-                        pushDir = new Vector2Int(1,1);
-                    }else if (_pushDirection.Contains("U") && _pushDirection.Contains("L")) {
+                        pushDir = new Vector2Int(1, 1);
+                    } else if (_pushDirection.Contains("U") && _pushDirection.Contains("L")) {
                         // Move Up Left
-                        pushDir = new Vector2Int(-1,1);
+                        pushDir = new Vector2Int(-1, 1);
                     } else if (_pushDirection.Contains("D") && _pushDirection.Contains("R")) {
                         // Move Down Right
-                        pushDir = new Vector2Int(1,-1);
+                        pushDir = new Vector2Int(1, -1);
                     } else if (_pushDirection.Contains("D") && _pushDirection.Contains("L")) {
                         // Move Down Left
-                        pushDir = new Vector2Int(-1,-1);
+                        pushDir = new Vector2Int(-1, -1);
                     } else if (_pushDirection.Contains("U")) {
                         // Move Up
-                        pushDir = new Vector2Int(0,1);
+                        pushDir = new Vector2Int(0, 1);
                     } else if (_pushDirection.Contains("D")) {
                         // Move Down
-                        pushDir = new Vector2Int(0,-1);
+                        pushDir = new Vector2Int(0, -1);
                     } else if (_pushDirection.Contains("L")) {
                         // Move L
-                        pushDir = new Vector2Int(-1,0);
+                        pushDir = new Vector2Int(-1, 0);
                     } else if (_pushDirection.Contains("R")) {
                         // Move R
-                        pushDir = new Vector2Int(1,0);
+                        pushDir = new Vector2Int(1, 0);
                     } else {
                         return false;
                     }
+
                     PushPlayer?.Invoke(pushDir);
                     return true;
                 case TileType.SplitTile:
@@ -365,7 +378,7 @@ namespace _Scripts {
                     SpawnGhost?.Invoke();
                     return true;
             }
-            
+
             return false;
         }
 
@@ -373,7 +386,7 @@ namespace _Scripts {
             if (_breakable) {
                 _canBreak = true;
             }
-            
+
             switch (_tileType) {
                 case TileType.FreezeTileHorizontal:
                 case TileType.FreezeTileVertical:
@@ -404,8 +417,6 @@ namespace _Scripts {
                     }
                 }
             }
-            
-            
         }
     }
 }

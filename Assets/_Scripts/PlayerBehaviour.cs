@@ -15,6 +15,8 @@ namespace _Scripts {
         public float smoothTime = 0.3f; // How smooth the movement is
         public float targetThreshold = 0.1f; // Distance to consider as "reached"
 
+        public AudioClip moveSound;
+
         public bool orthogonalMovement = false;
 
         [SerializeField]
@@ -90,6 +92,8 @@ namespace _Scripts {
             } else {
                 _waitingTargetPosition.Add(pos);
             }
+            AudioManager.Instance.PlaySound(moveSound);
+
         }
 
         [Command]
@@ -209,6 +213,7 @@ namespace _Scripts {
 
         private void OnReachedTarget() {
             
+
             StartCoroutine(Waiter());
             
             //Harvest
