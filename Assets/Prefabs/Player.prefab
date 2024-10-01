@@ -100,9 +100,11 @@ MonoBehaviour:
   speed: 75
   smoothTime: 0.05
   targetThreshold: 0.0005
+  moveSound: {fileID: 8300000, guid: abfd9e636a37c4677aa982d5a302e8e4, type: 3}
   orthogonalMovement: 0
   _targetPosition: {x: 0, y: 0}
   _nextTargetPosition: []
   _waitingTargetPosition: []
   isBeingPushed: 0
   reverseMovement: 0
+  ghostPlayer: {fileID: 0}

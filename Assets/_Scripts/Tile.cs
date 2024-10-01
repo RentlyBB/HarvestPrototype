@@ -15,7 +15,7 @@ namespace _Scripts {
         private Sprite _sprDefaultTile, _sprGoodHarvestTile, _sprBadHarvestTile, _sprFreezeTile, _sprExclamationTile;
 
         [SerializeField]
-        private AudioClip goodCollect, badCollect, moveSound;
+        private AudioClip goodCollect, badCollect, moveSound, goodExcCollect, freezeTileSound;
 
         [SerializeField]
         private SpriteRenderer _renderer;
@@ -325,6 +325,7 @@ namespace _Scripts {
                     Harvest();
                     return true;
                 case TileType.ExclamationTile:
+                    AudioManager.Instance.PlaySound(goodExcCollect);
                     _harvestable = true;
                     _tileState = TileState.Normal;
                     _tileType = TileType.ClassicTile;
@@ -396,6 +397,7 @@ namespace _Scripts {
         }
 
         private void FreezeLine() {
+            AudioManager.Instance.PlaySound(freezeTileSound);
             if (_tileType == TileType.FreezeTileHorizontal) {
                 // Using GetRow method to get all tiles in row
                 GridManager.Instance.GetAllInRow(gridPosition.y, out var allTiles);

@@ -192,6 +192,8 @@ MonoBehaviour:
   goodCollect: {fileID: 8300000, guid: 11ed1701c6e324652916b4246b5d2693, type: 3}
   badCollect: {fileID: 8300000, guid: d6f5d94adbaac4d0cb17b43994fe267a, type: 3}
   moveSound: {fileID: 8300000, guid: abfd9e636a37c4677aa982d5a302e8e4, type: 3}
+  goodExcCollect: {fileID: 8300000, guid: 4743bebbb362947a2b16a22f38c9b10d, type: 3}
+  freezeTileSound: {fileID: 8300000, guid: 54d2ffb99328e48c3804a68819cc44e9, type: 3}
   _renderer: {fileID: 335905769486264400}
   _highlight: {fileID: 1203410746928733404}
   gridPosition: {x: 0, y: 0}
