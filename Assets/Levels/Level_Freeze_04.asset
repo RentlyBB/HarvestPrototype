@@ -10,25 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14a6e768902b48518b69fb55661456e0, type: 3}
-  m_Name: Level_Push_2
+  m_Name: Level_Freeze_04
   m_EditorClassIdentifier: 
-  levelID: 18
-  goal: 3
-  gridSize: {x: 5, y: 3}
-  playerStartingPosition: {x: 0, y: 1}
+  levelID: 20
+  goal: 2
+  gridSize: {x: 3, y: 4}
+  playerStartingPosition: {x: 1, y: 0}
   tileData:
-  - N6
-  - 
-  - 
-  - 
-  - N6
-  - 
-  - PL
   - X
-  - PR
+  - X
+  - X
+  - X
   - 
+  - FV
+  - FV
+  - N1
+  - N4
+  - FV
+  - FV
   - 
-  - 
-  - 
-  - FH
-  - N2
