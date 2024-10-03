@@ -77,6 +77,7 @@ namespace _Scripts {
             if (_tileType == TileType.NotMoveable) return;
             if (_mouseOnTile && moveable) {
                 PlayerMove?.Invoke(gridPosition);
+                AudioManager.Instance.PlaySound(moveSound);
             }
         }
 

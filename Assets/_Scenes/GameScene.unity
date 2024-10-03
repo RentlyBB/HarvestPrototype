@@ -558,6 +558,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Quantum Console (SRP)
       objectReference: {fileID: 0}
+    - target: {fileID: 4622338881456843899, guid: 2da3dcc22749e7f4280737786d898334, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4735113768296962263, guid: 2da3dcc22749e7f4280737786d898334, type: 3}
       propertyPath: _activateOnStartup
       value: 0
@@ -1064,58 +1068,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 655984169607611358, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 307feb502c89646af96ee213b07ecad6, type: 3}
-    - target: {fileID: 655984169607611358, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 655984169607611358, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_Color.g
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 655984169607611358, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_Color.r
-      value: 0.99607843
-      objectReference: {fileID: 0}
-    - target: {fileID: 1801968515199747416, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1801968515199747416, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1801968515199747416, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
     - target: {fileID: 1866136528555977418, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 2534468169138871702, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 5969d221d23fb466ba6f712fa4b50321, type: 3}
-    - target: {fileID: 6061441675390679485, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6061441675390679485, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.000002786517
-      objectReference: {fileID: 0}
-    - target: {fileID: 6061441675390679485, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 360
-      objectReference: {fileID: 0}
-    - target: {fileID: 7459631147219395253, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: f704539c2c0be4f15a7351f70f4db4b9, type: 3}
     - target: {fileID: 8591187991921133589, guid: e0b62757d248441d9b084a7cae606cc7, type: 3}
       propertyPath: m_Pivot.x
       value: 0

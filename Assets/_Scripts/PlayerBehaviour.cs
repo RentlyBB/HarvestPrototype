@@ -92,7 +92,7 @@ namespace _Scripts {
             } else {
                 _waitingTargetPosition.Add(pos);
             }
-            AudioManager.Instance.PlaySound(moveSound);
+            //AudioManager.Instance.PlaySound(moveSound);
 
         }
 
