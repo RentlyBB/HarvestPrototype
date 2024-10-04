@@ -27,8 +27,12 @@ namespace _Scripts {
         public bool editLevelInEditor = false;
 
 
+        private TextMesh levelText;
+
+
         private void Start() {
             SetLevelsIds();
+            levelText = Utils.CreateTextWorld($"Level ID: {currentLevelID + 1}", transform.position + new Vector3(-2.5f, 2.5f), 32, transform, Color.white);
         }
 
         public void SetLevelsIds() {
@@ -82,6 +86,7 @@ namespace _Scripts {
 
         [Command]
         public void LoadLevel(int levelID) {
+            levelText.text = "Level ID: " + (currentLevelID + 1);
             GridLevelData gridData = levelsInGame.levels[levelID];
             if (GridManager.Instance.LoadGridData(gridData)) {
                 currentLevelID = levelID;

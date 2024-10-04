@@ -10,25 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14a6e768902b48518b69fb55661456e0, type: 3}
-  m_Name: Level_playerSplitTest
+  m_Name: Level_PushFreeze_1
   m_EditorClassIdentifier: 
   levelID: 23
   goal: 2
-  gridSize: {x: 5, y: 3}
-  playerStartingPosition: {x: 2, y: 0}
+  gridSize: {x: 3, y: 4}
+  playerStartingPosition: {x: 2, y: 1}
   tileData:
-  - X
-  - X
-  - N3
-  - X
-  - X
+  - '!3'
+  - PD
+  - PU
+  - '!3'
   - 
   - 
   - 
-  - S
-  - X
-  - X
   - 
-  - X
-  - X
-  - N3
+  - 
+  - 
+  - 
+  - 
