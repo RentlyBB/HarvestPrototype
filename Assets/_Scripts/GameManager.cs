@@ -6,6 +6,7 @@ using UnityEngine;
 using _Scripts.SOs;
 using _Scripts.UI;
 using QFSW.QC;
+using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnitySingleton;
@@ -26,13 +27,11 @@ namespace _Scripts {
         [HideInInspector]
         public bool editLevelInEditor = false;
 
-
-        private TextMesh levelText;
-
+        public TMP_Text text;
 
         private void Start() {
             SetLevelsIds();
-            levelText = Utils.CreateTextWorld($"Level ID: {currentLevelID + 1}", transform.position + new Vector3(-2.5f, 2.5f), 32, transform, Color.white);
+            text.text = $"Level: {currentLevelID + 1} / {levelsInGame.levels.Count}";
         }
 
         public void SetLevelsIds() {
@@ -74,6 +73,7 @@ namespace _Scripts {
             if (currentLevelID > levelsInGame.levels.Count - 1) {
                 currentLevelID = 0;
             }
+            text.text = $"Level: {currentLevelID + 1} / {levelsInGame.levels.Count}";
         }
 
         private void DecreasesCurrentLevelId() {
@@ -81,12 +81,12 @@ namespace _Scripts {
             if (currentLevelID < 0) {
                 currentLevelID = levelsInGame.levels.Count - 1;
             }
+            text.text = $"Level: {currentLevelID + 1} / {levelsInGame.levels.Count}";
         }
 
 
         [Command]
         public void LoadLevel(int levelID) {
-            levelText.text = "Level ID: " + (currentLevelID + 1);
             GridLevelData gridData = levelsInGame.levels[levelID];
             if (GridManager.Instance.LoadGridData(gridData)) {
                 currentLevelID = levelID;
