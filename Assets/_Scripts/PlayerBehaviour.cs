@@ -99,10 +99,10 @@ namespace _Scripts {
         [Command]
         public void SpawnGhost() {
             if (!_ghostPlayerSpawned) {
-                ghostPlayer.gameObject.SetActive(true);
-                ghostPlayer.transform.position = transform.position;
-                _ghostPlayerSpawned = true;
                 ghostPlayer._targetPosition = _targetPosition;
+                ghostPlayer.transform.position = transform.position;
+                ghostPlayer.gameObject.SetActive(true);
+                _ghostPlayerSpawned = true;
             }
         }
 
@@ -215,6 +215,8 @@ namespace _Scripts {
             
 
             StartCoroutine(Waiter());
+            
+            //TODO: Ghost tiles have to be skipped if the ghost is spawned this step
             
             //Harvest
             Tile tile = GridManager.Instance.GetTileAtPosition(_targetPosition);
