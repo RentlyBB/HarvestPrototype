@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _Scripts {
     public static class Utils {
@@ -75,6 +76,28 @@ namespace _Scripts {
 
             // Return the created SpriteRenderer
             return spriteRenderer;
+        }
+        
+        public static Vector3 GetMousePosition3D() {
+            if(Camera.main == null) return new Vector3(1000, 1000, 1000);
+            
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if(Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue)) {
+                return raycastHit.point;
+            }
+            
+            return new Vector3(1000, 1000, 1000);
+        }
+        
+        public static Vector2 GetMousePosition2D() {
+            if(Camera.main == null) return new Vector2(1000, 1000);
+            
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if(Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue)) {
+                return raycastHit.point;
+            }
+            
+            return new Vector2(1000, 1000);
         }
     }
 }

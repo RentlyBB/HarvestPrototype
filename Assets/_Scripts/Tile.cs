@@ -61,25 +61,25 @@ namespace _Scripts {
 
         }
 
-        void OnMouseEnter() {
-            if (_tileType == TileType.NotMoveable) return;
-            _highlight.SetActive(true);
-            _mouseOnTile = true;
-        }
-
-        void OnMouseExit() {
-            if (_tileType == TileType.NotMoveable) return;
-            _highlight.SetActive(false);
-            _mouseOnTile = false;
-        }
-
-        private void OnMouseDown() {
-            if (_tileType == TileType.NotMoveable) return;
-            if (_mouseOnTile && moveable) {
-                PlayerMove?.Invoke(gridPosition);
-                AudioManager.Instance.PlaySound(moveSound);
-            }
-        }
+        // void OnMouseEnter() {
+        //     if (_tileType == TileType.NotMoveable) return;
+        //     _highlight.SetActive(true);
+        //     _mouseOnTile = true;
+        // }
+        //
+        // void OnMouseExit() {
+        //     if (_tileType == TileType.NotMoveable) return;
+        //     _highlight.SetActive(false);
+        //     _mouseOnTile = false;
+        // }
+        //
+        // private void OnMouseDown() {
+        //     if (_tileType == TileType.NotMoveable) return;
+        //     if (_mouseOnTile && moveable) {
+        //         PlayerMove?.Invoke(gridPosition);
+        //         AudioManager.Instance.PlaySound(moveSound);
+        //     }
+        // }
 
         private void TextUpdate(string text) {
             if (_tileState == TileState.BadHarvested || _tileState == TileState.GoodHarvested) {
