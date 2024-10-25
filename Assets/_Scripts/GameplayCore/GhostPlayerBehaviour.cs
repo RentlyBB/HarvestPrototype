@@ -69,7 +69,7 @@ namespace _Scripts {
         private bool ValidateNextMove(Vector2Int currentPos, Vector2Int nextPos) {
 
             if (nextPos.x < 0 || nextPos.y < 0) return false;
-            if (nextPos.x > (GridManager.Instance._width - 1) || nextPos.y > (GridManager.Instance._height - 1)) return false;
+            if (nextPos.x > (GridManager_old.Instance._width - 1) || nextPos.y > (GridManager_old.Instance._height - 1)) return false;
             
             //Check if we are already on tile
             if (currentPos.x == nextPos.x && currentPos.y == nextPos.y) return false;
@@ -108,31 +108,31 @@ namespace _Scripts {
 
 
         //Used when player step on the pushing tile
-        public void ForceMove(Tile tile) {
+        public void ForceMove(Tile_old tileOld) {
             Vector2Int pushDirection = new Vector2Int();
             
-            if (tile._pushDirection.Contains("U") && tile._pushDirection.Contains("R")) {
+            if (tileOld._pushDirection.Contains("U") && tileOld._pushDirection.Contains("R")) {
                 // Move Up Right
                 pushDirection = new Vector2Int(1,1);
-            }else if (tile._pushDirection.Contains("U") && tile._pushDirection.Contains("L")) {
+            }else if (tileOld._pushDirection.Contains("U") && tileOld._pushDirection.Contains("L")) {
                 // Move Up Left
                 pushDirection = new Vector2Int(-1,1);
-            } else if (tile._pushDirection.Contains("D") && tile._pushDirection.Contains("R")) {
+            } else if (tileOld._pushDirection.Contains("D") && tileOld._pushDirection.Contains("R")) {
                 // Move Down Right
                 pushDirection = new Vector2Int(1,-1);
-            } else if (tile._pushDirection.Contains("D") && tile._pushDirection.Contains("L")) {
+            } else if (tileOld._pushDirection.Contains("D") && tileOld._pushDirection.Contains("L")) {
                 // Move Down Left
                 pushDirection = new Vector2Int(-1,-1);
-            } else if (tile._pushDirection.Contains("U")) {
+            } else if (tileOld._pushDirection.Contains("U")) {
                 // Move Up
                 pushDirection = new Vector2Int(0,1);
-            } else if (tile._pushDirection.Contains("D")) {
+            } else if (tileOld._pushDirection.Contains("D")) {
                 // Move Down
                 pushDirection = new Vector2Int(0,-1);
-            } else if (tile._pushDirection.Contains("L")) {
+            } else if (tileOld._pushDirection.Contains("L")) {
                 // Move L
                 pushDirection = new Vector2Int(-1,0);
-            } else if (tile._pushDirection.Contains("R")) {
+            } else if (tileOld._pushDirection.Contains("R")) {
                 // Move R
                 pushDirection = new Vector2Int(1,0);
             }

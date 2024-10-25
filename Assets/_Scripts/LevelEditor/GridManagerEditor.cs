@@ -87,7 +87,7 @@ namespace _Scripts.LevelEditor {
                 Destroy(child.gameObject);
             }
 
-            loadedLevelInEditor = GameManager.Instance.GetLevel(levelId);
+            loadedLevelInEditor = GameManager_old.Instance.GetLevel(levelId);
 
             if (loadedLevelInEditor == null) return;
 
@@ -144,8 +144,8 @@ namespace _Scripts.LevelEditor {
             AssetDatabase.CreateAsset(gridLevelData, path);
 
             loadedLevelInEditor = gridLevelData;
-            GameManager.Instance.levelsInGame.levels.Add(gridLevelData);
-            GameManager.Instance.SetLevelsIds();
+            GameManager_old.Instance.levelsInGame.levels.Add(gridLevelData);
+            GameManager_old.Instance.SetLevelsIds();
             EditorLoadLevelData();
             //GenerateGrid();
             // Save the asset database and refresh the editor to reflect the changes
@@ -222,8 +222,8 @@ namespace _Scripts.LevelEditor {
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 
-            if (GameManager.Instance.editLevelInEditor) {
-                EditorLoadLevel(GameManager.Instance.levelToBeEdited);
+            if (GameManager_old.Instance.editLevelInEditor) {
+                EditorLoadLevel(GameManager_old.Instance.levelToBeEdited);
             }
         }
     }

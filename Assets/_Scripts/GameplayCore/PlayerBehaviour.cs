@@ -41,18 +41,18 @@ namespace _Scripts {
         }
 
         private void OnEnable() {
-            Tile.PlayerMove += SetTargetPosition;
-            Tile.PushPlayer += ForceMove;
-            Tile.SpawnGhost += SpawnGhost;
-            Tile.RemoveGhost += RemoveGhost;
+            Tile_old.PlayerMove += SetTargetPosition;
+            Tile_old.PushPlayer += ForceMove;
+            Tile_old.SpawnGhost += SpawnGhost;
+            Tile_old.RemoveGhost += RemoveGhost;
 
         }
 
         private void OnDisable() {
-            Tile.PlayerMove -= SetTargetPosition;
-            Tile.PushPlayer -= ForceMove;
-            Tile.SpawnGhost -= SpawnGhost;
-            Tile.RemoveGhost -= RemoveGhost;
+            Tile_old.PlayerMove -= SetTargetPosition;
+            Tile_old.PushPlayer -= ForceMove;
+            Tile_old.SpawnGhost -= SpawnGhost;
+            Tile_old.RemoveGhost -= RemoveGhost;
         }
 
         private void RemoveGhost(Vector2Int pos) {
@@ -73,7 +73,7 @@ namespace _Scripts {
             }
 
             if (_nextTargetPosition.Count > 0) {
-                if (GridManager.Instance.GetTileAtPosition(pos)._tileType == TileType.PushingTile) {
+                if (GridManager_old.Instance.GetTileAtPosition(pos)._tileType == TileType.PushingTile) {
                     isBeingPushed = true;
                 }
 
@@ -219,22 +219,22 @@ namespace _Scripts {
             //TODO: Ghost tiles have to be skipped if the ghost is spawned this step
             
             //Harvest
-            Tile tile = GridManager.Instance.GetTileAtPosition(_targetPosition);
-            Tile ghostTile = GridManager.Instance.GetTileAtPosition(ghostPlayer._targetPosition);
+            Tile_old tileOld = GridManager_old.Instance.GetTileAtPosition(_targetPosition);
+            Tile_old ghostTileOld = GridManager_old.Instance.GetTileAtPosition(ghostPlayer._targetPosition);
 
-            tile.OnTileStep();
+            tileOld.OnTileStep();
 
             if (_ghostPlayerSpawned) {
-                if (ghostTile._tileType == TileType.PushingTile) {
-                    ghostPlayer.ForceMove(ghostTile);
+                if (ghostTileOld._tileType == TileType.PushingTile) {
+                    ghostPlayer.ForceMove(ghostTileOld);
                 } else {
-                    ghostTile.OnTileStep();
+                    ghostTileOld.OnTileStep();
                 }
             }
 
             
 
-            if (tile._tileType != TileType.PushingTile || (tile._tileType == TileType.PushingTile && tile._tileState == TileState.Freeze)) {
+            if (tileOld._tileType != TileType.PushingTile || (tileOld._tileType == TileType.PushingTile && tileOld._tileState == TileState.Freeze)) {
                 isBeingPushed = false;
                 
                 ValidateWaitingMove();
@@ -243,10 +243,10 @@ namespace _Scripts {
                 isBeingPushed = true;
             }
 
-            tile.OnTileStepAfter();
+            tileOld.OnTileStepAfter();
             
             if (_ghostPlayerSpawned) {
-                ghostTile.OnTileStepAfter();
+                ghostTileOld.OnTileStepAfter();
             }
         }
         

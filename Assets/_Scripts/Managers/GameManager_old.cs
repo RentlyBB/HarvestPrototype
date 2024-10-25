@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 using UnitySingleton;
 
 namespace _Scripts {
-    public class GameManager : PersistentMonoSingleton<GameManager> {
+    public class GameManager_old : PersistentMonoSingleton<GameManager_old> {
         public PlayerBehaviour playerBehaviour;
 
         public Levels levelsInGame;
@@ -88,9 +88,9 @@ namespace _Scripts {
         [Command]
         public void LoadLevel(int levelID) {
             GridLevelData gridData = levelsInGame.levels[levelID];
-            if (GridManager.Instance.LoadGridData(gridData)) {
+            if (GridManager_old.Instance.LoadGridData(gridData)) {
                 currentLevelID = levelID;
-                GridManager.Instance.GenerateGrid();
+                GridManager_old.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 SetPlayerPosition(gridData);
                 playerBehaviour.ResetGhost();
@@ -101,8 +101,8 @@ namespace _Scripts {
         [Command]
         public void LoadLevel() {
             GridLevelData gridData = levelsInGame.levels[currentLevelID];
-            if (GridManager.Instance.LoadGridData(gridData)) {
-                GridManager.Instance.GenerateGrid();
+            if (GridManager_old.Instance.LoadGridData(gridData)) {
+                GridManager_old.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 playerBehaviour.ResetGhost();
                 SetPlayerPosition();
@@ -129,8 +129,8 @@ namespace _Scripts {
         [Command]
         public void ResetLevel() {
             GridLevelData gridData = levelsInGame.levels[currentLevelID];
-            if (GridManager.Instance.LoadGridData(gridData)) {
-                GridManager.Instance.GenerateGrid();
+            if (GridManager_old.Instance.LoadGridData(gridData)) {
+                GridManager_old.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 playerBehaviour.SetPosition(gridData.playerStartingPosition);
                 playerBehaviour._nextTargetPosition = new List<Vector2Int>();

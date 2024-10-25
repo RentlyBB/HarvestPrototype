@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7432948255983939437}
   - component: {fileID: 8188661108116394451}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: GameManager_old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea3206f504c747fba99a894a4bb9ce94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  playerBehaviour: {fileID: 0}
   levelsInGame: {fileID: 11400000, guid: 2987ca14942d42942907ecf5caa66f90, type: 2}
   currentLevelGoal: 1
   currentLevelID: 0
   levelToBeEdited: 0
   editLevelInEditor: 0
+  text: {fileID: 0}

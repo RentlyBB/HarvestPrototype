@@ -1,17 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.GameplayCore.Tiles;
 using UnityEngine;
 using _Scripts.SOs;
 using QFSW.QC;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnitySingleton;
 
 namespace _Scripts {
 
     public class GridManager : MonoSingleton<GridManager> {
 
-        [SerializeField] private Tile _tilePrefab;
+        [SerializeField] private Tile tile;
 
         [SerializeField] private Transform _cam;
 
@@ -46,14 +48,11 @@ namespace _Scripts {
             int i = 0;
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {
-                    var spawnedTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity);
-                    spawnedTile.transform.SetParent(transform);
-                    spawnedTile.name = $"Tile {x} {y}";
-
-                    var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
-                    spawnedTile.gridPosition = new Vector2Int(x, y);
-                    
-                    spawnedTile.Init(isOffset, _tileData[i]);
+                     var spawnedTile = Instantiate(tile, new Vector3(x, y), Quaternion.identity);
+                    // spawnedTile.transform.SetParent(transform);
+                    // spawnedTile.name = $"Tile {x} {y}";
+                    // spawnedTile.gridPosition = new Vector2Int(x, y);
+                    // spawnedTile.Init(isOffset, _tileData[i]);
                     _tiles[new Vector2(x, y)] = spawnedTile;
                     i++;
                 }
@@ -91,9 +90,9 @@ namespace _Scripts {
         }
         
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-            LoadGridData(GameManager.Instance.GetLevel());
+            LoadGridData(GameManager_old.Instance.GetLevel());
             GenerateGrid();
-            GameManager.Instance.SetPlayerPosition();
+            GameManager_old.Instance.SetPlayerPosition();
         }
     }
 }

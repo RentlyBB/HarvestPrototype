@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace _Scripts {
-    public class Tile : MonoBehaviour {
+    public class Tile_old : MonoBehaviour {
         public static event UnityAction<Vector2Int> PlayerMove = delegate { };
         public static event UnityAction<Vector2Int> PushPlayer = delegate { };
         public static event UnityAction SpawnGhost = delegate { };
@@ -227,7 +227,7 @@ namespace _Scripts {
                 if (tileValue == 0) {
                     AudioManager.Instance.PlaySound(goodCollect);
                     //Good
-                    GameManager.Instance.currentLevelGoal -= 1;
+                    GameManager_old.Instance.currentLevelGoal -= 1;
                     _tileState = TileState.GoodHarvested;
                     if (_tileImg) {
                         Destroy(_tileImg.gameObject);
@@ -401,7 +401,7 @@ namespace _Scripts {
             AudioManager.Instance.PlaySound(freezeTileSound);
             if (_tileType == TileType.FreezeTileHorizontal) {
                 // Using GetRow method to get all tiles in row
-                GridManager.Instance.GetAllInRow(gridPosition.y, out var allTiles);
+                GridManager_old.Instance.GetAllInRow(gridPosition.y, out var allTiles);
                 foreach (var tile in allTiles) {
                     tile._isFreeze = true;
                     if (tile._tileState is TileState.Normal or TileState.Exclamation or TileState.Pushing) {
@@ -411,7 +411,7 @@ namespace _Scripts {
                 }
             } else if (_tileType == TileType.FreezeTileVertical) {
                 // Using GetColumn method to get all tiles in column
-                GridManager.Instance.GetAllInColumn(gridPosition.x, out var allTiles);
+                GridManager_old.Instance.GetAllInColumn(gridPosition.x, out var allTiles);
                 foreach (var tile in allTiles) {
                     tile._isFreeze = true;
                     if (tile._tileState is TileState.Normal or TileState.Exclamation or TileState.Pushing) {
