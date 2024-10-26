@@ -2,17 +2,13 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace _Scripts.GameplayCore.Tiles {
-    public abstract class Tile : MonoBehaviour{
+    public abstract class TileCore : MonoBehaviour{
 
         protected SpriteRenderer Renderer;
         protected Sprite DefaultSprite, FreezeSprite;
         
-        public Vector2Int gridPosition;
+        public Vector2 gridPosition;
         public bool moveable;
-
-        protected Tile() {
-            
-        }
 
         protected virtual void Awake() {
             TryGetComponent<SpriteRenderer>(out Renderer);

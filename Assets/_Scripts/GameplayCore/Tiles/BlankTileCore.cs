@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 namespace _Scripts.GameplayCore.Tiles {
-    public class BlankTile : Tile {
+    public class BlankTileCore : TileCore {
         
         protected override void Awake() {
             base.Awake();

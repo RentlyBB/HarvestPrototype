@@ -13,11 +13,13 @@ namespace _Scripts {
 
     public class GridManager : MonoSingleton<GridManager> {
 
-        [SerializeField] private Tile tile;
+        [FormerlySerializedAs("tile")]
+        [FormerlySerializedAs("tileGridObject")]
+        [SerializeField] private TileCore tileCore;
 
         [SerializeField] private Transform _cam;
 
-        private Dictionary<Vector2, Tile> _tiles;
+        private Dictionary<Vector2, TileCore> _tiles;
 
         public int _width, _height;
 
@@ -44,11 +46,11 @@ namespace _Scripts {
         }
 
         public void GenerateGrid() {
-            _tiles = new Dictionary<Vector2, Tile>();
+            _tiles = new Dictionary<Vector2, TileCore>();
             int i = 0;
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {
-                     var spawnedTile = Instantiate(tile, new Vector3(x, y), Quaternion.identity);
+                     var spawnedTile = Instantiate(tileCore, new Vector3(x, y), Quaternion.identity);
                     // spawnedTile.transform.SetParent(transform);
                     // spawnedTile.name = $"Tile {x} {y}";
                     // spawnedTile.gridPosition = new Vector2Int(x, y);
@@ -63,14 +65,14 @@ namespace _Scripts {
             //transform.position = new Vector3(_cam.transform.position.x - (float)(_width / 2 - 0.5) , _cam.transform.position.y - (float)(_height / 2 - 0.5), transform.position.z);
         }
 
-        public Tile GetTileAtPosition(Vector2 pos) {
+        public TileCore GetTileAtPosition(Vector2 pos) {
             if (_tiles.TryGetValue(pos, out var tile)) return tile;
 
             return null;
         }
 
-        public void GetAllInRow(int rowNumber, out List<Tile> tiles) {
-            var allTiles = new List<Tile>();
+        public void GetAllInRow(int rowNumber, out List<TileCore> tiles) {
+            var allTiles = new List<TileCore>();
 
             for (int i = 0; i < _width; i++) {
                 allTiles.Add(GetTileAtPosition(new Vector2(i, rowNumber)));
@@ -79,8 +81,8 @@ namespace _Scripts {
             tiles = allTiles;
         }
         
-        public void GetAllInColumn(int columnNumber, out List<Tile> tiles) {
-            var allTiles = new List<Tile>();
+        public void GetAllInColumn(int columnNumber, out List<TileCore> tiles) {
+            var allTiles = new List<TileCore>();
 
             for (int i = 0; i < _height; i++) {
                 allTiles.Add(GetTileAtPosition(new Vector2(columnNumber, i)));

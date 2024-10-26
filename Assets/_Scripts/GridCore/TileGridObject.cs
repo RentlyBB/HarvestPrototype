@@ -1,40 +1,39 @@
-using _Scripts.GameplayCore.Tiles;
+﻿using _Scripts.GameplayCore.Tiles;
 using UnityEngine;
 
 namespace _Scripts.GridCore {
-    [System.Serializable]
-    public class GridObject{
-
-        private Grid<GridObject> g;
+    public class TileGridObject {
+        
+        private Grid<TileGridObject> g;
         private int x;
         private int y;
         
-        private Tile _tile;
+        private TileCore _tileCore;
 
-        public GridObject() { 
+        public TileGridObject() { 
         
         }
 
-        public GridObject(Grid<GridObject> g, int x, int y) {
+        public TileGridObject(Grid<TileGridObject> g, int x, int y) {
             this.g = g;
             this.x = x;
             this.y = y;
         }
 
-        public void SetTile(Tile tile) {
-            if(CanCreateTile()) _tile = tile;
+        public void SetTileCore(TileCore tileCore) {
+            if(CanCreateTile()) _tileCore = tileCore;
         }
 
-        public Tile GetTile() {
-            return _tile;
+        public TileCore GetTile() {
+            return _tileCore;
         }
 
         public void ClearTile() {
-            _tile = null;
+            _tileCore = null;
         }
 
         public bool CanCreateTile() {
-            return _tile == null;
+            return _tileCore == null;
         }
 
         public int GetX() {
@@ -45,7 +44,7 @@ namespace _Scripts.GridCore {
             return y;
         }
 
-        public Grid<GridObject> GetGrid() {
+        public Grid<TileGridObject> GetGrid() {
             return g;
         }
         

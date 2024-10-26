@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Scripts.GameplayCore.Tiles {
 
-    public class CountdownTile : Tile {
+    public class CountdownTileCore : TileCore {
         
         protected override void Awake() {
             base.Awake();

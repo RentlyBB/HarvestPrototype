@@ -31,7 +31,7 @@ namespace _Scripts.GridCore {
                 }
             }
 
-            bool showDebug = true;
+            bool showDebug = false;
             if (showDebug) {
                 TextMesh[,] debugTextArray = new TextMesh[width, height];
             
