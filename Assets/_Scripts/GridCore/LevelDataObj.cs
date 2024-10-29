@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using _Scripts.GameplayCore.Tiles;
+using _Scripts.TileCore;
+using _Scripts.TileCore.BaseClasses;
 using UnityEngine;
 
 namespace _Scripts.GridCore {
@@ -7,6 +8,6 @@ namespace _Scripts.GridCore {
         public int width, height;
         public Vector2 playerStartingPosition;
         
-        public List<TileCore> tiles = new List<TileCore>();
+        public List<TileBase> tiles = new List<TileBase>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using _Scripts.GameplayCore.Tiles;
+﻿using _Scripts.TileCore;
+using _Scripts.TileCore.BaseClasses;
 using UnityEngine;
 
 namespace _Scripts.GridCore {
@@ -8,7 +9,7 @@ namespace _Scripts.GridCore {
         private int x;
         private int y;
         
-        private TileCore _tileCore;
+        private TileBase _tileBase;
 
         public TileGridObject() { 
         
@@ -20,20 +21,20 @@ namespace _Scripts.GridCore {
             this.y = y;
         }
 
-        public void SetTileCore(TileCore tileCore) {
-            if(CanCreateTile()) _tileCore = tileCore;
+        public void SetTileCore(TileBase tileBase) {
+            if(CanCreateTile()) _tileBase = tileBase;
         }
 
-        public TileCore GetTile() {
-            return _tileCore;
+        public TileBase GetTile() {
+            return _tileBase;
         }
 
         public void ClearTile() {
-            _tileCore = null;
+            _tileBase = null;
         }
 
         public bool CanCreateTile() {
-            return _tileCore == null;
+            return _tileBase == null;
         }
 
         public int GetX() {

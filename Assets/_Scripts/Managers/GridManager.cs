@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using _Scripts.GameplayCore.Tiles;
+using _Scripts.TileCore;
 using UnityEngine;
 using _Scripts.SOs;
+using _Scripts.TileCore.BaseClasses;
 using QFSW.QC;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -13,13 +14,14 @@ namespace _Scripts {
 
     public class GridManager : MonoSingleton<GridManager> {
 
+        [FormerlySerializedAs("tileCore")]
         [FormerlySerializedAs("tile")]
         [FormerlySerializedAs("tileGridObject")]
-        [SerializeField] private TileCore tileCore;
+        [SerializeField] private TileBase tileBase;
 
         [SerializeField] private Transform _cam;
 
-        private Dictionary<Vector2, TileCore> _tiles;
+        private Dictionary<Vector2, TileBase> _tiles;
 
         public int _width, _height;
 
@@ -46,11 +48,11 @@ namespace _Scripts {
         }
 
         public void GenerateGrid() {
-            _tiles = new Dictionary<Vector2, TileCore>();
+            _tiles = new Dictionary<Vector2, TileBase>();
             int i = 0;
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {
-                     var spawnedTile = Instantiate(tileCore, new Vector3(x, y), Quaternion.identity);
+                     var spawnedTile = Instantiate(tileBase, new Vector3(x, y), Quaternion.identity);
                     // spawnedTile.transform.SetParent(transform);
                     // spawnedTile.name = $"Tile {x} {y}";
                     // spawnedTile.gridPosition = new Vector2Int(x, y);
@@ -65,14 +67,14 @@ namespace _Scripts {
             //transform.position = new Vector3(_cam.transform.position.x - (float)(_width / 2 - 0.5) , _cam.transform.position.y - (float)(_height / 2 - 0.5), transform.position.z);
         }
 
-        public TileCore GetTileAtPosition(Vector2 pos) {
+        public TileBase GetTileAtPosition(Vector2 pos) {
             if (_tiles.TryGetValue(pos, out var tile)) return tile;
 
             return null;
         }
 
-        public void GetAllInRow(int rowNumber, out List<TileCore> tiles) {
-            var allTiles = new List<TileCore>();
+        public void GetAllInRow(int rowNumber, out List<TileBase> tiles) {
+            var allTiles = new List<TileBase>();
 
             for (int i = 0; i < _width; i++) {
                 allTiles.Add(GetTileAtPosition(new Vector2(i, rowNumber)));
@@ -81,8 +83,8 @@ namespace _Scripts {
             tiles = allTiles;
         }
         
-        public void GetAllInColumn(int columnNumber, out List<TileCore> tiles) {
-            var allTiles = new List<TileCore>();
+        public void GetAllInColumn(int columnNumber, out List<TileBase> tiles) {
+            var allTiles = new List<TileBase>();
 
             for (int i = 0; i < _height; i++) {
                 allTiles.Add(GetTileAtPosition(new Vector2(columnNumber, i)));

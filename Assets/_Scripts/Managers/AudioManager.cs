@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnitySingleton;
 
-namespace _Scripts {
+namespace _Scripts.Managers {
     public class AudioManager : PersistentMonoSingleton<AudioManager> {
         private AudioSource _audioSource;
 

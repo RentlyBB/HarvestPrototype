@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using _Scripts.Enums;
+using _Scripts.Managers;
 using Enums;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace _Scripts {
     public class Tile_old : MonoBehaviour {
@@ -38,7 +41,8 @@ namespace _Scripts {
         public bool _isFreeze = false;
         public TileType _tileType;
         private bool _isOffset;
-        public TileState _tileState;
+        [FormerlySerializedAs("_tileState")]
+        public TileState_old tileStateOld;
         private bool _canBreak = false;
         private bool _breakable = false;
         public SpriteRenderer _tileImg;
@@ -82,7 +86,7 @@ namespace _Scripts {
         // }
 
         private void TextUpdate(string text) {
-            if (_tileState == TileState.BadHarvested || _tileState == TileState.GoodHarvested) {
+            if (tileStateOld == TileState_old.BadHarvested || tileStateOld == TileState_old.GoodHarvested) {
                 _textToShow = "";
             } else {
                 _textToShow = text;
@@ -103,17 +107,17 @@ namespace _Scripts {
         }
 
         private void ChangeTileSprite() {
-            if (_tileState == TileState.Freeze) {
+            if (tileStateOld == TileState_old.Freeze) {
                 _renderer.sprite = _sprFreezeTile;
-            } else if (_tileState == TileState.Normal) {
+            } else if (tileStateOld == TileState_old.Normal) {
                 _renderer.sprite = _sprDefaultTile;
-            } else if (_tileState == TileState.BadHarvested) {
+            } else if (tileStateOld == TileState_old.BadHarvested) {
                 _renderer.sprite = _sprBadHarvestTile;
-            } else if (_tileState == TileState.GoodHarvested) {
+            } else if (tileStateOld == TileState_old.GoodHarvested) {
                 _renderer.sprite = _sprGoodHarvestTile;
-            } else if (_tileState == TileState.Invisible) {
+            } else if (tileStateOld == TileState_old.Invisible) {
                 _renderer.sprite = null;
-            } else if (_tileState == TileState.Exclamation) {
+            } else if (tileStateOld == TileState_old.Exclamation) {
                 _renderer.sprite = _sprExclamationTile;
             }
         }
@@ -129,12 +133,12 @@ namespace _Scripts {
                 moveable = false;
                 _textToShow = "";
                 _tileType = TileType.NotMoveable;
-                _tileState = TileState.Invisible;
+                tileStateOld = TileState_old.Invisible;
             } else if (data.Contains("M") || string.IsNullOrWhiteSpace(data)) {
                 moveable = true;
                 _textToShow = "";
                 _tileType = TileType.Moveable;
-                _tileState = TileState.Normal;
+                tileStateOld = TileState_old.Normal;
             } else if (data.Contains("N")) {
                 data = data.Replace("N", string.Empty);
                 moveable = true;
@@ -149,10 +153,10 @@ namespace _Scripts {
 
                 _defaultTileValue = tileValue;
                 _tileType = TileType.ClassicTile;
-                _tileState = TileState.Normal;
+                tileStateOld = TileState_old.Normal;
             } else if (data.Contains("!")) {
                 data = data.Replace("!", string.Empty);
-                _tileState = TileState.Exclamation;
+                tileStateOld = TileState_old.Exclamation;
                 moveable = true;
                 tileValue = Int32.Parse(data);
                 _harvestable = false;
@@ -163,7 +167,7 @@ namespace _Scripts {
                 //_textToShow = $"!{tileValue}";
                 _tileType = TileType.ExclamationTile;
             } else if (data.Contains("F")) {
-                _tileState = TileState.Freeze;
+                tileStateOld = TileState_old.Freeze;
                 if (data.Contains("H")) {
                     _tileType = TileType.FreezeTileHorizontal;
                     _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("FreezeHorizontal"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f, 0.5f), this.transform);
@@ -177,7 +181,7 @@ namespace _Scripts {
                 _textToShow = "";
             } else if (data.Contains("P")) {
                 moveable = true;
-                _tileState = TileState.Pushing;
+                tileStateOld = TileState_old.Pushing;
                 _tileType = TileType.PushingTile;
                 _textToShow = "";
                 _pushDirection = data;
@@ -211,7 +215,7 @@ namespace _Scripts {
                 }
             } else if (data.Contains("S")) {
                 moveable = true;
-                _tileState = TileState.Normal;
+                tileStateOld = TileState_old.Normal;
                 _tileType = TileType.SplitTile;
                 _textToShow = "";
                 _tileImg = Utils.CreateSpriteWorld(Resources.Load<Sprite>("Split"), transform.position + new Vector3(0, 0, -0.99f), new Vector2(0.5f, 0.5f), this.transform);
@@ -228,7 +232,7 @@ namespace _Scripts {
                     AudioManager.Instance.PlaySound(goodCollect);
                     //Good
                     GameManager_old.Instance.currentLevelGoal -= 1;
-                    _tileState = TileState.GoodHarvested;
+                    tileStateOld = TileState_old.GoodHarvested;
                     if (_tileImg) {
                         Destroy(_tileImg.gameObject);
                     }
@@ -238,7 +242,7 @@ namespace _Scripts {
                 } else {
                     AudioManager.Instance.PlaySound(badCollect);
                     //Bad
-                    _tileState = TileState.BadHarvested;
+                    tileStateOld = TileState_old.BadHarvested;
                     if (_tileImg) {
                         Destroy(_tileImg.gameObject);
                     }
@@ -260,13 +264,13 @@ namespace _Scripts {
         private void DecreaseValue() {
             if (_isFreeze) {
                 _isFreeze = false;
-                if (_tileState == TileState.Freeze) {
+                if (tileStateOld == TileState_old.Freeze) {
                     if (_tileType is TileType.ClassicTile or TileType.Moveable or TileType.PushingTile) {
-                        _tileState = TileState.Normal;
+                        tileStateOld = TileState_old.Normal;
                     } else if (_tileType == TileType.ExclamationTile) {
-                        _tileState = TileState.Exclamation;
+                        tileStateOld = TileState_old.Exclamation;
                     } else if (_tileType == TileType.SplitTile) {
-                        _tileState = TileState.Normal;
+                        tileStateOld = TileState_old.Normal;
                     }
                 }
 
@@ -281,7 +285,7 @@ namespace _Scripts {
             if (_canBreak) {
                 moveable = false;
                 _tileType = TileType.NotMoveable;
-                _tileState = TileState.Invisible;
+                tileStateOld = TileState_old.Invisible;
                 TextUpdate("");
                 ChangeTileSprite();
                 return;
@@ -303,7 +307,7 @@ namespace _Scripts {
                     AudioManager.Instance.PlaySound(badCollect);
                     _leftCornerText.text = "";
                     _tileType = TileType.ClassicTile;
-                    _tileState = TileState.BadHarvested;
+                    tileStateOld = TileState_old.BadHarvested;
 
                     if (_tileImg) {
                         Destroy(_tileImg.gameObject);
@@ -328,7 +332,7 @@ namespace _Scripts {
                 case TileType.ExclamationTile:
                     AudioManager.Instance.PlaySound(goodExcCollect);
                     _harvestable = true;
-                    _tileState = TileState.Normal;
+                    tileStateOld = TileState_old.Normal;
                     _tileType = TileType.ClassicTile;
                     _leftCornerText.text = "";
 
@@ -342,7 +346,7 @@ namespace _Scripts {
                     RemoveGhost?.Invoke(gridPosition);
                     return true;
                 case TileType.PushingTile:
-                    if (_tileState == TileState.Freeze) return true;
+                    if (tileStateOld == TileState_old.Freeze) return true;
                     var pushDir = new Vector2Int();
                     if (_pushDirection.Contains("U") && _pushDirection.Contains("R")) {
                         // Move Up Right
@@ -375,7 +379,7 @@ namespace _Scripts {
                     PushPlayer?.Invoke(pushDir);
                     return true;
                 case TileType.SplitTile:
-                    if (_tileState == TileState.Freeze) return true;
+                    if (tileStateOld == TileState_old.Freeze) return true;
                     // Spawn ghost player
                     SpawnGhost?.Invoke();
                     return true;
@@ -404,8 +408,8 @@ namespace _Scripts {
                 GridManager_old.Instance.GetAllInRow(gridPosition.y, out var allTiles);
                 foreach (var tile in allTiles) {
                     tile._isFreeze = true;
-                    if (tile._tileState is TileState.Normal or TileState.Exclamation or TileState.Pushing) {
-                        tile._tileState = TileState.Freeze;
+                    if (tile.tileStateOld is TileState_old.Normal or TileState_old.Exclamation or TileState_old.Pushing) {
+                        tile.tileStateOld = TileState_old.Freeze;
                         tile.ChangeTileSprite();
                     }
                 }
@@ -414,8 +418,8 @@ namespace _Scripts {
                 GridManager_old.Instance.GetAllInColumn(gridPosition.x, out var allTiles);
                 foreach (var tile in allTiles) {
                     tile._isFreeze = true;
-                    if (tile._tileState is TileState.Normal or TileState.Exclamation or TileState.Pushing) {
-                        tile._tileState = TileState.Freeze;
+                    if (tile.tileStateOld is TileState_old.Normal or TileState_old.Exclamation or TileState_old.Pushing) {
+                        tile.tileStateOld = TileState_old.Freeze;
                         tile.ChangeTileSprite();
                     }
                 }

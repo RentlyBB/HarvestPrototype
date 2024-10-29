@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Enums;
 using Enums;
 using QFSW.QC;
 using Unity.VisualScripting;
@@ -234,7 +235,7 @@ namespace _Scripts {
 
             
 
-            if (tileOld._tileType != TileType.PushingTile || (tileOld._tileType == TileType.PushingTile && tileOld._tileState == TileState.Freeze)) {
+            if (tileOld._tileType != TileType.PushingTile || (tileOld._tileType == TileType.PushingTile && tileOld.tileStateOld == TileState_old.Freeze)) {
                 isBeingPushed = false;
                 
                 ValidateWaitingMove();

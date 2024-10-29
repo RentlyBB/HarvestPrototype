@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using _Scripts.GameplayCore.Tiles;
+using _Scripts.TileCore;
 using UnityEngine;
 using UnityEngine.Serialization;
 
