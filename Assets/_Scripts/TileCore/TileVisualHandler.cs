@@ -1,8 +1,7 @@
 using System;
 using _Scripts.CustomTools;
-using UnityEngine;
 using _Scripts.Enums;
-using UnityEngine.Serialization;
+using UnityEngine;
 
 namespace _Scripts.TileCore {
     [RequireComponent(typeof(SpriteRenderer))]
@@ -10,14 +9,14 @@ namespace _Scripts.TileCore {
         
         [RequireVariable]
         public Sprite baseSprite, freezeSprite;
-
+        
         private SpriteRenderer _spriteRenderer;
 
         private void Awake() {
             TryGetComponent(out _spriteRenderer);
             _spriteRenderer.sprite = baseSprite;
         }
-
+        
         private void OnEnable() {
             TileStateHandler.OnStateChanged += ChangeSprite;
         }
