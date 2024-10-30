@@ -21,7 +21,7 @@ namespace _Scripts.GridCore {
             this.y = y;
         }
 
-        public void SetTileCore(TileBase tileBase) {
+        public void SetTileBase(TileBase tileBase) {
             if(CanCreateTile()) _tileBase = tileBase;
         }
 

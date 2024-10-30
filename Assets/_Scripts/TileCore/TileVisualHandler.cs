@@ -4,29 +4,23 @@ using _Scripts.Enums;
 using UnityEngine;
 
 namespace _Scripts.TileCore {
-    [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(SpriteRenderer), typeof(TileStateHandler))]
     public class TileVisualHandler : MonoBehaviour {
         
         [RequireVariable]
         public Sprite baseSprite, freezeSprite;
         
         private SpriteRenderer _spriteRenderer;
+        private TileStateHandler _tileStateHandler;
 
         private void Awake() {
             TryGetComponent(out _spriteRenderer);
+            TryGetComponent(out _tileStateHandler);
             _spriteRenderer.sprite = baseSprite;
         }
         
-        private void OnEnable() {
-            TileStateHandler.OnStateChanged += ChangeSprite;
-        }
-
-        private void OnDisable() {
-            TileStateHandler.OnStateChanged -= ChangeSprite;
-        }
-
-        private void ChangeSprite(TileState tileState) {
-            switch (tileState) {
+        public void ChangeSprite() {
+            switch (_tileStateHandler.tileState) {
                 case TileState.Normal:
                     _spriteRenderer.sprite = baseSprite;
                     break;
@@ -34,7 +28,7 @@ namespace _Scripts.TileCore {
                     _spriteRenderer.sprite = freezeSprite;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(tileState), tileState, null);
+                    throw new ArgumentOutOfRangeException(nameof(_tileStateHandler.tileState), _tileStateHandler.tileState, null);
             }
         }
     }

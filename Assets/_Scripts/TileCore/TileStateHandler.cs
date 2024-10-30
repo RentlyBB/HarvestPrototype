@@ -3,32 +3,29 @@ using _Scripts.Enums;
 using EditorScripts;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace _Scripts.TileCore {
     public class TileStateHandler : MonoBehaviour {
         
-        public static event UnityAction<TileState> OnStateChanged = delegate { };
-
-        private TileState _tileState;
+        public TileState tileState;
 
         public void ChangeState(TileState state) {
-            _tileState = state;
-            OnStateChanged?.Invoke(_tileState);
+            tileState = state;
         }
 
         [InvokeButton]
         public void SwitchState() {
-            switch (_tileState) {
+            switch (tileState) {
                 case TileState.Normal:
-                    _tileState = TileState.Freeze;
+                    tileState = TileState.Freeze;
                     break;
                 case TileState.Freeze:
-                    _tileState = TileState.Normal;
+                    tileState = TileState.Normal;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            OnStateChanged?.Invoke(_tileState);
         }
     }
 }
