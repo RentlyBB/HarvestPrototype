@@ -2,16 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Scripts.LevelEditor;
-using UnityEngine;
 using _Scripts.SOs;
 using _Scripts.UI;
 using QFSW.QC;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnitySingleton;
 
-namespace _Scripts {
+namespace _Scripts.Managers {
+    [Obsolete]
     public class GameManager_old : PersistentMonoSingleton<GameManager_old> {
         public PlayerBehaviour playerBehaviour;
 

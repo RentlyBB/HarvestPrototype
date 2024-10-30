@@ -139,16 +139,16 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameplayActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameplayActionsCallbackInterfaces.Add(instance);
-            @MouseClick.started += instance.OnMouseClick;
-            @MouseClick.performed += instance.OnMouseClick;
-            @MouseClick.canceled += instance.OnMouseClick;
+            @MouseClick.started += instance.DoMouseClick;
+            @MouseClick.performed += instance.DoMouseClick;
+            @MouseClick.canceled += instance.DoMouseClick;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
         {
-            @MouseClick.started -= instance.OnMouseClick;
-            @MouseClick.performed -= instance.OnMouseClick;
-            @MouseClick.canceled -= instance.OnMouseClick;
+            @MouseClick.started -= instance.DoMouseClick;
+            @MouseClick.performed -= instance.DoMouseClick;
+            @MouseClick.canceled -= instance.DoMouseClick;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -177,6 +177,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     }
     public interface IGameplayActions
     {
-        void OnMouseClick(InputAction.CallbackContext context);
+        void DoMouseClick(InputAction.CallbackContext context);
     }
 }

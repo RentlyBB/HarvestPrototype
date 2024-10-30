@@ -90,14 +90,26 @@ namespace _Scripts {
         }
         
         public static Vector2 GetMousePosition2D() {
-            if(Camera.main == null) return new Vector2(1000, 1000);
-            
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if(Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue)) {
-                return raycastHit.point;
+            if (Camera.main != null) {
+                Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+                if(Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue)) {
+                    return raycastHit.point;
+                }
             }
-            
+
             return new Vector2(1000, 1000);
+        }
+        
+        public static Vector2 GetMouseWorldPosition2D() {
+            Vector2 screenPosition = Mouse.current.position.ReadValue();
+
+            Camera cam = Camera.main != null ? Camera.main : (Camera.allCameras.Length > 0 ? Camera.allCameras[0] : null);
+            if (cam != null) {
+                Vector3 worldPosition = cam.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, cam.nearClipPlane));
+                return new Vector2(worldPosition.x, worldPosition.y);
+            }
+
+            return new Vector2(1000, 1000); // Default if no camera is found
         }
     }
 }

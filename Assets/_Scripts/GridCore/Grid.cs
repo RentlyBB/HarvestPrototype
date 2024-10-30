@@ -1,9 +1,13 @@
 using System;
+using System.Collections.Generic;
 using QFSW.QC;
 using UnityEngine;
 
 namespace _Scripts.GridCore {
     public class Grid<TGridObject> {
+        
+        public bool showDebug = false;
+
         public event EventHandler<OnGridObjectChangedEventArgs> OnGridObjectChanged;
 
         public class OnGridObjectChangedEventArgs : EventArgs {
@@ -15,7 +19,7 @@ namespace _Scripts.GridCore {
         private int height;
         private float cellSize;
         private Vector3 originPosition;
-        private TGridObject[,] gridArray;
+        private Dictionary<Vector2Int, TGridObject> gridDictionary;
 
         public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject) {
             this.width = width;
@@ -23,32 +27,35 @@ namespace _Scripts.GridCore {
             this.cellSize = cellSize;
             this.originPosition = originPosition;
 
-            gridArray = new TGridObject[width, height];
-
-            for (int x = 0; x < gridArray.GetLength(0); x++) {
-                for (int y = 0; y < gridArray.GetLength(1); y++) {
-                    gridArray[x, y] = createGridObject(this, x, y);
+            gridDictionary = new Dictionary<Vector2Int, TGridObject>();
+            
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    Vector2Int position = new Vector2Int(x, y);
+                    gridDictionary[position] = createGridObject(this, x, y);
                 }
             }
 
-            bool showDebug = false;
             if (showDebug) {
                 TextMesh[,] debugTextArray = new TextMesh[width, height];
-            
-                for (int x = 0; x < gridArray.GetLength(0); x++) {
-                    for (int y = 0; y < gridArray.GetLength(1); y++) {
+                
+                for (int x = 0; x < width; x++) {
+                    for (int y = 0; y < height; y++) {
                         Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
                         Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
                         
                         //Text in middle of the cell
-                        Utils.CreateTextWorld($"{x},{y}", GetWorldPositionCellCenter(x,y), 32);
+                        Utils.CreateTextWorld($"{x},{y}", GetWorldPositionCellCenter(x,y));
                     }
                 }
             
                 Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
                 Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
             
-                OnGridObjectChanged += (sender, eventArgs) => { debugTextArray[eventArgs.x, eventArgs.y].text = gridArray[eventArgs.x, eventArgs.y]?.ToString(); };
+                OnGridObjectChanged += (sender, eventArgs) => {
+                    Vector2Int pos = new Vector2Int(eventArgs.x, eventArgs.y);
+                    debugTextArray[eventArgs.x, eventArgs.y].text = gridDictionary.ContainsKey(pos) ? gridDictionary[pos]?.ToString() : "null";
+                };
             }
         }
 
@@ -80,8 +87,9 @@ namespace _Scripts.GridCore {
         }
 
         public void SetGridObject(int x, int y, TGridObject value) {
+            Vector2Int position = new Vector2Int(x, y);
             if (x >= 0 && y >= 0 && x < width && y < height) {
-                gridArray[x, y] = value;
+                gridDictionary[position] = value;
                 TriggerGridObjectChanged(x, y);
             }
         }
@@ -89,7 +97,6 @@ namespace _Scripts.GridCore {
         public void TriggerGridObjectChanged(int x, int y) {
             OnGridObjectChanged?.Invoke(this, new OnGridObjectChangedEventArgs { x = x, y = y });
         }
-
         
         public void SetGridObject(Vector3 worldPosition, TGridObject value) {
             GetXY(worldPosition, out int x, out int y);
@@ -97,11 +104,11 @@ namespace _Scripts.GridCore {
         }
 
         public TGridObject GetGridObject(int x, int y) {
-            if (x >= 0 && y >= 0 && x < width && y < height) {
-                return gridArray[x, y];
-            } else {
-                return default;
+            Vector2Int position = new Vector2Int(x, y);
+            if (gridDictionary.ContainsKey(position)) {
+                return gridDictionary[position];
             }
+            return default;
         }
 
         public TGridObject GetGridObject(Vector3 worldPosition) {
@@ -110,8 +117,8 @@ namespace _Scripts.GridCore {
             return GetGridObject(x, y);
         }
 
-        public TGridObject[,] GetGridArray() {
-            return gridArray;
+        public Dictionary<Vector2Int, TGridObject> GetGridDictionary() {
+            return gridDictionary;
         }
     }
 }

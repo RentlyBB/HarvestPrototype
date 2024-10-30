@@ -4,16 +4,13 @@ using UnityEngine;
 
 namespace _Scripts.GridCore {
     public class TileGridObject {
-        
         private Grid<TileGridObject> g;
         private int x;
         private int y;
-        
-        private TileBase _tileBase;
 
-        public TileGridObject() { 
-        
-        }
+        private GameObject _tileBase;
+
+        public TileGridObject() { }
 
         public TileGridObject(Grid<TileGridObject> g, int x, int y) {
             this.g = g;
@@ -21,11 +18,11 @@ namespace _Scripts.GridCore {
             this.y = y;
         }
 
-        public void SetTileBase(TileBase tileBase) {
-            if(CanCreateTile()) _tileBase = tileBase;
+        public void SetTileBase(GameObject tileBase) {
+            if (CanCreateTile()) _tileBase = tileBase;
         }
 
-        public TileBase GetTile() {
+        public GameObject GetTile() {
             return _tileBase;
         }
 
@@ -41,14 +38,14 @@ namespace _Scripts.GridCore {
             return x;
         }
 
-        public int GetZ() {
+        public int GetY() {
             return y;
         }
 
         public Grid<TileGridObject> GetGrid() {
             return g;
         }
-        
+
         public Vector3 GetWorldPositionCellCenter() {
             return g.GetWorldPositionCellCenter(x, y);
         }

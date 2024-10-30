@@ -2,30 +2,37 @@ using System;
 using _Scripts.Enums;
 using EditorScripts;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace _Scripts.TileCore {
+    [RequireComponent(typeof(TileVisualHandler))]
     public class TileStateHandler : MonoBehaviour {
-        
-        public TileState tileState;
+        public TileState currentState;
+
+        private TileVisualHandler _tileVisualHandler;
+
+        private void Awake() {
+            TryGetComponent(out _tileVisualHandler);
+        }
 
         public void ChangeState(TileState state) {
-            tileState = state;
+            currentState = state;
+            _tileVisualHandler.UpdateSprite(currentState);
         }
 
         [InvokeButton]
         public void SwitchState() {
-            switch (tileState) {
+            switch (currentState) {
                 case TileState.Normal:
-                    tileState = TileState.Freeze;
+                    ChangeState(TileState.Freeze);
                     break;
                 case TileState.Freeze:
-                    tileState = TileState.Normal;
+                    ChangeState(TileState.Normal);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            _tileVisualHandler.UpdateSprite(currentState);
         }
     }
 }

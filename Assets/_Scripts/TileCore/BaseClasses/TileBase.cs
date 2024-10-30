@@ -3,7 +3,6 @@ using UnityEngine;
 namespace _Scripts.TileCore.BaseClasses {
     public abstract class TileBase : MonoBehaviour{
 
-        public Vector2Int gridPosition;
         public bool canMoveOn;
         
         protected TileStateHandler TileStateHandler; // Handling a stage of the tile
