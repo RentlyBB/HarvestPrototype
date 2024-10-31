@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.GameplayCore;
 using _Scripts.LevelEditor;
 using _Scripts.SOs;
 using _Scripts.UI;
@@ -8,12 +9,14 @@ using QFSW.QC;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnitySingleton;
 
 namespace _Scripts.Managers {
     [Obsolete]
     public class GameManager_old : PersistentMonoSingleton<GameManager_old> {
-        public PlayerBehaviour playerBehaviour;
+        [FormerlySerializedAs("playerBehaviour")]
+        public PlayerBehaviour_old playerBehaviourOld;
 
         public Levels levelsInGame;
 
@@ -43,7 +46,7 @@ namespace _Scripts.Managers {
         private void Update() {
             if (currentLevelGoal == 0) {
                 IncreasesCurrentLevelId();
-                playerBehaviour._nextTargetPosition = new List<Vector2Int>();
+                playerBehaviourOld._nextTargetPosition = new List<Vector2Int>();
                 LoadLevel(currentLevelID);
             }
         }
@@ -93,7 +96,7 @@ namespace _Scripts.Managers {
                 GridManager_old.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
                 SetPlayerPosition(gridData);
-                playerBehaviour.ResetGhost();
+                playerBehaviourOld.ResetGhost();
                 Debug.Log("Loaded level: ID: " + gridData.levelID + ", Name: " + gridData.name);
             }
         }
@@ -104,26 +107,26 @@ namespace _Scripts.Managers {
             if (GridManager_old.Instance.LoadGridData(gridData)) {
                 GridManager_old.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
-                playerBehaviour.ResetGhost();
+                playerBehaviourOld.ResetGhost();
                 SetPlayerPosition();
             }
         }
 
         public void SetPlayerPosition(GridLevelData gridData) {
-            if (!playerBehaviour) {
-                playerBehaviour = FindObjectOfType<PlayerBehaviour>();
+            if (!playerBehaviourOld) {
+                playerBehaviourOld = FindObjectOfType<PlayerBehaviour_old>();
             }
 
-            playerBehaviour.SetPosition((Vector2)gridData.playerStartingPosition);
+            playerBehaviourOld.SetPosition((Vector2)gridData.playerStartingPosition);
         }
 
         public void SetPlayerPosition() {
             GridLevelData gridData = levelsInGame.levels[currentLevelID];
-            if (playerBehaviour == null) {
-                playerBehaviour = FindObjectOfType<PlayerBehaviour>();
+            if (playerBehaviourOld == null) {
+                playerBehaviourOld = FindObjectOfType<PlayerBehaviour_old>();
             }
 
-            playerBehaviour.SetPosition((Vector2)gridData.playerStartingPosition);
+            playerBehaviourOld.SetPosition((Vector2)gridData.playerStartingPosition);
         }
 
         [Command]
@@ -132,11 +135,11 @@ namespace _Scripts.Managers {
             if (GridManager_old.Instance.LoadGridData(gridData)) {
                 GridManager_old.Instance.GenerateGrid();
                 currentLevelGoal = gridData.goal;
-                playerBehaviour.SetPosition(gridData.playerStartingPosition);
-                playerBehaviour._nextTargetPosition = new List<Vector2Int>();
-                playerBehaviour._waitingTargetPosition = new List<Vector2Int>();
-                playerBehaviour.isBeingPushed = false;
-                playerBehaviour.ResetGhost();
+                playerBehaviourOld.SetPosition(gridData.playerStartingPosition);
+                playerBehaviourOld._nextTargetPosition = new List<Vector2Int>();
+                playerBehaviourOld._waitingTargetPosition = new List<Vector2Int>();
+                playerBehaviourOld.isBeingPushed = false;
+                playerBehaviourOld.ResetGhost();
                 Debug.Log("Current level: " + gridData.name);
             }
         }
@@ -230,7 +233,7 @@ namespace _Scripts.Managers {
                 yield return null;
             }
 
-            playerBehaviour = FindObjectOfType<PlayerBehaviour>();
+            playerBehaviourOld = FindObjectOfType<PlayerBehaviour_old>();
 
             Debug.Log("Scene fully loaded and activated.");
         }

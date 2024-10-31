@@ -49,6 +49,10 @@ namespace _Scripts.GridCore {
         public Vector3 GetWorldPositionCellCenter() {
             return g.GetWorldPositionCellCenter(x, y);
         }
+        
+        public Vector3 GetWorldPosition() {
+            return g.GetWorldPosition(x, y);
+        }
 
         public override string ToString() {
             return x + ", " + y;

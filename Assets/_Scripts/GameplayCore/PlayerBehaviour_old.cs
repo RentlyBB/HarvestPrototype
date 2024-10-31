@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using _Scripts.Enums;
 using Enums;
 using QFSW.QC;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
-namespace _Scripts {
-    public class PlayerBehaviour : MonoBehaviour {
+namespace _Scripts.GameplayCore {
+    public class PlayerBehaviour_old : MonoBehaviour {
         public float speed; // Speed of the movement
         public float smoothTime = 0.3f; // How smooth the movement is
         public float targetThreshold = 0.1f; // Distance to consider as "reached"

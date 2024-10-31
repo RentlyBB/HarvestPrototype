@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _Scripts.Enums;
+using _Scripts.GameplayCore;
 using _Scripts.Managers;
 using Enums;
 using UnityEngine;
@@ -49,11 +50,11 @@ namespace _Scripts {
         public string _pushDirection;
 
         private void OnEnable() {
-            PlayerBehaviour.DecreaseTileValueEvent += DecreaseValue;
+            PlayerBehaviour_old.DecreaseTileValueEvent += DecreaseValue;
         }
 
         private void OnDisable() {
-            PlayerBehaviour.DecreaseTileValueEvent -= DecreaseValue;
+            PlayerBehaviour_old.DecreaseTileValueEvent -= DecreaseValue;
         }
 
         public void Init(bool isOffset, string gridLevelData) {
