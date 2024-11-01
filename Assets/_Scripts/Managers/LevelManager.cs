@@ -1,6 +1,6 @@
-﻿using _Scripts.GameplayCore;
+﻿using System;
+using _Scripts.GameplayCore;
 using _Scripts.GridCore;
-using EditorScripts;
 using UnityEngine;
 using UnitySingleton;
 
@@ -17,15 +17,17 @@ namespace _Scripts.Managers {
             TryGetComponent(out _levelLoader);
         }
 
-        [InvokeButton]
+        private void Start() {
+            LoadLevel();
+        }
+
         public void LoadLevel() {
-            if (!_gridHandler.InitGridLevel(levelToLoad)) {
+            if (!_gridHandler.InitGrid(levelToLoad)) {
                 Debug.LogError("Not able to init the grid");   
                 return;
             }
             
             _levelLoader.LoadLevel(_gridHandler.GetGrid(), levelToLoad);
         }
-
     }
 }

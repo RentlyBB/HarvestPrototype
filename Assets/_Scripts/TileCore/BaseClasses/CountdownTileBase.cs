@@ -16,13 +16,7 @@ namespace _Scripts.TileCore.BaseClasses {
             goodCollectTile = Resources.Load<GameObject>("TilePrefabs/GoodCollectTile");
         }
 
-        protected virtual void Update() {
-            if (countdownValue < 0) {
-                ResolveCountdown();
-            }
-        }
-
-        protected abstract void ResolveCountdown();
+        protected abstract void CheckCountdown();
 
     }
 }

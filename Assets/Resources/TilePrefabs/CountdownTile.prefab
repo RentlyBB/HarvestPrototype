@@ -100,9 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e66171800484f2fba90a314992a6b17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridPosition: {x: 0, y: 0}
   canMoveOn: 1
-  countdownValue: 4
+  countdownValue: 0
   badCollectTile: {fileID: 0}
   goodCollectTile: {fileID: 0}
 --- !u!114 &698445615054014233
@@ -130,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474ae82c223448469bb1225b371f7935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
 --- !u!114 &7037429328472074771
 MonoBehaviour:
   m_ObjectHideFlags: 0
