@@ -1,9 +1,8 @@
 using System;
-using _Scripts.GameplayCore;
-using _Scripts.GameplayCore.PlayerCore;
 using _Scripts.GridCore;
 using _Scripts.InputCore;
 using UnityEngine;
+using UnityEngine.Events;
 using UnitySingleton;
 
 namespace _Scripts.Managers {
@@ -11,7 +10,7 @@ namespace _Scripts.Managers {
         public InputReader inputReader;
         public GridInitializer gridInitializer;
 
-        public MovementHandler movementHandler;
+        public static event UnityAction<TileGridObject> ClickOnTile = delegate { };
         
         private void OnEnable() {
             if (inputReader != null) inputReader.MouseClick += OnMouseClick;
@@ -23,19 +22,13 @@ namespace _Scripts.Managers {
 
         // Inform GameManager that player clicked
         private void OnMouseClick(Vector3 mousePosition) {
-            var gridObject = gridInitializer.Grid.GetGridObject(mousePosition);
-            
+            var tileGridObject = gridInitializer.Grid.GetGridObject(mousePosition);
+
             // Check if player click on GridObject
-            if (gridObject != null) {
-                
-                //Click on grid
-                
-                movementHandler.SetTargetPosition(gridObject.GetWorldPositionCellCenter());
-                
-                Debug.Log(gridObject.GetX() + ", " + gridObject.GetY());
-            } else {
-                Debug.Log("Out of the grid");
-            }
+            if (tileGridObject == null) return; 
+            
+            //Click on grid
+            ClickOnTile?.Invoke(tileGridObject);
         }
     }
 }

@@ -42,6 +42,10 @@ namespace _Scripts.GridCore {
             return y;
         }
 
+        public Vector2Int GetXY() {
+            return new Vector2Int(x, y);
+        }
+
         public Grid<TileGridObject> GetGrid() {
             return g;
         }
