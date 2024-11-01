@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 namespace _Scripts.SOs {
     [CreateAssetMenu(fileName = "GridLevelData", menuName = "Custom/GridLevelData", order = 0)]
-    public class GridLevelData : ScriptableObject {
+    public class GridLevelData_old : ScriptableObject {
 
         public int levelID;
         public int goal;

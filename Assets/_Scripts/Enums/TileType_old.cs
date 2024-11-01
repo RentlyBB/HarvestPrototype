@@ -1,6 +1,6 @@
-﻿namespace Enums {
+﻿namespace _Scripts.Enums {
 
-    public enum TileType {
+    public enum TileType_old {
         ClassicTile,
         ExclamationTile,
         FreezeTileHorizontal,

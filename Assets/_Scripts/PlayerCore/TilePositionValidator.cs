@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace _Scripts.GameplayCore.PlayerCore {
+namespace _Scripts.PlayerCore {
     public class TilePositionValidator : MonoBehaviour {
         
         public bool lockOrthogonalMovement = false;

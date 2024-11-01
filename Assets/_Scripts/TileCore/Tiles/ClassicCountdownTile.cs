@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using _Scripts.TileCore.BaseClasses;
 using _Scripts.TileCore.Interfaces;
@@ -5,7 +6,6 @@ using UnityEngine;
 
 namespace _Scripts.TileCore.Tiles {
     public class ClassicCountdownTile : CountdownTileBase, IInteractableTile {
-        
         
         public void OnPlayerStep() {
             ResolveCountdown();

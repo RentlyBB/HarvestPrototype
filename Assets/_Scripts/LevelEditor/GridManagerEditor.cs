@@ -29,7 +29,7 @@ namespace _Scripts.LevelEditor {
         public int levelGoal = 1;
         public Vector2Int levelPlayerStartingPosition;
 
-        public GridLevelData loadedLevelInEditor;
+        public GridLevelData_old loadedLevelInEditor;
 
         private new void Awake() {
             if (_cam == null) {
@@ -88,7 +88,7 @@ namespace _Scripts.LevelEditor {
                 Destroy(child.gameObject);
             }
 
-            loadedLevelInEditor = GameManager_old.Instance.GetLevel(levelId);
+            //loadedLevelInEditor = GameManager_old.Instance.GetLevel(levelId);
 
             if (loadedLevelInEditor == null) return;
 
@@ -140,13 +140,13 @@ namespace _Scripts.LevelEditor {
         }
         [Command]
         public void CreateNewLevel(string levelName, int gridWidth, int gridHeight) {
-            GridLevelData gridLevelData = ScriptableObject.CreateInstance<GridLevelData>();
+            GridLevelData_old gridLevelDataOld = ScriptableObject.CreateInstance<GridLevelData_old>();
             string path = "Assets/Levels/" + levelName + ".asset";
-            AssetDatabase.CreateAsset(gridLevelData, path);
+            AssetDatabase.CreateAsset(gridLevelDataOld, path);
 
-            loadedLevelInEditor = gridLevelData;
-            GameManager_old.Instance.levelsInGame.levels.Add(gridLevelData);
-            GameManager_old.Instance.SetLevelsIds();
+            loadedLevelInEditor = gridLevelDataOld;
+            //GameManager_old.Instance.levelsOldInGame.levels.Add(gridLevelDataOld);
+            //GameManager_old.Instance.SetLevelsIds();
             EditorLoadLevelData();
             //GenerateGrid();
             // Save the asset database and refresh the editor to reflect the changes
@@ -164,13 +164,13 @@ namespace _Scripts.LevelEditor {
         [Command]
         public void CreateAndSaveLevel(string levelName) {
             // Create an instance of the ScriptableObject
-            GridLevelData gridLevelData = ScriptableObject.CreateInstance<GridLevelData>();
+            GridLevelData_old gridLevelDataOld = ScriptableObject.CreateInstance<GridLevelData_old>();
 
             // Add data to the ScriptableObject
-            gridLevelData.goal = levelGoal;
+            gridLevelDataOld.goal = levelGoal;
 
-            gridLevelData.gridSize = new Vector2Int(width, height);
-            gridLevelData.playerStartingPosition = levelPlayerStartingPosition;
+            gridLevelDataOld.gridSize = new Vector2Int(width, height);
+            gridLevelDataOld.playerStartingPosition = levelPlayerStartingPosition;
 
             var tileData = new List<string>();
             var arr = _tiles.Values.ToArray();
@@ -179,10 +179,10 @@ namespace _Scripts.LevelEditor {
                 tileData.Add(arr[i]._editorTextValue);
             }
 
-            gridLevelData.tileData = tileData;
+            gridLevelDataOld.tileData = tileData;
             // Save the ScriptableObject as an asset in the Assets folder
             string path = "Assets/Levels/" + levelName + ".asset";
-            AssetDatabase.CreateAsset(gridLevelData, path);
+            AssetDatabase.CreateAsset(gridLevelDataOld, path);
 
             // Save the asset database and refresh the editor to reflect the changes
             AssetDatabase.SaveAssets();
@@ -223,9 +223,9 @@ namespace _Scripts.LevelEditor {
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 
-            if (GameManager_old.Instance.editLevelInEditor) {
-                EditorLoadLevel(GameManager_old.Instance.levelToBeEdited);
-            }
+            //if (GameManager_old.Instance.editLevelInEditor) {
+            //    EditorLoadLevel(GameManager_old.Instance.levelToBeEdited);
+           // }
         }
     }
 }

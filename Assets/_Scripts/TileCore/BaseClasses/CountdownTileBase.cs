@@ -10,7 +10,6 @@ namespace _Scripts.TileCore.BaseClasses {
         [RequireVariable]
         public GameObject badCollectTile, goodCollectTile;
 
-
         protected override void Awake() {
             base.Awake();
             badCollectTile = Resources.Load<GameObject>("TilePrefabs/BadCollectTile");

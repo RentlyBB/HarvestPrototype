@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Scripts.SOs {
     [CreateAssetMenu(fileName = "Levels", menuName = "Custom/Levels", order = 2)]
-    public class Levels : ScriptableObject {
-        public List<GridLevelData> levels = new List<GridLevelData>();
+    public class Levels_old : ScriptableObject {
+        public List<GridLevelData_old> levels = new List<GridLevelData_old>();
     }
 }

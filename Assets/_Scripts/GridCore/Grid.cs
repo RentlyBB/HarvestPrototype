@@ -80,6 +80,10 @@ namespace _Scripts.GridCore {
             var centerPosition = new Vector3(x, y) * cellSize + originPosition; ;
             return new Vector3(centerPosition.x + value, centerPosition.y + value, 0);
         }
+        
+        public Vector3 GetWorldPositionCellCenter(Vector2Int xy) {
+           return GetWorldPositionCellCenter(xy.x, xy.y);
+        }
 
         public void GetXY(Vector3 worldPosition, out int x, out int y) {
             x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
