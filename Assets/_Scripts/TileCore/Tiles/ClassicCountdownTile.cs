@@ -7,7 +7,13 @@ using UnityEngine;
 
 namespace _Scripts.TileCore.Tiles {
     public class ClassicCountdownTile : CountdownTileBase, IInteractableTile {
-        
+
+        private TextMesh _middleText;
+
+        private void Start() {
+            _middleText = Utils.CreateTextWorld(countdownValue.ToString(), transform.position, 32, transform);
+        }
+
         public void OnPlayerStep() {
             CheckCountdown();
         }
