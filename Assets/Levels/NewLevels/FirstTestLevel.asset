@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWidth: 3
   gridHeight: 3
-  startingGridPosition: {x: 0, y: 0}
+  startingGridPosition: {x: 1, y: 0}
   tiles:
   - gridPosition: {x: 0, y: 0}
     tileType: 1

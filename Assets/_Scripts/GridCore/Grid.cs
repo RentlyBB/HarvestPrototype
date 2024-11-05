@@ -114,6 +114,13 @@ namespace _Scripts.GridCore {
             }
             return default;
         }
+        
+        public TGridObject GetGridObject(Vector2Int position) {
+            if (gridDictionary.ContainsKey(position)) {
+                return gridDictionary[position];
+            }
+            return default;
+        }
 
         public TGridObject GetGridObject(Vector3 worldPosition) {
             int x, y;

@@ -44,7 +44,8 @@ namespace _Scripts.PlayerCore {
         //Teleport player to GridPosition - used on load level
         public void SetStartingTile(TileGridObject tileGridObject) {
             _currentGridPosition = tileGridObject.GetXY();
-            transform.position = tileGridObject.GetWorldPositionCellCenter();
+            Vector2 startingPosition = tileGridObject.GetWorldPositionCellCenter();
+            transform.position = new Vector3(startingPosition.x, startingPosition.y, transform.position.z);
         }
         
         private void SetTargetTilePosition(TileGridObject tileGridObject) {
@@ -78,7 +79,8 @@ namespace _Scripts.PlayerCore {
             // When player reached position, we need to update the current position
             _currentGridPosition = _targetTilesQueue.Peek().GetXY(); 
             
-            OnTileReached?.Invoke(_targetTilesQueue.Peek());
+            //OnTileReached?.Invoke(_targetTilesQueue.Peek());
+            GameplayManager.Instance.PhaseHandler(_targetTilesQueue.Peek());
             
             //Now we can remove that target from the List
             _targetTilesQueue.Dequeue();
