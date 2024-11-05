@@ -314,10 +314,9 @@ GameObject:
   m_Component:
   - component: {fileID: 227634826}
   - component: {fileID: 227634829}
-  - component: {fileID: 227634832}
   - component: {fileID: 227634830}
   m_Layer: 0
-  m_Name: LevelManager
+  m_Name: GridManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -350,7 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d488014e184de684797321dd7170b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelToLoad: {fileID: 11400000, guid: 51d8fa769d21de14bb4ff064dfd5bfcb, type: 2}
+  levelData: {fileID: 11400000, guid: 51d8fa769d21de14bb4ff064dfd5bfcb, type: 2}
 --- !u!114 &227634830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,19 +359,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 227634825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45a3a30bfa93453f9ebc69e7543ed40a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &227634832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227634825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32d49557f27047399799602d2893f96e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b08dbc100fa46a2b56b4f42deaec013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1137858730

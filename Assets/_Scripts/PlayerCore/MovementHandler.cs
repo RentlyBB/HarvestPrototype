@@ -12,7 +12,7 @@ namespace _Scripts.PlayerCore {
         public float maxSpeed = 75; // Maximum speed for movement
         public float movementSmoothTime = 0.05f; // Smoothing time for movement
         public float targetReachThreshold = 0.0005f; // Distance to consider the target reached
-
+        
         private Vector2Int _currentGridPosition = Vector2Int.zero;
         private Vector2 _targetWorldPosition;
         private Vector2 _velocity = Vector2.zero; // Used by SmoothDamp for smooth movement
@@ -23,10 +23,11 @@ namespace _Scripts.PlayerCore {
 
         private TilePositionValidator _tilePositionValidator;
 
-        public static UnityAction<TileGridObject> OnTileReached = delegate { };
+        private GameplayManager _gameplayManagerInstance;
 
         private void Awake() {
             TryGetComponent(out _tilePositionValidator);
+            _gameplayManagerInstance = GameplayManager.Instance;
         }
 
         private void OnEnable() {
@@ -79,8 +80,7 @@ namespace _Scripts.PlayerCore {
             // When player reached position, we need to update the current position
             _currentGridPosition = _targetTilesQueue.Peek().GetXY(); 
             
-            //OnTileReached?.Invoke(_targetTilesQueue.Peek());
-            GameplayManager.Instance.PhaseHandler(_targetTilesQueue.Peek());
+            _gameplayManagerInstance?.PhaseHandler(_targetTilesQueue.Peek());
             
             //Now we can remove that target from the List
             _targetTilesQueue.Dequeue();

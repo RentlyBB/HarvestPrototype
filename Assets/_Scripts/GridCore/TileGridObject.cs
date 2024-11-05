@@ -8,7 +8,7 @@ namespace _Scripts.GridCore {
         private int x;
         private int y;
 
-        private GameObject _tileBase;
+        private TileBase _tileBase;
 
         public TileGridObject() { }
 
@@ -18,11 +18,11 @@ namespace _Scripts.GridCore {
             this.y = y;
         }
 
-        public void SetTileBase(GameObject tileBase) {
+        public void SetTileBase(TileBase tileBase) {
             if (CanCreateTile()) _tileBase = tileBase;
         }
 
-        public GameObject GetTile() {
+        public TileBase GetTile() {
             return _tileBase;
         }
 

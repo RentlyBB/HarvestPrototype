@@ -1,13 +1,25 @@
 ﻿using System;
 using _Scripts.GridCore;
+using _Scripts.TileCore.Interfaces;
 using UnityEngine;
+using UnityEngine.Events;
 using UnitySingleton;
 
 namespace _Scripts.Managers {
     public class GameplayManager : PersistentMonoSingleton<GameplayManager> {
 
-        public void PhaseHandler(TileGridObject tile) {
-            Debug.Log("Zachyceno: " + tile.GetXY());
+        public static UnityAction OnCountdownDecreasing = delegate { };
+
+        // This method handles the all phases during puzzle solving
+        // It know on which tile player end up and know that the player actually stop moving. 
+        public void PhaseHandler(TileGridObject activatedTile) {
+
+            activatedTile.GetTile().TryGetComponent(out IInteractableTile interactableTile);
+            interactableTile?.OnPlayerStep();
+            
+            OnCountdownDecreasing?.Invoke();
+            
+            Debug.Log("Zachyceno: " + activatedTile.GetXY());
         }
     }
 }

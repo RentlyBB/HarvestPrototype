@@ -4,6 +4,7 @@ namespace _Scripts.TileCore.BaseClasses {
     public abstract class TileBase : MonoBehaviour{
 
         public bool canMoveOn;
+        public Vector2Int gridPosition;
         
         protected TileStateHandler TileStateHandler; // Handling a stage of the tile
         protected TileVisualHandler TileVisualHandler; // Handling a visual of the tile

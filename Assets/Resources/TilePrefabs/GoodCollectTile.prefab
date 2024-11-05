@@ -56,8 +56,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoodCollectTile
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9010868458999039883, guid: bb30c696bb20245ad90ba85ff0b304f5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4711044369471212171, guid: bb30c696bb20245ad90ba85ff0b304f5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7461098932032168799}
   m_SourcePrefab: {fileID: 100100000, guid: bb30c696bb20245ad90ba85ff0b304f5, type: 3}
+--- !u!1 &3822349972164363603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4711044369471212171, guid: bb30c696bb20245ad90ba85ff0b304f5, type: 3}
+  m_PrefabInstance: {fileID: 8388881093775544280}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7461098932032168799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3822349972164363603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 670784d6f64c45d38006aa2557145c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMoveOn: 1
+  gridPosition: {x: 0, y: 0}

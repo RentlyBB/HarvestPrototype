@@ -3,8 +3,9 @@
         EmptyTile,
         DefaultTile,
         CountdownTile,
-        DoubleCountdownTile,
         FreezeTile,
-        PushTile
+        PushTile,
+        CollectTile,
+        BadCollectTile,
     }
 }
