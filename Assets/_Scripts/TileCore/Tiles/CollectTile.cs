@@ -16,6 +16,7 @@ namespace _Scripts.TileCore.Tiles {
         }
         
         public override void OnPlayerStep() {
+            base.OnPlayerStep();
             //Collected 
             // TODO: Inform LevelManager about it – because we have to check if level is done or not
             // LevelManager do not exist yet

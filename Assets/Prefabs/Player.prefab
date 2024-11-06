@@ -98,9 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee5b6b82fe546488df7bc61f1e917f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 75
+  maxSpeed: 8
   movementSmoothTime: 0.05
-  targetReachThreshold: 0.0005
+  targetReachThreshold: 0.005
+  startMoving: 0
 --- !u!114 &4273851311261145072
 MonoBehaviour:
   m_ObjectHideFlags: 0

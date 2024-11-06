@@ -1,32 +1,43 @@
 using System;
-using _Scripts.CustomTools;
+using _Scripts.PlayerCore;
 using _Scripts.TileCore.Enums;
 using UnityEngine;
 
 namespace _Scripts.TileCore {
-    [RequireComponent(typeof(SpriteRenderer))]
+    [RequireComponent(typeof(SpriteRenderer), typeof(TileStateHandler))]
     public class TileVisualHandler : MonoBehaviour {
-        [RequireVariable]
-        public Sprite baseSprite, freezeSprite;
+        
+        public Sprite unpressedSprite;
+        public Sprite pressedSprite;
 
         private SpriteRenderer _spriteRenderer;
+        private TileStateHandler _tileStateHandler;
+        private TileVisualState _tileVisualState;
 
         private void Awake() {
             TryGetComponent(out _spriteRenderer);
-            _spriteRenderer.sprite = baseSprite;
+            TryGetComponent(out _tileStateHandler);
+            
+            _spriteRenderer.sprite = unpressedSprite;
+            _tileVisualState = TileVisualState.Unpressed;
         }
 
-        public void UpdateSprite(TileState tileState) {
-            switch (tileState) {
+        public void UpdateSprite() {
+            switch (_tileStateHandler.currentState) {
                 case TileState.Normal:
-                    _spriteRenderer.sprite = baseSprite;
-                    break;
-                case TileState.Freeze:
-                    _spriteRenderer.sprite = freezeSprite;
+                    _spriteRenderer.sprite = _tileVisualState == TileVisualState.Unpressed ? unpressedSprite : pressedSprite;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(tileState), tileState, null);
+                    throw new ArgumentOutOfRangeException(nameof(_tileStateHandler.currentState), _tileStateHandler.currentState, null);
             }
         }
+
+        public void ChangeVisualState(TileVisualState tileVisualState) {
+            _tileVisualState = tileVisualState;
+            
+            UpdateSprite();
+        }
+        
+        
     }
 }

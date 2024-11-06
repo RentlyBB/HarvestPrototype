@@ -3,10 +3,17 @@ using System.Collections;
 using _Scripts.Managers;
 using _Scripts.TileCore.BaseClasses;
 using _Scripts.TileCore.Enums;
-using _Scripts.TileCore.Interfaces;
 using UnityEngine;
 
 namespace _Scripts.TileCore.Tiles {
+
+    public enum CountdownState {
+        CountingDown,
+        ReadyToCollect,
+        Collected,
+        BadCollected,
+    }
+
     public sealed class CountdownTile : TileBase {
         public int countdownValue;
 
@@ -30,11 +37,7 @@ namespace _Scripts.TileCore.Tiles {
 
             if (countdownValue == 0) {
 
-
                 //countdownState - CountingDown / ReadyToCollect / Collected;
-                
-                
-                
                 
                 //Destroy / Unload this tile and change it with the CollectTile
                 TileType tileType = TileType.CollectTile;
@@ -46,6 +49,7 @@ namespace _Scripts.TileCore.Tiles {
         }
 
         public override void OnPlayerStep() {
+            base.OnPlayerStep();
             //Destroy / Unload this tile and change it with the BadCollectTile
             GridManager.Instance.ReplaceAndDestroyTileWith(gridPosition, TileType.BadCollectTile);
         }

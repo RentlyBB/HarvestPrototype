@@ -1,3 +1,4 @@
+using _Scripts.TileCore.Enums;
 using UnityEngine;
 
 namespace _Scripts.TileCore.BaseClasses {
@@ -17,6 +18,12 @@ namespace _Scripts.TileCore.BaseClasses {
             canMoveOn = true;
         }
 
-        public abstract void OnPlayerStep();
+        public virtual void OnPlayerStep() {
+            TileVisualHandler.ChangeVisualState(TileVisualState.Pressed);
+        }
+
+        public virtual void OnPlayerLeave() {
+            TileVisualHandler.ChangeVisualState(TileVisualState.Unpressed);
+        }
     }
 }

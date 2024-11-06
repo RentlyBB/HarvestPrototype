@@ -1,6 +1,6 @@
 ﻿using System;
 using _Scripts.GridCore;
-using _Scripts.TileCore.Interfaces;
+using _Scripts.TileCore.BaseClasses;
 using UnityEngine;
 using UnityEngine.Events;
 using UnitySingleton;
@@ -12,10 +12,10 @@ namespace _Scripts.Managers {
 
         // This method handles the all phases during puzzle solving
         // It know on which tile player end up and know that the player actually stop moving. 
-        public void PhaseHandler(TileGridObject activatedTile) {
+        public void PhaseHandler(TileGridObject pressedTile) {
 
-            activatedTile.GetTile().TryGetComponent(out IInteractableTile interactableTile);
-            interactableTile?.OnPlayerStep();
+            pressedTile.GetTile().TryGetComponent(out TileBase tileBase);
+            tileBase?.OnPlayerStep();
             
             CountdownDecreasing?.Invoke();
         }

@@ -1038,6 +1038,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5028608778661996262, guid: efe07aada16bb884ca465be86e0df427, type: 3}
+      propertyPath: delay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028608778661996262, guid: efe07aada16bb884ca465be86e0df427, type: 3}
+      propertyPath: delayMovement
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
