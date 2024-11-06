@@ -8,18 +8,20 @@ namespace _Scripts.TileCore.Tiles {
     public class CollectTile : TileBase, IInteractableTile {
 
         private void OnEnable() {
-            GameplayManager.OnCountdownDecreasing += ReplaceTile;
+            GameplayManager.OnCountdownDecreasing += NotCollect;
         }
 
         private void OnDisable() {
-            GameplayManager.OnCountdownDecreasing -= ReplaceTile;
+            GameplayManager.OnCountdownDecreasing -= NotCollect;
         }
 
         public void OnPlayerStep() {
             throw new System.NotImplementedException();
+            //Collected 
+            
         }
 
-        private void ReplaceTile() {
+        private void NotCollect() {
             GridManager.Instance.ReplaceTileWith(gridPosition, TileType.BadCollectTile);
         }
     }

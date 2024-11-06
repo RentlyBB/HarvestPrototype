@@ -7,6 +7,11 @@ using UnityEngine;
 
 namespace _Scripts.GridCore {
     public class TileTypeParser : MonoBehaviour {
+        private const string DefaultTile = "TilePrefabs/DefaultTile";
+        private const string CountdownTile = "TilePrefabs/CountdownTile";
+        private const string CollectTile = "TilePrefabs/CollectTile";
+        private const string BadCollectTile = "TilePrefabs/BadCollectTile";
+
 
         // Get TileType variable and creates a GameObject of that type
         public void TileTypeToGameObject(TileData tileData, out TileBase tileBase, Grid<TileGridObject> grid) {
@@ -16,10 +21,10 @@ namespace _Scripts.GridCore {
                 case TileType.EmptyTile:
                     break;
                 case TileType.DefaultTile:
-                    tileBase = Instantiate(Resources.Load<GameObject>("TilePrefabs/DefaultTile"), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
+                    tileBase = Instantiate(Resources.Load<GameObject>(DefaultTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
                     break;
                 case TileType.CountdownTile:
-                    tileBase = Instantiate(Resources.Load<GameObject>("TilePrefabs/CountdownTile"), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
+                    tileBase = Instantiate(Resources.Load<GameObject>(CountdownTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
                     tileBase.GetComponent<CountdownTile>().countdownValue = tileData.countdownValue;
                     break;
                 case TileType.FreezeTile:
@@ -27,7 +32,7 @@ namespace _Scripts.GridCore {
                 case TileType.PushTile:
                     break;
                 case TileType.CollectTile:
-                    tileBase = Instantiate(Resources.Load<GameObject>("TilePrefabs/GoodCollectTile"), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
+                    tileBase = Instantiate(Resources.Load<GameObject>(CollectTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
                     break;
                 case TileType.BadCollectTile:
                     break;
@@ -38,18 +43,17 @@ namespace _Scripts.GridCore {
 
         public void TileTypeToGameObject(TileType tileType, Vector2Int pos, Grid<TileGridObject> grid, out TileBase tileBase) {
             tileBase = null;
-
             switch (tileType) {
                 case TileType.DefaultTile:
-                    tileBase = Instantiate(Resources.Load<GameObject>("TilePrefabs/DefaultTile"), grid.GetWorldPositionCellCenter(pos), Quaternion.identity, transform).GetComponent<TileBase>();
+                    tileBase = Instantiate(Resources.Load<GameObject>(DefaultTile), grid.GetWorldPositionCellCenter(pos), Quaternion.identity, transform).GetComponent<TileBase>();
                     tileBase.gridPosition = pos;
                     break;
                 case TileType.CollectTile:
-                    tileBase = Instantiate(Resources.Load<GameObject>("TilePrefabs/GoodCollectTile"), grid.GetWorldPositionCellCenter(pos), Quaternion.identity, transform).GetComponent<TileBase>();
+                    tileBase = Instantiate(Resources.Load<GameObject>(CollectTile), grid.GetWorldPositionCellCenter(pos), Quaternion.identity, transform).GetComponent<TileBase>();
                     tileBase.gridPosition = pos;
                     break;
                 case TileType.BadCollectTile:
-                    tileBase = Instantiate(Resources.Load<GameObject>("TilePrefabs/BadCollectTile"), grid.GetWorldPositionCellCenter(pos), Quaternion.identity, transform).GetComponent<TileBase>();
+                    tileBase = Instantiate(Resources.Load<GameObject>(BadCollectTile), grid.GetWorldPositionCellCenter(pos), Quaternion.identity, transform).GetComponent<TileBase>();
                     tileBase.gridPosition = pos;
                     break;
                 case TileType.EmptyTile:
