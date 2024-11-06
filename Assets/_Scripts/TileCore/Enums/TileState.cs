@@ -1,4 +1,4 @@
-namespace _Scripts.TileCore {
+namespace _Scripts.TileCore.Enums {
     public enum TileState {
         Normal,
         Freeze,

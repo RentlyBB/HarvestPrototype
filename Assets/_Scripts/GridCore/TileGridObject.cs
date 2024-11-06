@@ -1,5 +1,4 @@
-﻿using _Scripts.TileCore;
-using _Scripts.TileCore.BaseClasses;
+﻿using _Scripts.TileCore.BaseClasses;
 using UnityEngine;
 
 namespace _Scripts.GridCore {
@@ -31,7 +30,7 @@ namespace _Scripts.GridCore {
         }
 
         public bool CanCreateTile() {
-            return _tileBase == null;
+            return _tileBase is null;
         }
 
         public int GetX() {

@@ -8,7 +8,7 @@ using UnitySingleton;
 namespace _Scripts.Managers {
     public class GameplayManager : PersistentMonoSingleton<GameplayManager> {
 
-        public static UnityAction OnCountdownDecreasing = delegate { };
+        public static UnityAction CountdownDecreasing = delegate { };
 
         // This method handles the all phases during puzzle solving
         // It know on which tile player end up and know that the player actually stop moving. 
@@ -17,9 +17,7 @@ namespace _Scripts.Managers {
             activatedTile.GetTile().TryGetComponent(out IInteractableTile interactableTile);
             interactableTile?.OnPlayerStep();
             
-            OnCountdownDecreasing?.Invoke();
-            
-            Debug.Log("Zachyceno: " + activatedTile.GetXY());
+            CountdownDecreasing?.Invoke();
         }
     }
 }

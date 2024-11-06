@@ -8,17 +8,18 @@ namespace _Scripts.TileCore.Tiles {
     public class CollectTile : TileBase, IInteractableTile {
 
         private void OnEnable() {
-            GameplayManager.OnCountdownDecreasing += NotCollect;
+            GameplayManager.CountdownDecreasing += NotCollect;
         }
 
         private void OnDisable() {
-            GameplayManager.OnCountdownDecreasing -= NotCollect;
+            GameplayManager.CountdownDecreasing -= NotCollect;
         }
 
         public void OnPlayerStep() {
-            throw new System.NotImplementedException();
             //Collected 
-            
+            // TODO: Inform LevelManager about it – because we have to check if level is done or not
+            // LevelManager do not exist yet
+            GridManager.Instance.ReplaceTileWith(gridPosition, TileType.DefaultTile);
         }
 
         private void NotCollect() {

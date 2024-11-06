@@ -8,18 +8,17 @@ using UnityEngine;
 
 namespace _Scripts.TileCore.Tiles {
     public sealed class CountdownTile : TileBase, IInteractableTile {
-
         public int countdownValue;
-
+        
         private TextMesh _middleText;
         private bool _isCollected;
 
         private void OnEnable() {
-            GameplayManager.OnCountdownDecreasing += DecreaseCountdownValue;
+            GameplayManager.CountdownDecreasing += DecreaseCountdownValue;
         }
 
         private void OnDisable() {
-            GameplayManager.OnCountdownDecreasing -= DecreaseCountdownValue;
+            GameplayManager.CountdownDecreasing -= DecreaseCountdownValue;
         }
 
         private void Start() {
@@ -32,8 +31,8 @@ namespace _Scripts.TileCore.Tiles {
             if (countdownValue == 0) {
                 //Destroy / Unload this tile and change it with the CollectTile
                 GridManager.Instance.ReplaceTileWith(gridPosition, TileType.CollectTile);
-
             }
+
             _middleText.text = countdownValue.ToString();
         }
 

@@ -31,11 +31,11 @@ namespace _Scripts.PlayerCore {
         }
 
         private void OnEnable() {
-            InputManager.ClickOnTile += SetTargetTilePosition;
+            InputManager.OnClickOnTile += SetTargetTilePosition;
         }
       
         private void OnDisable() {
-            InputManager.ClickOnTile -= SetTargetTilePosition;
+            InputManager.OnClickOnTile -= SetTargetTilePosition;
         }
 
         private void Update() {

@@ -1,6 +1,6 @@
 using System;
 using _Scripts.CustomTools;
-using _Scripts.Enums;
+using _Scripts.TileCore.Enums;
 using UnityEngine;
 
 namespace _Scripts.TileCore {
