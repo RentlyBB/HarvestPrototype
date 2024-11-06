@@ -101,9 +101,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMoveOn: 1
+  gridPosition: {x: 0, y: 0}
   countdownValue: 0
-  badCollectTile: {fileID: 0}
-  goodCollectTile: {fileID: 0}
+  collectTilePrefab: {fileID: 3822349972164363603, guid: 259c21d4960814dfc951785ecb8a74af, type: 3}
 --- !u!114 &698445615054014233
 MonoBehaviour:
   m_ObjectHideFlags: 0

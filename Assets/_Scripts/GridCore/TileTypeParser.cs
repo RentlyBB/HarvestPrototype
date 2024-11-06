@@ -14,6 +14,7 @@ namespace _Scripts.GridCore {
 
 
         // Get TileType variable and creates a GameObject of that type
+        // Used for Init load grid
         public void TileTypeToGameObject(TileData tileData, out TileBase tileBase, Grid<TileGridObject> grid) {
             tileBase = null;
 
@@ -40,7 +41,8 @@ namespace _Scripts.GridCore {
                     throw new ArgumentOutOfRangeException(nameof(tileData.tileType), tileData.tileType, null);
             }
         }
-
+        
+        //Used for Replace tile on the grid
         public void TileTypeToGameObject(TileType tileType, Vector2Int pos, Grid<TileGridObject> grid, out TileBase tileBase) {
             tileBase = null;
             switch (tileType) {

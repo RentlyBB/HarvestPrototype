@@ -7,9 +7,9 @@ using _Scripts.TileCore.Interfaces;
 using UnityEngine;
 
 namespace _Scripts.TileCore.Tiles {
-    public sealed class CountdownTile : TileBase, IInteractableTile {
+    public sealed class CountdownTile : TileBase {
         public int countdownValue;
-        
+
         private TextMesh _middleText;
         private bool _isCollected;
 
@@ -29,16 +29,26 @@ namespace _Scripts.TileCore.Tiles {
             countdownValue--;
 
             if (countdownValue == 0) {
+
+
+                //countdownState - CountingDown / ReadyToCollect / Collected;
+                
+                
+                
+                
                 //Destroy / Unload this tile and change it with the CollectTile
-                GridManager.Instance.ReplaceTileWith(gridPosition, TileType.CollectTile);
-            }
+                TileType tileType = TileType.CollectTile;
+                
+                GridManager.Instance.ReplaceAndDestroyTileWith(gridPosition, tileType);
+            } 
 
             _middleText.text = countdownValue.ToString();
         }
 
-        public void OnPlayerStep() {
+        public override void OnPlayerStep() {
             //Destroy / Unload this tile and change it with the BadCollectTile
-            GridManager.Instance.ReplaceTileWith(gridPosition, TileType.BadCollectTile);
+            GridManager.Instance.ReplaceAndDestroyTileWith(gridPosition, TileType.BadCollectTile);
         }
+
     }
 }

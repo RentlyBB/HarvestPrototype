@@ -63,7 +63,7 @@ namespace _Scripts.Managers {
             }
         }
 
-        public void ReplaceTileWith(Vector2Int tileGridPosition, TileType tileToCreate) {
+        public void ReplaceAndDestroyTileWith(Vector2Int tileGridPosition, TileType tileToCreate) {
             TileGridObject gridObject = _grid.GetGridDictionary()[tileGridPosition];
 
             Destroy(gridObject.GetTile().gameObject);

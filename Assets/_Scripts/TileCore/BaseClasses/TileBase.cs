@@ -16,5 +16,7 @@ namespace _Scripts.TileCore.BaseClasses {
             TryGetComponent(out TileSoundHandler);
             canMoveOn = true;
         }
+
+        public abstract void OnPlayerStep();
     }
 }
