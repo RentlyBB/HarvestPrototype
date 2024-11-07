@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 1961910276510791225}
   - component: {fileID: 3907917321116953346}
   - component: {fileID: 8353144873298270651}
-  - component: {fileID: 698445615054014233}
-  - component: {fileID: 1003279906473152901}
   - component: {fileID: 7037429328472074771}
   m_Layer: 0
   m_Name: CountdownTile
@@ -103,32 +101,6 @@ MonoBehaviour:
   canMoveOn: 1
   gridPosition: {x: 0, y: 0}
   countdownValue: 0
---- !u!114 &698445615054014233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8959427488391185319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36eb6d795f174c9fb63abea0a68e4ba8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseTileSound: {fileID: 0}
---- !u!114 &1003279906473152901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8959427488391185319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474ae82c223448469bb1225b371f7935, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
 --- !u!114 &7037429328472074771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,5 +113,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0cc5c47fb74f589fcc5d896b3a33f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unpressedSprite: {fileID: 21300000, guid: 9f3399e53dc0404498b087c5013430ce, type: 3}
-  pressedSprite: {fileID: 21300000, guid: 7183e6407719a754da1deceb0083ea56, type: 3}
+  tileVisualData: {fileID: 0}

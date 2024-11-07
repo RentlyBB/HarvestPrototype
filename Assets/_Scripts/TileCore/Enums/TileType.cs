@@ -5,7 +5,5 @@
         CountdownTile,
         FreezeTile,
         PushTile,
-        CollectTile,
-        BadCollectTile,
     }
 }

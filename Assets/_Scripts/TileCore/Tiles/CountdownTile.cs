@@ -7,12 +7,11 @@ using UnityEngine;
 namespace _Scripts.TileCore.Tiles {
 
     public sealed class CountdownTile : TileBase {
+        
         public int countdownValue;
 
         private TileTextHandler _tileTextHandler;
         
-        private bool _isCollected;
-
         protected override void Awake() {
             base.Awake();
             TryGetComponent(out _tileTextHandler);
@@ -33,18 +32,22 @@ namespace _Scripts.TileCore.Tiles {
         private void DecreaseCountdownValue() {
             countdownValue--;
 
+            // TODO: Check if the state of tile is CountingDown            
             if (countdownValue == 0) {
-        
-
-               
+               // TODO: Change state to ReadyToCollect and visual to CollectTile and disable textMeshPro
             }
+            
+            // Else change state to BadCollect and unsubscribe the CountdownDecreasingEvent
 
             _tileTextHandler.middleText.text = countdownValue.ToString();
         }
 
         public override void OnPlayerStep() {
             base.OnPlayerStep();
-            
+            //TODO: Check if the state of tile is ReadyToCollect
+            // if True – Change state to Collected
+            // if False – Change state to BadCollect and change sprite
+            // also disable textMeshPro
         }
     }
 }

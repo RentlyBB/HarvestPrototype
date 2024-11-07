@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3669139036353989084}
   - component: {fileID: 4300748844158401125}
   - component: {fileID: 9010868458999039883}
-  - component: {fileID: 8152870831052399616}
   - component: {fileID: 3302572282978228560}
   m_Layer: 0
   m_Name: DefaultTile
@@ -101,19 +100,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMoveOn: 1
   gridPosition: {x: 0, y: 0}
---- !u!114 &8152870831052399616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4711044369471212171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 474ae82c223448469bb1225b371f7935, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
 --- !u!114 &3302572282978228560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,5 +112,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0cc5c47fb74f589fcc5d896b3a33f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unpressedSprite: {fileID: 21300000, guid: 9f3399e53dc0404498b087c5013430ce, type: 3}
-  pressedSprite: {fileID: 21300000, guid: 7183e6407719a754da1deceb0083ea56, type: 3}
+  tileVisualData: {fileID: 11400000, guid: 46863a9d3f9cf400fa99de41b7f1ce3d, type: 2}

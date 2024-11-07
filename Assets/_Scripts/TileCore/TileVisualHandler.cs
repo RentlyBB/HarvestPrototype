@@ -1,40 +1,55 @@
 using System;
 using _Scripts.PlayerCore;
 using _Scripts.TileCore.Enums;
+using _Scripts.TileCore.ScriptableObjects;
 using UnityEngine;
 
 namespace _Scripts.TileCore {
-    [RequireComponent(typeof(SpriteRenderer), typeof(TileStateHandler))]
+    [RequireComponent(typeof(SpriteRenderer))]
     public class TileVisualHandler : MonoBehaviour {
         
-        public Sprite unpressedSprite;
-        public Sprite pressedSprite;
+        public TileVisualData tileVisualData; // Assign this in the Inspector
 
         private SpriteRenderer _spriteRenderer;
-        private TileStateHandler _tileStateHandler;
-        private TileVisualState _tileVisualState;
+        private TileMainVisualStates _currentMainState;
+        private TileSubVisualStates _currentSubState;
 
         private void Awake() {
-            TryGetComponent(out _spriteRenderer);
-            TryGetComponent(out _tileStateHandler);
-            
-            _spriteRenderer.sprite = unpressedSprite;
-            _tileVisualState = TileVisualState.Unpressed;
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+
+            // Initialize with default states
+            _currentMainState = TileMainVisualStates.Default;
+            _currentSubState = TileSubVisualStates.Unpressed;
+        
+            UpdateSprite();
         }
 
-        public void UpdateSprite() {
-            switch (_tileStateHandler.currentState) {
-                case TileState.Normal:
-                    _spriteRenderer.sprite = _tileVisualState == TileVisualState.Unpressed ? unpressedSprite : pressedSprite;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(_tileStateHandler.currentState), _tileStateHandler.currentState, null);
+        private void UpdateSprite() {
+            if (tileVisualData == null) {
+                Debug.LogError("TileVisualData is not assigned!");
+                return;
+            }
+
+            // Retrieve and apply the appropriate sprite for the current composite state
+            Sprite sprite = tileVisualData.GetSprite(_currentMainState, _currentSubState);
+            if (sprite != null) {
+                _spriteRenderer.sprite = sprite;
             }
         }
 
-        public void ChangeVisualState(TileVisualState tileVisualState) {
-            _tileVisualState = tileVisualState;
-            
+        public void SetMainAndSubState(TileMainVisualStates newMainState, TileSubVisualStates newSubState) {
+            _currentMainState = newMainState;
+            _currentSubState = newSubState;
+            UpdateSprite();
+        }
+
+        public void SetMainState(TileMainVisualStates newMainState) {
+            _currentMainState = newMainState;
+            UpdateSprite();
+        }
+
+        public void SetSubState(TileSubVisualStates newSubState) {
+            _currentSubState = newSubState;
             UpdateSprite();
         }
         

@@ -19,11 +19,11 @@ namespace _Scripts.TileCore.BaseClasses {
         }
 
         public virtual void OnPlayerStep() {
-            TileVisualHandler.ChangeVisualState(TileVisualState.Pressed);
+            TileVisualHandler.SetSubState(TileSubVisualStates.Pressed);
         }
 
         public virtual void OnPlayerLeave() {
-            TileVisualHandler.ChangeVisualState(TileVisualState.Unpressed);
+            TileVisualHandler.SetSubState(TileSubVisualStates.Unpressed);
         }
     }
 }
