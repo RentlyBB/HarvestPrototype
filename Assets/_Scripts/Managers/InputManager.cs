@@ -14,12 +14,12 @@ namespace _Scripts.Managers {
         
         private void OnEnable() {
             if (inputReader != null) inputReader.OnMouseClick += OnMouseClick;
-            GridManager.OnGridInit += SetGrid;
+            GridManager.GridInit += SetGrid;
         }
 
         private void OnDisable() {
             if (inputReader != null) inputReader.OnMouseClick -= OnMouseClick;
-            GridManager.OnGridInit -= SetGrid;
+            GridManager.GridInit -= SetGrid;
         }
 
         // Inform GameManager that player clicked

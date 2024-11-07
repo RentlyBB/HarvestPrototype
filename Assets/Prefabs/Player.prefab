@@ -101,6 +101,7 @@ MonoBehaviour:
   maxSpeed: 8
   movementSmoothTime: 0.05
   targetReachThreshold: 0.005
+  movementDelay: 0.1
   startMoving: 0
 --- !u!114 &4273851311261145072
 MonoBehaviour:

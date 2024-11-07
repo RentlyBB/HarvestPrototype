@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace _Scripts {
@@ -11,39 +12,73 @@ namespace _Scripts {
         /// <param name="fontSize">The size of the text.</param>
         /// <param name="color">The color of the text.</param>
         /// <returns>Returns the created GameObject with the TextMesh component.</returns>
-        /// 
-        public static TextMesh CreateTextWorld(string text, Vector3 position, int fontSize = 32, Transform parent = null, Color? color = null) {
-
+        ///
+        
+        // public static TextMesh CreateTextWorld(string text, Vector3 position, int fontSize = 32, Transform parent = null, Color? color = null) {
+        //
+        //     if (color == null) color = Color.white;
+        //     
+        //     // Create a new GameObject to hold the TextMesh
+        //     GameObject textObject = new GameObject("WorldText");
+        //     Transform transform = textObject.transform;
+        //     // Add a TextMesh component to the GameObject
+        //     TextMesh textMesh = textObject.AddComponent<TextMesh>();
+        //     
+        //     //Set paretn
+        //     transform.SetParent(parent);
+        //
+        //     // Set the text for the TextMesh
+        //     textMesh.text = text;
+        //
+        //     // Set the position of the TextMesh in world space
+        //     textObject.transform.position = position;
+        //
+        //     // Set font size and other properties
+        //     textMesh.fontSize = fontSize;
+        //     
+        //     textMesh.color = color ?? Color.white; // Use the provided color or default to white
+        //
+        //     // Ensure it's rendering in world space
+        //     textMesh.anchor = TextAnchor.MiddleCenter;
+        //     textMesh.alignment = TextAlignment.Center;
+        //     textMesh.characterSize = 0.1f; // Adjust this to control scaling in the world
+        //     textMesh.offsetZ = -0.1f;
+        //
+        //     // Optionally set any other properties of the TextMesh here (font, scale, etc.)
+        //     
+        //     return textMesh; // Return the created GameObject
+        // }
+        
+        public static TextMeshPro CreateTextWorld(string text, Vector3 position, int fontSize = 32, Transform parent = null, Color? color = null) {
             if (color == null) color = Color.white;
-            
-            // Create a new GameObject to hold the TextMesh
+
+            // Create a new GameObject to hold the TextMeshPro
             GameObject textObject = new GameObject("WorldText");
             Transform transform = textObject.transform;
-            // Add a TextMesh component to the GameObject
-            TextMesh textMesh = textObject.AddComponent<TextMesh>();
-            
-            //Set paretn
+
+            // Set parent
             transform.SetParent(parent);
 
-            // Set the text for the TextMesh
-            textMesh.text = text;
+            // Add a TextMeshPro component to the GameObject
+            TextMeshPro textMeshPro = textObject.AddComponent<TextMeshPro>();
 
-            // Set the position of the TextMesh in world space
+            TMP_FontAsset font = Resources.Load<TMP_FontAsset>("Fonts/digital-7 SDF");
+            
+            // Set the text, position, and other properties
+            textMeshPro.text = text;
+            textMeshPro.fontSize = fontSize;
+            textMeshPro.font = font;
+            textMeshPro.color = color.Value;
             textObject.transform.position = position;
 
-            // Set font size and other properties
-            textMesh.fontSize = fontSize;
-            textMesh.color = color ?? Color.white; // Use the provided color or default to white
+            // Configure TextMeshPro to behave as world-space text
+            textMeshPro.alignment = TextAlignmentOptions.Center;
 
-            // Ensure it's rendering in world space
-            textMesh.anchor = TextAnchor.MiddleCenter;
-            textMesh.alignment = TextAlignment.Center;
-            textMesh.characterSize = 0.1f; // Adjust this to control scaling in the world
-            textMesh.offsetZ = -0.1f;
+            // Adjust the scale if necessary to make the text fit well in the world
+            textMeshPro.rectTransform.localScale = Vector3.one * 0.1f; // Adjust to fit your scene's scale
 
-            // Optionally set any other properties of the TextMesh here (font, scale, etc.)
-            
-            return textMesh; // Return the created GameObject
+            // Return the created TextMeshPro component
+            return textMeshPro;
         }
         
         public static SpriteRenderer CreateSpriteWorld(Sprite sprite, Vector3 position, Vector2 size, Transform parent = null, Color? color = null)

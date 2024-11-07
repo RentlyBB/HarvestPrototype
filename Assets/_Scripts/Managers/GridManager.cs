@@ -10,11 +10,13 @@ using UnitySingleton;
 
 namespace _Scripts.Managers {
     public class GridManager : PersistentMonoSingleton<GridManager> {
-
-        public static UnityAction<Grid<TileGridObject>> OnGridInit = delegate { };
+        
+        public static UnityAction<Grid<TileGridObject>> GridInit = delegate { };
 
         public LevelData levelData;
 
+        public Camera cam;
+        
         private Grid<TileGridObject> _grid;
         private MovementHandler _playerMovementHandler;
         private TileTypeParser _tileTypeParser;
@@ -24,9 +26,11 @@ namespace _Scripts.Managers {
             GameObject.FindWithTag("Player").TryGetComponent(out _playerMovementHandler);
             TryGetComponent(out _tileTypeParser);
         }
-
+       
         private void Start() {
             LoadLevel();
+            //cam.transform.position = new Vector3((float)levelData.gridWidth / 2 - 0.5f, (float)levelData.gridHeight / 2 - 0.5f, -10);
+            cam.transform.position = new Vector3((float)levelData.gridWidth / 2, (float)levelData.gridHeight / 2, -10);
         }
 
         public void LoadLevel() {
@@ -48,7 +52,7 @@ namespace _Scripts.Managers {
             _grid = new Grid<TileGridObject>(levelData.gridWidth, levelData.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
             if (_grid == null) return false;
 
-            OnGridInit?.Invoke(_grid);
+            GridInit?.Invoke(_grid);
             return true;
         }
 

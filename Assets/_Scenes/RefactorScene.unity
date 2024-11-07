@@ -350,6 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 51d8fa769d21de14bb4ff064dfd5bfcb, type: 2}
+  cam: {fileID: 76468785}
 --- !u!114 &227634830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1037,14 +1038,6 @@ PrefabInstance:
     - target: {fileID: 2741678177287053825, guid: efe07aada16bb884ca465be86e0df427, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5028608778661996262, guid: efe07aada16bb884ca465be86e0df427, type: 3}
-      propertyPath: delay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5028608778661996262, guid: efe07aada16bb884ca465be86e0df427, type: 3}
-      propertyPath: delayMovement
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
