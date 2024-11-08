@@ -17,13 +17,9 @@ namespace _Scripts.TileCore {
         private void Awake() {
             _spriteRenderer = GetComponent<SpriteRenderer>();
 
-            // Initialize with default states
-            _currentMainState = TileMainVisualStates.Default;
-            _currentSubState = TileSubVisualStates.Unpressed;
-        
-            UpdateSprite();
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         private void UpdateSprite() {
             if (tileVisualData == null) {
                 Debug.LogError("TileVisualData is not assigned!");
@@ -32,7 +28,7 @@ namespace _Scripts.TileCore {
 
             // Retrieve and apply the appropriate sprite for the current composite state
             Sprite sprite = tileVisualData.GetSprite(_currentMainState, _currentSubState);
-            if (sprite != null) {
+            if (sprite is not null) {
                 _spriteRenderer.sprite = sprite;
             }
         }

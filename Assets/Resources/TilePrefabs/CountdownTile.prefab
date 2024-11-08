@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3907917321116953346}
   - component: {fileID: 8353144873298270651}
   - component: {fileID: 7037429328472074771}
+  - component: {fileID: -7382665954861115979}
   m_Layer: 0
   m_Name: CountdownTile
   m_TagString: Untagged
@@ -113,4 +114,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0cc5c47fb74f589fcc5d896b3a33f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileVisualData: {fileID: 0}
+  tileVisualData: {fileID: 11400000, guid: 61a52ccac59374fd4841a182c4a814ad, type: 2}
+--- !u!114 &-7382665954861115979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8959427488391185319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35167a743ab043fc93df5a2aa3afeb24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  middleText: {fileID: 0}

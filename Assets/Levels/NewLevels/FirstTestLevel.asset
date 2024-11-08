@@ -29,11 +29,11 @@ MonoBehaviour:
     tileType: 1
     countdownValue: 0
   - gridPosition: {x: 1, y: 1}
-    tileType: 1
-    countdownValue: 0
+    tileType: 2
+    countdownValue: 1
   - gridPosition: {x: 1, y: 2}
-    tileType: 1
-    countdownValue: 0
+    tileType: 2
+    countdownValue: 2
   - gridPosition: {x: 2, y: 0}
     tileType: 1
     countdownValue: 0

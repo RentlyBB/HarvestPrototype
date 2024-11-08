@@ -30,6 +30,7 @@ namespace _Scripts.TileCore.ScriptableObjects {
             }
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public Sprite GetSprite(TileMainVisualStates mainState, TileSubVisualStates subState) {
             var compositeState = new TileCompositeState(mainState, subState);
             if (_stateSpritesDictionary.TryGetValue(compositeState, out Sprite sprite)) {

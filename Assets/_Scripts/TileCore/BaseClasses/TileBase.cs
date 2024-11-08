@@ -2,6 +2,7 @@ using _Scripts.TileCore.Enums;
 using UnityEngine;
 
 namespace _Scripts.TileCore.BaseClasses {
+    [RequireComponent(typeof(TileVisualHandler))]
     public abstract class TileBase : MonoBehaviour{
 
         public bool canMoveOn;

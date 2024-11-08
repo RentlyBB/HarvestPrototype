@@ -2,21 +2,25 @@ using System;
 using System.Collections;
 using _Scripts.Managers;
 using _Scripts.TileCore.BaseClasses;
+using _Scripts.TileCore.Enums;
 using UnityEngine;
 
 namespace _Scripts.TileCore.Tiles {
 
+    public enum CountdownState {
+        Counting,
+        ReadyToCollect,
+        Collected,
+    }
+
+    [RequireComponent(typeof(TileTextHandler))]
     public sealed class CountdownTile : TileBase {
         
         public int countdownValue;
 
         private TileTextHandler _tileTextHandler;
+        private CountdownState _countdownState;
         
-        protected override void Awake() {
-            base.Awake();
-            TryGetComponent(out _tileTextHandler);
-        }
-
         private void OnEnable() {
             GameplayManager.CountdownDecreasing += DecreaseCountdownValue;
         }
@@ -24,30 +28,56 @@ namespace _Scripts.TileCore.Tiles {
         private void OnDisable() {
             GameplayManager.CountdownDecreasing -= DecreaseCountdownValue;
         }
+        
+        protected override void Awake() {
+            base.Awake();
+            TryGetComponent(out _tileTextHandler);
+        }
 
         private void Start() {
-            _tileTextHandler.middleText = Utils.CreateTextWorld(countdownValue.ToString(), new Vector3(transform.position.x, transform.position.y + 0.05f, -1), 40, transform, Color.green);
+            TileVisualHandler.SetMainAndSubState(TileMainVisualStates.Countdown, TileSubVisualStates.Unpressed);
+            _tileTextHandler.AddText(countdownValue.ToString());
+            _countdownState = CountdownState.Counting;
         }
 
         private void DecreaseCountdownValue() {
-            countdownValue--;
-
-            // TODO: Check if the state of tile is CountingDown            
-            if (countdownValue == 0) {
-               // TODO: Change state to ReadyToCollect and visual to CollectTile and disable textMeshPro
-            }
             
-            // Else change state to BadCollect and unsubscribe the CountdownDecreasingEvent
+            if(_countdownState == CountdownState.Collected) return;
 
-            _tileTextHandler.middleText.text = countdownValue.ToString();
+            if (_countdownState is CountdownState.Counting or CountdownState.ReadyToCollect) {
+                countdownValue--;
+                _tileTextHandler.UpdateText(countdownValue.ToString());
+            }
+
+            if (countdownValue == 0) {
+               _countdownState = CountdownState.ReadyToCollect;
+               _tileTextHandler.RemoveText();
+               
+               TileVisualHandler.SetMainState(TileMainVisualStates.Collect);
+            } else if(countdownValue < 0) {
+                _countdownState = CountdownState.Collected;
+                TileVisualHandler.SetMainState(TileMainVisualStates.BadCollect);
+                Debug.Log("BAD COLLECT! EVENT");
+            }
+
         }
 
         public override void OnPlayerStep() {
             base.OnPlayerStep();
-            //TODO: Check if the state of tile is ReadyToCollect
-            // if True – Change state to Collected
-            // if False – Change state to BadCollect and change sprite
-            // also disable textMeshPro
+
+            if (_countdownState == CountdownState.Collected) {
+                return;
+            }
+
+            if (_countdownState == CountdownState.ReadyToCollect) {
+                TileVisualHandler.SetMainState(TileMainVisualStates.Collect);
+                Debug.Log("GOOD COLLECT!");
+            } else {
+                TileVisualHandler.SetMainState(TileMainVisualStates.BadCollect);
+                Debug.Log("BAD COLLECT!");
+            }
+            
+            _countdownState = CountdownState.Collected;
         }
     }
 }
