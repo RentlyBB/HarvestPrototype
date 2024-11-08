@@ -13,17 +13,17 @@ namespace _Scripts.Managers {
         private Grid<TileGridObject> _grid;
         
         private void OnEnable() {
-            if (inputReader != null) inputReader.OnMouseClick += OnMouseClick;
+            if (inputReader != null) inputReader.OnMouseClickE += MouseClickE;
             GridManager.GridInit += SetGrid;
         }
 
         private void OnDisable() {
-            if (inputReader != null) inputReader.OnMouseClick -= OnMouseClick;
+            if (inputReader != null) inputReader.OnMouseClickE -= MouseClickE;
             GridManager.GridInit -= SetGrid;
         }
 
         // Inform GameManager that player clicked
-        private void OnMouseClick(Vector3 mousePosition) {
+        private void MouseClickE(Vector3 mousePosition) {
             var tileGridObject = _grid?.GetGridObject(mousePosition);
             
             // Check if player click on GridObject

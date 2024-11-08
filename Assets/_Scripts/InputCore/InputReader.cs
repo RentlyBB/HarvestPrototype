@@ -21,15 +21,14 @@ namespace _Scripts.InputCore {
         }
 
         /*GAMEPLAY*/
-        public void DoMouseClick(InputAction.CallbackContext context) {
+        public void OnMouseClick(InputAction.CallbackContext context) {
             if (context.phase == InputActionPhase.Performed) {
-                OnMouseClick?.Invoke(Utils.GetMouseWorldPosition2D());
+                OnMouseClickE?.Invoke(Utils.GetMouseWorldPosition2D());
             }
         }
-
+        
         // Events for each player input
-        public event UnityAction<Vector3> OnMouseClick = delegate { };
-      
+        public event UnityAction<Vector3> OnMouseClickE = delegate { };
 
         public void EnableGameplayInput() {
             GameInput.Gameplay.Enable();

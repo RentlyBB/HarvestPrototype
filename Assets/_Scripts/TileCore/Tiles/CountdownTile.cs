@@ -75,6 +75,7 @@ namespace _Scripts.TileCore.Tiles {
             } else {
                 TileVisualHandler.SetMainState(TileMainVisualStates.BadCollect);
                 Debug.Log("BAD COLLECT!");
+                _tileTextHandler.RemoveText();
             }
             
             _countdownState = CountdownState.Collected;

@@ -7,10 +7,11 @@ namespace _Scripts.TileCore {
         public TextMeshPro middleText;
 
         public void AddText(string text) {
-            middleText = Utils.CreateTextWorld(text, new Vector3(transform.position.x, transform.position.y + 0.05f, -1), 40, transform, Color.green);
+            middleText = Utils.CreateTextWorld(text, new Vector3(transform.position.x, transform.position.y + 0.05f, -1), 75, transform, Color.green);
         }
 
         public void RemoveText() {
+            if(middleText is null) return;
             Destroy(middleText);
         }
 
