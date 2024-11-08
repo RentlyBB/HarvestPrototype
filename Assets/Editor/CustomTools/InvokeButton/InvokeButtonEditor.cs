@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
+using EditorScripts;
 using UnityEditor;
+using UnityEngine;
 
-namespace EditorScripts {
+namespace Editor.CustomTools.InvokeButton {
     [CustomEditor(typeof(MonoBehaviour), true), CanEditMultipleObjects]
-    public class InvokeButtonEditor : Editor {
+    public class InvokeButtonEditor : UnityEditor.Editor {
         
         public override void OnInspectorGUI() {
             DrawDefaultInspector();

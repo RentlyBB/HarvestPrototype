@@ -48,17 +48,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""MouseClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0c37e6cf-1f85-4a09-a814-1db586cc0e5a"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Mobile"",
-                    ""action"": ""MouseClick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -68,17 +57,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             ""name"": ""Mouse"",
             ""bindingGroup"": ""Mouse"",
             ""devices"": []
-        },
-        {
-            ""name"": ""Mobile"",
-            ""bindingGroup"": ""Mobile"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Touchscreen>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
         }
     ]
 }");
@@ -195,15 +173,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         {
             if (m_MouseSchemeIndex == -1) m_MouseSchemeIndex = asset.FindControlSchemeIndex("Mouse");
             return asset.controlSchemes[m_MouseSchemeIndex];
-        }
-    }
-    private int m_MobileSchemeIndex = -1;
-    public InputControlScheme MobileScheme
-    {
-        get
-        {
-            if (m_MobileSchemeIndex == -1) m_MobileSchemeIndex = asset.FindControlSchemeIndex("Mobile");
-            return asset.controlSchemes[m_MobileSchemeIndex];
         }
     }
     public interface IGameplayActions
