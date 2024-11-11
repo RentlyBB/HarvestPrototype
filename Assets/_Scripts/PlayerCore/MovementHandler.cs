@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using _Scripts.GridCore;
 using _Scripts.Managers;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
-using WaitForSeconds = UnityEngine.WaitForSeconds;
 
 namespace _Scripts.PlayerCore {
     [RequireComponent(typeof(TilePositionValidator))]
@@ -29,7 +26,7 @@ namespace _Scripts.PlayerCore {
         private TilePositionValidator _tilePositionValidator;
         private GameplayManager _gameplayManagerInstance;
         
-        private Queue<TileGridObject> _targetTilesQueue = new Queue<TileGridObject>();
+        private readonly Queue<TileGridObject> _targetTilesQueue = new Queue<TileGridObject>();
 
         private void Awake() {
             TryGetComponent(out _tilePositionValidator);

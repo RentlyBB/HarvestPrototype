@@ -59,25 +59,25 @@ namespace _Scripts.TileCore.Tiles {
                 TileVisualHandler.SetMainState(TileMainVisualStates.BadCollect);
                 Debug.Log("BAD COLLECT! EVENT");
             }
-
         }
 
         public override void OnPlayerStep() {
             base.OnPlayerStep();
 
-            if (_countdownState == CountdownState.Collected) {
-                return;
+            switch (_countdownState) {
+                case CountdownState.Collected:
+                    return;
+                case CountdownState.ReadyToCollect:
+                    TileVisualHandler.SetMainState(TileMainVisualStates.Default);
+                    Debug.Log("GOOD COLLECT!");
+                    break;
+                default:
+                    TileVisualHandler.SetMainState(TileMainVisualStates.BadCollect);
+                    Debug.Log("BAD COLLECT!");
+                    _tileTextHandler.RemoveText();
+                    break;
             }
 
-            if (_countdownState == CountdownState.ReadyToCollect) {
-                TileVisualHandler.SetMainState(TileMainVisualStates.Collect);
-                Debug.Log("GOOD COLLECT!");
-            } else {
-                TileVisualHandler.SetMainState(TileMainVisualStates.BadCollect);
-                Debug.Log("BAD COLLECT!");
-                _tileTextHandler.RemoveText();
-            }
-            
             _countdownState = CountdownState.Collected;
         }
     }
