@@ -28,8 +28,13 @@ namespace _Scripts.Managers {
         }
        
         private void Start() {
+            foreach (TileData tileData in levelData.tiles) {
+                if (tileData.tileType is (TileType.CountdownTile or TileType.RepeatCountdownTile)) {
+                    Debug.Log("+1");
+                }
+            }
+            
             LoadLevel();
-            //cam.transform.position = new Vector3((float)levelData.gridWidth / 2 - 0.5f, (float)levelData.gridHeight / 2 - 0.5f, -10);
             cam.transform.position = new Vector3((float)levelData.gridWidth / 2, (float)levelData.gridHeight / 2, -10);
         }
 
@@ -62,6 +67,8 @@ namespace _Scripts.Managers {
             // TileData - Holds data for only one tile in the grid 
             foreach (TileData tile in levelData.tiles) {
                 _tileTypeParser.TileTypeToGameObject(tile, out TileBase tileBase, _grid);
+                if (tileBase is  null) break;
+                
                 tileBase.gridPosition = tile.gridPosition;
                 _grid.GetGridDictionary()[tile.gridPosition].SetTileBase(tileBase);
             }

@@ -40,7 +40,8 @@ namespace _Scripts.Managers {
                 var tileGridObject = _grid?.GetGridObject(Utils.GetMouseWorldPosition2D());
 
                 // Check if player click on GridObject
-                if (tileGridObject == null) return;
+                if (tileGridObject is null) return;
+                if(tileGridObject.GetTile().canMoveOn is false) return;
 
                 //Click on grid
                 OnClickOnTile?.Invoke(tileGridObject);

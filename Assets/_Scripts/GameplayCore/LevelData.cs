@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Scripts.TileCore.Enums;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace _Scripts.GameplayCore {
         public int gridHeight;
         public Vector2Int startingGridPosition;
         public List<TileData> tiles = new List<TileData>();
+
     }
     
     [System.Serializable]

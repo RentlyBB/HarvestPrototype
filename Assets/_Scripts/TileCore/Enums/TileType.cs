@@ -5,5 +5,6 @@
         CountdownTile,
         FreezeTile,
         PushTile,
+        RepeatCountdownTile,
     }
 }

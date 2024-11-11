@@ -2,8 +2,11 @@ namespace _Scripts.TileCore.Enums {
     public enum TileMainVisualStates {
         Default,
         Countdown,
-        Collect,
+        RepeatCountdown,
+        ReadyToCollect,
         BadCollect,
+        GoodCollect,
+        Empty,
     }
 
     public enum TileSubVisualStates {

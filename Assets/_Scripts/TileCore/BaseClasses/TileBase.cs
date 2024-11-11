@@ -18,10 +18,15 @@ namespace _Scripts.TileCore.BaseClasses {
             TryGetComponent(out TileSoundHandler);
             canMoveOn = true;
         }
-
+        
         public virtual void OnPlayerStep() {
             TileVisualHandler.SetSubState(TileSubVisualStates.Pressed);
         }
+
+        public virtual void OnPlayerStepAfterDecreasing() {
+            
+        }
+
 
         public virtual void OnPlayerLeave() {
             TileVisualHandler.SetSubState(TileSubVisualStates.Unpressed);

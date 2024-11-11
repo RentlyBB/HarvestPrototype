@@ -47,9 +47,10 @@ namespace _Scripts.PlayerCore {
         
         //Teleport player to GridPosition - used on load level
         public void SetStartingTile(TileGridObject tileGridObject) {
-            _currentTile = tileGridObject;
+            _currentTile = tileGridObject; // Set current tile
             Vector2 startingPosition = tileGridObject.GetWorldPositionCellCenter();
             transform.position = new Vector3(startingPosition.x, startingPosition.y, transform.position.z);
+            tileGridObject.GetTile().OnPlayerStep();
         }
         
         private void AddTargetTile(TileGridObject tileGridObject) {

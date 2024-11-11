@@ -18,6 +18,8 @@ namespace _Scripts.Managers {
             tileBase?.OnPlayerStep();
             
             CountdownDecreasing?.Invoke();
+
+            tileBase?.OnPlayerStepAfterDecreasing();
         }
     }
 }

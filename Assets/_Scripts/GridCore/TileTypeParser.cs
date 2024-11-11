@@ -9,6 +9,8 @@ namespace _Scripts.GridCore {
     public class TileTypeParser : MonoBehaviour {
         private const string DefaultTile = "TilePrefabs/DefaultTile";
         private const string CountdownTile = "TilePrefabs/CountdownTile";
+        private const string RepeatCountdownTile = "TilePrefabs/RepeatCountdownTile";
+        private const string EmptyTile = "TilePrefabs/EmptyTile";
 
         // Get TileType variable and creates a GameObject of that type
         // Used for Init load grid
@@ -17,17 +19,22 @@ namespace _Scripts.GridCore {
 
             switch (tileData.tileType) {
                 case TileType.EmptyTile:
+                    tileBase = Instantiate(Resources.Load<GameObject>(EmptyTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
                     break;
                 case TileType.DefaultTile:
                     tileBase = Instantiate(Resources.Load<GameObject>(DefaultTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
                     break;
                 case TileType.CountdownTile:
                     tileBase = Instantiate(Resources.Load<GameObject>(CountdownTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
-                    tileBase.GetComponent<CountdownTile>().countdownValue = tileData.countdownValue;
+                    tileBase.GetComponent<CountdownTileBase>().countdownValue = tileData.countdownValue;
                     break;
                 case TileType.FreezeTile:
                     break;
                 case TileType.PushTile:
+                    break;
+                case TileType.RepeatCountdownTile:
+                    tileBase = Instantiate(Resources.Load<GameObject>(RepeatCountdownTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
+                    tileBase.GetComponent<CountdownTileBase>().countdownValue = tileData.countdownValue;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tileData.tileType), tileData.tileType, null);
