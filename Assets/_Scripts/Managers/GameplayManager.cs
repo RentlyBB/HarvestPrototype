@@ -1,12 +1,12 @@
 ﻿using System;
 using _Scripts.GridCore;
 using _Scripts.TileCore.BaseClasses;
-using UnityEngine;
+using QFSW.QC;
 using UnityEngine.Events;
 using UnitySingleton;
 
 namespace _Scripts.Managers {
-    public class GameplayManager : PersistentMonoSingleton<GameplayManager> {
+    public class GameplayManager : MonoSingleton<GameplayManager> {
 
         public static UnityAction CountdownDecreasing = delegate { };
 

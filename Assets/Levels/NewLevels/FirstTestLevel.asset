@@ -17,7 +17,7 @@ MonoBehaviour:
   startingGridPosition: {x: 1, y: 0}
   tiles:
   - gridPosition: {x: 0, y: 0}
-    tileType: 2
+    tileType: 3
     countdownValue: 4
   - gridPosition: {x: 0, y: 1}
     tileType: 1
@@ -29,10 +29,10 @@ MonoBehaviour:
     tileType: 1
     countdownValue: 0
   - gridPosition: {x: 1, y: 1}
-    tileType: 1
-    countdownValue: 1
+    tileType: 2
+    countdownValue: 2
   - gridPosition: {x: 1, y: 2}
-    tileType: 5
+    tileType: 1
     countdownValue: 2
   - gridPosition: {x: 2, y: 0}
     tileType: 1
@@ -41,5 +41,5 @@ MonoBehaviour:
     tileType: 1
     countdownValue: 0
   - gridPosition: {x: 2, y: 2}
-    tileType: 0
+    tileType: 1
     countdownValue: 0

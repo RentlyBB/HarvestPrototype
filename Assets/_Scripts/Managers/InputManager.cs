@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnitySingleton;
 
 namespace _Scripts.Managers {
-    public class InputManager : PersistentMonoSingleton<InputManager>, GameInput.IGameplayActions {
+    public class InputManager : MonoSingleton<InputManager>, GameInput.IGameplayActions {
         public static event UnityAction<TileGridObject> OnClickOnTile = delegate { };
 
         private GameInput _gameInput;

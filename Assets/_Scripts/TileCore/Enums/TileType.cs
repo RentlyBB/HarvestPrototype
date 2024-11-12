@@ -3,8 +3,6 @@
         EmptyTile,
         DefaultTile,
         CountdownTile,
-        FreezeTile,
-        PushTile,
         RepeatCountdownTile,
     }
 }

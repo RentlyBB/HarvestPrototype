@@ -28,10 +28,6 @@ namespace _Scripts.GridCore {
                     tileBase = Instantiate(Resources.Load<GameObject>(CountdownTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
                     tileBase.GetComponent<CountdownTileBase>().countdownValue = tileData.countdownValue;
                     break;
-                case TileType.FreezeTile:
-                    break;
-                case TileType.PushTile:
-                    break;
                 case TileType.RepeatCountdownTile:
                     tileBase = Instantiate(Resources.Load<GameObject>(RepeatCountdownTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
                     tileBase.GetComponent<CountdownTileBase>().countdownValue = tileData.countdownValue;
@@ -51,8 +47,6 @@ namespace _Scripts.GridCore {
                     break;
                 case TileType.EmptyTile:
                 case TileType.CountdownTile:
-                case TileType.FreezeTile:
-                case TileType.PushTile:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tileType), tileType, null);
