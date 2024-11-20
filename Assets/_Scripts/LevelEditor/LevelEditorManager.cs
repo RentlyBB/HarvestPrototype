@@ -1,22 +1,39 @@
+using System;
 using _Scripts.GameplayCore;
 using _Scripts.GridCore;
 using _Scripts.TileCore.Enums;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnitySingleton;
 
 namespace _Scripts.LevelEditor {
     public class LevelEditorManager : MonoSingleton<LevelEditorManager> {
+        
         public LevelData levelDataToEdit;
 
+        public TileType selectedTileType;
+
+        private GameInput _gameInput;
         private Camera _cam;
-
         private Grid<EditorTileGridObject> _grid;
-
+        
         private const string EditorTilePath = "TilePrefabs/EditorTile";
 
         protected override void Awake() {
             base.Awake();
             GameObject.FindWithTag("MainCamera").TryGetComponent(out _cam);
+            _gameInput = new GameInput();
+
+            _gameInput.Gameplay.MouseClick.performed += GetTile;
+        }
+
+        private void OnEnable() {
+            _gameInput.Gameplay.Enable();
+        }
+
+        private void OnDisable() {
+            _gameInput.Gameplay.MouseClick.performed -= GetTile;
+            _gameInput.Gameplay.Disable();
         }
 
         private void Start() {
@@ -24,11 +41,10 @@ namespace _Scripts.LevelEditor {
                 _cam.transform.position = new Vector3((float)levelDataToEdit.gridWidth / 2, (float)levelDataToEdit.gridHeight / 2, -10);
             }
 
-
-            EditCurentLevel();
+            EditCurrentLevel();
         }
 
-        private void EditCurentLevel() {
+        private void EditCurrentLevel() {
             InitGrid();
         }
 
@@ -59,11 +75,21 @@ namespace _Scripts.LevelEditor {
             }
         }
 
+
+        private void GetTile(InputAction.CallbackContext ctx) {
+            
+            var editorTileGridObject = _grid?.GetGridObject(Utils.GetMouseWorldPosition2D());
+
+            // Check if player click on GridObject
+            if (editorTileGridObject is null) return;
+            
+            Debug.Log("Tile Pos: " + editorTileGridObject.GetXY());
+            
+            
+        }
+
         private void ClearGrid() {
             if(_grid is null) return;
-            
-            
-            
             
         }
     }
