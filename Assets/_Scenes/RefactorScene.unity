@@ -998,6 +998,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2735026971299745347, guid: efe07aada16bb884ca465be86e0df427, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735026971299745347, guid: efe07aada16bb884ca465be86e0df427, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735026971299745347, guid: efe07aada16bb884ca465be86e0df427, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1040,6 +1048,22 @@ PrefabInstance:
     - target: {fileID: 2741678177287053825, guid: efe07aada16bb884ca465be86e0df427, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7388293440588118471, guid: efe07aada16bb884ca465be86e0df427, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 165a6f5cd60204940bec4cd7af0fb0fd, type: 3}
+    - target: {fileID: 7388293440588118471, guid: efe07aada16bb884ca465be86e0df427, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7388293440588118471, guid: efe07aada16bb884ca465be86e0df427, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7388293440588118471, guid: efe07aada16bb884ca465be86e0df427, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
