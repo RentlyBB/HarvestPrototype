@@ -12,7 +12,8 @@ namespace _Scripts.TileCore {
 
         public void RemoveText() {
             if(middleText is null) return;
-            Destroy(middleText);
+
+            middleText.text = "";
         }
 
         public void UpdateText(string text) {

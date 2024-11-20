@@ -112,6 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0cc5c47fb74f589fcc5d896b3a33f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileVisualData: {fileID: 0}
-  _currentMainState: 0
+  tileVisualData: {fileID: 11400000, guid: 084bfa1f1be3071458510165c1ad32dd, type: 2}
+  _currentMainState: 6
   _currentSubState: 0

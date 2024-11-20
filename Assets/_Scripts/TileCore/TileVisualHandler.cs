@@ -18,19 +18,32 @@ namespace _Scripts.TileCore {
         }
 
         private void UpdateSprite() {
-            if (_currentMainState is TileMainVisualStates.Empty) {
-                _spriteRenderer.color = new Color(0, 0, 0, 0);
-                return;
-            }
-
             if (tileVisualData is null) {
                 Debug.LogError("TileVisualData is not assigned!");
                 return;
             }
 
+            HandleTransparency();
+
             // Retrieve and apply the appropriate sprite for the current composite state
             Sprite sprite = tileVisualData.GetSprite(_currentMainState, _currentSubState);
             _spriteRenderer.sprite = sprite;
+            
+        }
+
+        private void HandleTransparency() {
+            if (_currentMainState is TileMainVisualStates.Empty) {
+                Color col = _spriteRenderer.color;
+                col.a = 0;
+                _spriteRenderer.color = col;
+                return;
+            }
+
+            if (_spriteRenderer.color.a == 0) {
+                Color color = _spriteRenderer.color;
+                color.a = 255;
+                _spriteRenderer.color = color;
+            }
         }
 
         public void SetMainAndSubState(TileMainVisualStates newMainState, TileSubVisualStates newSubState) {

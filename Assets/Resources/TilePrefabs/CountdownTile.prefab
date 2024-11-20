@@ -102,6 +102,7 @@ MonoBehaviour:
   canMoveOn: 1
   gridPosition: {x: 0, y: 0}
   countdownValue: 0
+  countdownState: 0
 --- !u!114 &7037429328472074771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +116,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileVisualData: {fileID: 11400000, guid: 61a52ccac59374fd4841a182c4a814ad, type: 2}
+  _currentMainState: 1
+  _currentSubState: 0
 --- !u!114 &-7382665954861115979
 MonoBehaviour:
   m_ObjectHideFlags: 0
