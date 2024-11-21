@@ -31,7 +31,7 @@ namespace _Scripts.Managers {
         private void Start() {
             foreach (TileData tileData in loadedLevelData.tiles) {
                 if (tileData.tileType is (TileType.CountdownTile or TileType.RepeatCountdownTile)) {
-                    Debug.Log("+1");
+                    //Debug.Log("+1");
                 }
             }
             
