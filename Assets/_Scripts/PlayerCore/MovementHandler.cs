@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using _Scripts.GridCore;
 using _Scripts.Managers;
 using UnityEngine;
+using VInspector;
 
 namespace _Scripts.PlayerCore {
     [RequireComponent(typeof(TilePositionValidator))]
@@ -17,7 +18,7 @@ namespace _Scripts.PlayerCore {
         public float movementDelay;
 
         public bool startMoving = false;
-
+        
         private TileGridObject _currentTile;
         private Vector2 _targetWorldPosition;
         private Vector2 _velocity = Vector2.zero; // Used by SmoothDamp for smooth movement
