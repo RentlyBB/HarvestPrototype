@@ -7,9 +7,7 @@ using _Scripts.TileCore.Enums;
 using QFSW.QC;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnitySingleton;
-using VHierarchy.Libs;
 using TileData = _Scripts.GameplayCore.TileData;
 
 #if UNITY_EDITOR
@@ -56,10 +54,10 @@ namespace _Scripts.LevelEditor {
                 _cam.transform.position = new Vector3((float)levelToEdit.gridWidth / 2, (float)levelToEdit.gridHeight / 2, -10);
             }
 
-            EditCurrentLevel();
+            //EditCurrentLevel();
         }
 
-        private void EditCurrentLevel() {
+        public void EditCurrentLevel() {
             InitGrid();
         }
 

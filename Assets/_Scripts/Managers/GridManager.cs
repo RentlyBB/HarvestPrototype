@@ -4,9 +4,9 @@ using _Scripts.GridCore;
 using _Scripts.PlayerCore;
 using _Scripts.TileCore.BaseClasses;
 using _Scripts.TileCore.Enums;
+using QFSW.QC;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnitySingleton;
 
 namespace _Scripts.Managers {
@@ -14,7 +14,7 @@ namespace _Scripts.Managers {
         
         public static UnityAction<Grid<TileGridObject>> GridInit = delegate { };
 
-        public LevelData loadedLevelData;
+        public LevelData currentLevelData;
 
         public Camera cam;
         
@@ -29,23 +29,25 @@ namespace _Scripts.Managers {
         }
        
         private void Start() {
-            foreach (TileData tileData in loadedLevelData.tiles) {
-                if (tileData.tileType is (TileType.CountdownTile or TileType.RepeatCountdownTile)) {
-                    //Debug.Log("+1");
-                }
-            }
+            // foreach (TileData tileData in currentLevelData.tiles) {
+            //     if (tileData.tileType is (TileType.CountdownTile or TileType.RepeatCountdownTile)) {
+            //         //Debug.Log("+1");
+            //     }
+            // }
             
-            LoadLevel();
-            cam.transform.position = new Vector3((float)loadedLevelData.gridWidth / 2, (float)loadedLevelData.gridHeight / 2, -10);
+            //LoadLevel();
+            cam.transform.position = new Vector3((float)currentLevelData.gridWidth / 2, (float)currentLevelData.gridHeight / 2, -10);
         }
 
+        
+        [Command]
         public void LoadLevel() {
 
             if (InitGrid()) {
                 FillGrid();
             }
 
-            _playerMovementHandler?.SetStartingTile(_grid.GetGridObject(loadedLevelData.startingGridPosition));
+            _playerMovementHandler?.SetStartingTile(_grid.GetGridObject(currentLevelData.startingGridPosition));
         }
 
         //Creates an empty grid
@@ -55,7 +57,7 @@ namespace _Scripts.Managers {
                 // TODO: Clear the grid
             }
 
-            _grid = new Grid<TileGridObject>(loadedLevelData.gridWidth, loadedLevelData.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
+            _grid = new Grid<TileGridObject>(currentLevelData.gridWidth, currentLevelData.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
             if (_grid == null) return false;
 
             GridInit?.Invoke(_grid);
@@ -66,7 +68,7 @@ namespace _Scripts.Managers {
         public void FillGrid() {
 
             // TileData - Holds data for only one tile in the grid 
-            foreach (TileData tile in loadedLevelData.tiles) {
+            foreach (TileData tile in currentLevelData.tiles) {
                 _tileTypeParser.TileTypeToGameObject(tile, out TileBase tileBase, _grid);
                 if (tileBase is  null) break;
                 

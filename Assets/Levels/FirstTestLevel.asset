@@ -14,23 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWidth: 3
   gridHeight: 3
-  startingGridPosition: {x: 1, y: 0}
+  startingGridPosition: {x: 2, y: 2}
   tiles:
   - gridPosition: {x: 0, y: 0}
-    tileType: 1
+    tileType: 0
     countdownValue: 0
   - gridPosition: {x: 0, y: 1}
-    tileType: 1
+    tileType: 0
     countdownValue: 0
   - gridPosition: {x: 0, y: 2}
-    tileType: 1
+    tileType: 0
     countdownValue: 0
   - gridPosition: {x: 1, y: 0}
-    tileType: 1
+    tileType: 0
     countdownValue: 0
   - gridPosition: {x: 1, y: 1}
-    tileType: 1
-    countdownValue: 0
+    tileType: 3
+    countdownValue: 5
   - gridPosition: {x: 1, y: 2}
     tileType: 2
     countdownValue: 1

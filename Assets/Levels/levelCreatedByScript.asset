@@ -77,17 +77,17 @@ MonoBehaviour:
     tileType: 1
     countdownValue: 0
   - gridPosition: {x: 0, y: 4}
-    tileType: 0
+    tileType: 1
     countdownValue: 0
   - gridPosition: {x: 1, y: 4}
     tileType: 1
     countdownValue: 0
   - gridPosition: {x: 2, y: 4}
-    tileType: 0
+    tileType: 1
     countdownValue: 0
   - gridPosition: {x: 3, y: 4}
     tileType: 1
     countdownValue: 0
   - gridPosition: {x: 4, y: 4}
-    tileType: 0
+    tileType: 1
     countdownValue: 0
