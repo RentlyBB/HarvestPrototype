@@ -87,5 +87,9 @@ namespace _Scripts.Managers {
             gridObject.SetTileBase(tileBase);
 
         }
+
+        public Grid<TileGridObject> GetGrid() {
+            return _grid;
+        }
     }
 }

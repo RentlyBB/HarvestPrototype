@@ -2,6 +2,7 @@ using System;
 using _Scripts.TileCore.Enums;
 using _Scripts.TileCore.ScriptableObjects;
 using UnityEngine;
+using VInspector;
 
 namespace _Scripts.TileCore {
     [RequireComponent(typeof(SpriteRenderer))]
@@ -9,12 +10,18 @@ namespace _Scripts.TileCore {
 
         public TileVisualData tileVisualData; // Assign this in the Inspector
 
-        private SpriteRenderer _spriteRenderer;
         public TileMainVisualStates _currentMainState;
         public TileSubVisualStates _currentSubState = TileSubVisualStates.Unpressed;
 
+        
+        private SpriteRenderer _spriteRenderer;
+
+
+        private Color _originalColor;
+        
         private void Awake() {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _originalColor = _spriteRenderer.color;
         }
 
         private void UpdateSprite() {
