@@ -26,7 +26,7 @@ MonoBehaviour:
     tileType: 0
     countdownValue: 0
   - gridPosition: {x: 1, y: 0}
-    tileType: 0
+    tileType: 4
     countdownValue: 0
   - gridPosition: {x: 1, y: 1}
     tileType: 3

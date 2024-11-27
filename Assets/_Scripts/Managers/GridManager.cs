@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Scripts.GameplayCore;
 using _Scripts.GridCore;
 using _Scripts.PlayerCore;
@@ -51,17 +52,25 @@ namespace _Scripts.Managers {
         }
 
         //Creates an empty grid
-        public bool InitGrid() {
+        private bool InitGrid() {
 
-            if (_grid != null) {
-                // TODO: Clear the grid
-            }
+            
+            ClearGrid();
 
             _grid = new Grid<TileGridObject>(currentLevelData.gridWidth, currentLevelData.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
             if (_grid == null) return false;
 
             GridInit?.Invoke(_grid);
             return true;
+        }
+        private void ClearGrid() {
+
+            if (_grid == null)
+                return;
+
+            foreach (KeyValuePair<Vector2Int, TileGridObject> entry in _grid.GetGridDictionary()) {
+                Destroy(entry.Value.GetTile().gameObject);
+            }
         }
 
         //Load grid with the data from LevelData
@@ -75,17 +84,6 @@ namespace _Scripts.Managers {
                 tileBase.gridPosition = tile.gridPosition;
                 _grid.GetGridDictionary()[tile.gridPosition].SetTileBase(tileBase);
             }
-        }
-
-        public void ReplaceAndDestroyTileWith(Vector2Int tileGridPosition, TileType tileToCreate) {
-            TileGridObject gridObject = _grid.GetGridDictionary()[tileGridPosition];
-
-            Destroy(gridObject.GetTile().gameObject);
-
-            gridObject.ClearTile();
-            _tileTypeParser.TileTypeToGameObject(tileToCreate, tileGridPosition, _grid, out TileBase tileBase);
-            gridObject.SetTileBase(tileBase);
-
         }
 
         public Grid<TileGridObject> GetGrid() {

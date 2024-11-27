@@ -6,7 +6,7 @@ namespace _Scripts.TileCore.Tiles {
     public class EmptyTile : TileBase {
 
         private void Start() {
-            TileVisualHandler.SetMainState(TileMainVisualStates.Empty);
+            tileVisualHandler.SetMainState(TileMainVisualStates.Empty);
             canMoveOn = false;
         }
     }

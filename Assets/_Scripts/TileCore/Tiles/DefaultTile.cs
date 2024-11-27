@@ -6,7 +6,7 @@ using UnityEngine;
 namespace _Scripts.TileCore.Tiles {
     public class DefaultTile : TileBase {
         private void Start() {
-            TileVisualHandler.SetMainState(TileMainVisualStates.Default);
+            tileVisualHandler.SetMainState(TileMainVisualStates.Default);
         }
     }
 }

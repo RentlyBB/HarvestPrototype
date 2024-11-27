@@ -11,6 +11,7 @@ namespace _Scripts.GridCore {
         private const string CountdownTile = "TilePrefabs/CountdownTile";
         private const string RepeatCountdownTile = "TilePrefabs/RepeatCountdownTile";
         private const string EmptyTile = "TilePrefabs/EmptyTile";
+        private const string FreezeTile = "TilePrefabs/FreezeTile";
 
         // Get TileType variable and creates a GameObject of that type
         // Used for Init load grid
@@ -32,24 +33,11 @@ namespace _Scripts.GridCore {
                     tileBase = Instantiate(Resources.Load<GameObject>(RepeatCountdownTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
                     tileBase.GetComponent<CountdownTileBase>().countdownValue = tileData.countdownValue;
                     break;
+                case TileType.FreezeTile:
+                    tileBase = Instantiate(Resources.Load<GameObject>(FreezeTile), grid.GetWorldPositionCellCenter(tileData.gridPosition), Quaternion.identity, transform).GetComponent<TileBase>();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(tileData.tileType), tileData.tileType, null);
-            }
-        }
-        
-        //Used for Replace tile on the grid
-        public void TileTypeToGameObject(TileType tileType, Vector2Int pos, Grid<TileGridObject> grid, out TileBase tileBase) {
-            tileBase = null;
-            switch (tileType) {
-                case TileType.DefaultTile:
-                    tileBase = Instantiate(Resources.Load<GameObject>(DefaultTile), grid.GetWorldPositionCellCenter(pos), Quaternion.identity, transform).GetComponent<TileBase>();
-                    tileBase.gridPosition = pos;
-                    break;
-                case TileType.EmptyTile:
-                case TileType.CountdownTile:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(tileType), tileType, null);
             }
         }
     }

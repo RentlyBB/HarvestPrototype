@@ -11,8 +11,8 @@ namespace _Scripts.TileCore.Tiles {
         private void Start() {
             _repeated = false;
             _originalCountdownValue = countdownValue;
-            TileVisualHandler.SetMainAndSubState(TileMainVisualStates.RepeatCountdown, TileSubVisualStates.Unpressed);
-            TileTextHandler.AddText(countdownValue.ToString(), 72, Color.yellow);
+            tileVisualHandler.SetMainAndSubState(TileMainVisualStates.ReadyToCollect, TileSubVisualStates.Unpressed);
+            TileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
             countdownState = CountdownState.Counting;
         }
 
@@ -29,24 +29,27 @@ namespace _Scripts.TileCore.Tiles {
 
             if (countdownState == CountdownState.Collected) return;
 
+            if (!_repeated) {
+                RepeatCountdown();
+                return;
+            }
+            
             if (countdownState == CountdownState.ReadyToCollect) {
-                if (_repeated) {
-                    GoodCollect();
-                } else {
-                    RepeatCountdown();
-                }
+                GoodCollect();
             } else {
                 BadCollect();
             }
         }
+        
         public override void OnPlayerStepAfterDecreasing() {
         }
 
         private void RepeatCountdown() {
             countdownState = CountdownState.Counting;
             countdownValue = _originalCountdownValue;
+            TileTextHandler.RemoveText();
             TileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
-            TileVisualHandler.SetMainState(TileMainVisualStates.Countdown);
+            tileVisualHandler.SetMainState(TileMainVisualStates.Countdown);
             _repeated = true;
             SkipNextDecrease();
 

@@ -1,5 +1,6 @@
 using _Scripts.TileCore.Enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Scripts.TileCore.BaseClasses {
     [RequireComponent(typeof(TileVisualHandler))]
@@ -8,15 +9,15 @@ namespace _Scripts.TileCore.BaseClasses {
         public bool canMoveOn;
         public Vector2Int gridPosition;
         
-        protected TileVisualHandler TileVisualHandler; // Handling a visual of the tile
+        public TileVisualHandler tileVisualHandler; // Handling a visual of the tile
 
         protected virtual void Awake() {
-            TryGetComponent(out TileVisualHandler);
+            TryGetComponent(out tileVisualHandler);
             canMoveOn = true;
         }
         
         public virtual void OnPlayerStep() {
-            TileVisualHandler.SetSubState(TileSubVisualStates.Pressed);
+            tileVisualHandler.SetSubState(TileSubVisualStates.Pressed);
         }
 
         public virtual void OnPlayerStepAfterDecreasing() {
@@ -25,7 +26,7 @@ namespace _Scripts.TileCore.BaseClasses {
 
 
         public virtual void OnPlayerLeave() {
-            TileVisualHandler.SetSubState(TileSubVisualStates.Unpressed);
+            tileVisualHandler.SetSubState(TileSubVisualStates.Unpressed);
         }
     }
 }

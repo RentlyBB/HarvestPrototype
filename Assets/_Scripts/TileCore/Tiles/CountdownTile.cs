@@ -8,7 +8,7 @@ namespace _Scripts.TileCore.Tiles {
     public sealed class CountdownTile : CountdownTileBase {
         
         private void Start() {
-            TileVisualHandler.SetMainAndSubState(TileMainVisualStates.Countdown, TileSubVisualStates.Unpressed);
+            tileVisualHandler.SetMainAndSubState(TileMainVisualStates.Countdown, TileSubVisualStates.Unpressed);
             TileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
             countdownState = CountdownState.Counting;
         }

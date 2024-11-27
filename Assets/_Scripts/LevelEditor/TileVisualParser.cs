@@ -15,6 +15,8 @@ namespace _Scripts.LevelEditor {
                     return TileMainVisualStates.Default;
                 case TileType.RepeatCountdownTile:
                     return TileMainVisualStates.RepeatCountdown;
+                case TileType.FreezeTile:
+                    return TileMainVisualStates.Default;
                 default:
                     return TileMainVisualStates.Empty;
             }

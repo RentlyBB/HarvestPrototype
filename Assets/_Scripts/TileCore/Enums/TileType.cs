@@ -8,5 +8,6 @@ namespace _Scripts.TileCore.Enums {
         DefaultTile,
         CountdownTile,
         RepeatCountdownTile,
+        FreezeTile
     }
 }

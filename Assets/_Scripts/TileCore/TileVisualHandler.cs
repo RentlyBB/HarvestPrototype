@@ -70,5 +70,13 @@ namespace _Scripts.TileCore {
             _currentSubState = newSubState;
             UpdateSprite();
         }
+
+        public void SetColorOver() {
+            _spriteRenderer.color = Color.cyan;
+        }
+
+        public void ResetColorOver() {
+            _spriteRenderer.color = _originalColor;
+        }
     }
 }
