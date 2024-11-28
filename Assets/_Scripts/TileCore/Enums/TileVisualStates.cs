@@ -7,6 +7,8 @@ namespace _Scripts.TileCore.Enums {
         BadCollect,
         GoodCollect,
         Empty,
+        FreezeHorizontal,
+        FreezeVertical
     }
 
     public enum TileSubVisualStates {

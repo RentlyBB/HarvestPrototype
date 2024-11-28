@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -4677901382336294405}
   - component: {fileID: 3302572282978228560}
   m_Layer: 0
-  m_Name: FreezeTile
+  m_Name: FreezeHorizontalTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,6 +113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0cc5c47fb74f589fcc5d896b3a33f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileVisualData: {fileID: 11400000, guid: 46863a9d3f9cf400fa99de41b7f1ce3d, type: 2}
-  _currentMainState: 0
+  tileVisualData: {fileID: 11400000, guid: bd22a1fb97a674c2bbc02db4255c3090, type: 2}
+  _currentMainState: 7
   _currentSubState: 0

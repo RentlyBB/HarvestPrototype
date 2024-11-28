@@ -9,9 +9,11 @@ using VInspector;
 namespace _Scripts.TileCore.Tiles {
     public class FreezeTile : TileBase {
 
+        public bool horizontalFreeze = true;
 
         private void Start() {
-            tileVisualHandler.SetMainAndSubState(TileMainVisualStates.Default, TileSubVisualStates.Unpressed);
+            var visualState = horizontalFreeze ? TileMainVisualStates.FreezeHorizontal : TileMainVisualStates.FreezeVertical;
+            tileVisualHandler.SetMainAndSubState(visualState, TileSubVisualStates.Unpressed);
 
         }
 

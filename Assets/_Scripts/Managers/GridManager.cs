@@ -78,6 +78,8 @@ namespace _Scripts.Managers {
 
             // TileData - Holds data for only one tile in the grid 
             foreach (TileData tileData in currentLevelData.tiles) {
+                if (tileData.tileTypeData is null) continue;
+
                 _tileTypeParser.TileTypeToGameObject(tileData, _grid, out TileBase tileBase);
                 if (tileBase is  null) break;
                 

@@ -26,6 +26,8 @@ namespace _Scripts.LevelEditor {
 
         public bool setStartingPosition = false;
 
+        public Transform playerMarker;
+
         private GameInput _gameInput;
         private Camera _cam;
         private Grid<TileGridObject> _grid;
@@ -72,13 +74,17 @@ namespace _Scripts.LevelEditor {
 
             // TileData - Holds data for only one tile in the grid 
             foreach (TileData tileData in levelToEdit.tiles) {
-
+                if (tileData.tileTypeData is null) continue;
+                
                 _tileTypeParser.TileTypeToGameObject(tileData, _grid, out TileBase tileBase);
                 if (tileBase is  null) break;
                 
                 tileBase.gridPosition = tileData.gridPosition;
                 _grid.GetGridDictionary()[tileData.gridPosition].SetTileBase(tileBase);
             }
+
+            var pos = _grid.GetWorldPositionCellCenter(levelToEdit.startingGridPosition);
+            playerMarker.position = new Vector3(pos.x, pos.y, -1);
         }
 
         private void OnTileClick(InputAction.CallbackContext ctx) {
@@ -110,8 +116,17 @@ namespace _Scripts.LevelEditor {
             if (!setStartingPosition) return false;
             
             levelToEdit.startingGridPosition = tileGridObject.GetXY();
+
+
+            if (!playerMarker.gameObject.activeSelf) {
+                playerMarker.gameObject.SetActive(true);
+            }
+
+            var pos = tileGridObject.GetWorldPositionCellCenter();
+            playerMarker.position = new Vector3(pos.x, pos.y, -1);
+           
+            
             setStartingPosition = false;
-            Debug.Log("Starting position is set to: " + tileGridObject.GetXY());
             return true;
         }
 
@@ -130,6 +145,8 @@ namespace _Scripts.LevelEditor {
         [Command]
         private void ClearGrid() {
             foreach (KeyValuePair<Vector2Int, TileGridObject> entry in _grid.GetGridDictionary()) {
+                if(entry.Value.GetTile() is null) continue;
+                
                 Destroy(entry.Value.GetTile().gameObject);
             }
         }
