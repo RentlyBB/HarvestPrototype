@@ -1,18 +1,20 @@
 using System;
 using _Scripts.TileCore.Enums;
+using _Scripts.TileCore.ScriptableObjects;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 
 namespace _Scripts.LevelEditor {
     
     public class BtnUIBehaviour : MonoBehaviour {
 
-        public TileType tileType;
+        public TileTypeData tileTypeData;
 
         public TMP_InputField textInput;
 
         public void SetTileType() {
-            LevelEditorManager.Instance.selectedTileType = tileType;
+            LevelEditorManager.Instance.selectedTileTypeData = tileTypeData;
         }
 
         public void SetCountdownValue(int i) {

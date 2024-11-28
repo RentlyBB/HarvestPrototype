@@ -12,7 +12,7 @@ namespace _Scripts.TileCore.Tiles {
             _repeated = false;
             _originalCountdownValue = countdownValue;
             tileVisualHandler.SetMainAndSubState(TileMainVisualStates.ReadyToCollect, TileSubVisualStates.Unpressed);
-            TileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
+            tileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
             countdownState = CountdownState.Counting;
         }
 
@@ -21,7 +21,7 @@ namespace _Scripts.TileCore.Tiles {
                 return;
 
             countdownValue--;
-            TileTextHandler.UpdateText(countdownValue.ToString());
+            tileTextHandler.UpdateText(countdownValue.ToString());
         }
 
         public override void OnPlayerStep() {
@@ -47,8 +47,8 @@ namespace _Scripts.TileCore.Tiles {
         private void RepeatCountdown() {
             countdownState = CountdownState.Counting;
             countdownValue = _originalCountdownValue;
-            TileTextHandler.RemoveText();
-            TileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
+            tileTextHandler.RemoveText();
+            tileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
             tileVisualHandler.SetMainState(TileMainVisualStates.Countdown);
             _repeated = true;
             SkipNextDecrease();

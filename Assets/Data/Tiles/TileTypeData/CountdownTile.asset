@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62e79f36b78042fbac9496657b002ada, type: 3}
+  m_Name: CountdownTile
+  m_EditorClassIdentifier: 
+  description: Countdown Tile, each player step it deacrese the countdown value by
+    1. Has to be collected when countdown value is 0.
+  tilePrefab: {fileID: 8959427488391185319, guid: 00d626d062fa54297a35c5bc6166fb67, type: 3}
+  mainVisualStates: 1
+  defaultCountdownValue: 1

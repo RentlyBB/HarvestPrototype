@@ -77,12 +77,12 @@ namespace _Scripts.Managers {
         public void FillGrid() {
 
             // TileData - Holds data for only one tile in the grid 
-            foreach (TileData tile in currentLevelData.tiles) {
-                _tileTypeParser.TileTypeToGameObject(tile, out TileBase tileBase, _grid);
+            foreach (TileData tileData in currentLevelData.tiles) {
+                _tileTypeParser.TileTypeToGameObject(tileData, _grid, out TileBase tileBase);
                 if (tileBase is  null) break;
                 
-                tileBase.gridPosition = tile.gridPosition;
-                _grid.GetGridDictionary()[tile.gridPosition].SetTileBase(tileBase);
+                tileBase.gridPosition = tileData.gridPosition;
+                _grid.GetGridDictionary()[tileData.gridPosition].SetTileBase(tileBase);
             }
         }
 

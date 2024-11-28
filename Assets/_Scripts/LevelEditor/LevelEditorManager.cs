@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using _Scripts.GameplayCore;
 using _Scripts.GridCore;
-using _Scripts.TileCore.Enums;
+using _Scripts.TileCore.BaseClasses;
+using _Scripts.TileCore.ScriptableObjects;
 using QFSW.QC;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnitySingleton;
-using TileData = _Scripts.GameplayCore.TileData;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -20,7 +20,7 @@ namespace _Scripts.LevelEditor {
 
         public LevelData levelToEdit;
 
-        public TileType selectedTileType;
+        public TileTypeData selectedTileTypeData;
         public int selectedCountdownValue;
         public Vector2Int selectedStartingPosition = Vector2Int.zero;
 
@@ -28,13 +28,15 @@ namespace _Scripts.LevelEditor {
 
         private GameInput _gameInput;
         private Camera _cam;
-        private Grid<EditorTileGridObject> _grid;
-
-        private const string EditorTilePath = "TilePrefabs/EditorTile";
+        private Grid<TileGridObject> _grid;
+        private TileTypeParser _tileTypeParser;
 
         protected override void Awake() {
             base.Awake();
             GameObject.FindWithTag("MainCamera").TryGetComponent(out _cam);
+
+            TryGetComponent(out _tileTypeParser);
+            
             _gameInput = new GameInput();
 
             _gameInput.Gameplay.MouseClick.performed += OnTileClick;
@@ -66,91 +68,73 @@ namespace _Scripts.LevelEditor {
             if (_grid != null) {
                 ClearGrid();
             }
-            _grid = new Grid<EditorTileGridObject>(levelToEdit.gridWidth, levelToEdit.gridHeight, 1, transform.position, (g, x, y) => new EditorTileGridObject(g, x, y));
+            _grid = new Grid<TileGridObject>(levelToEdit.gridWidth, levelToEdit.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
 
             // TileData - Holds data for only one tile in the grid 
-            foreach (TileData tile in levelToEdit.tiles) {
-                //Create a EditorTile
-                EditorTile editorTile = Instantiate(Resources.Load<GameObject>(EditorTilePath), _grid.GetWorldPositionCellCenter(tile.gridPosition), Quaternion.identity, transform)
-                    .GetComponent<EditorTile>();
+            foreach (TileData tileData in levelToEdit.tiles) {
 
-                editorTile.tileType = tile.tileType;
-                editorTile.tileVisualHandler.SetMainState(TileVisualParser.TileTypeToTileMainVisualState(tile.tileType));
-
-                if (tile.tileType is TileType.CountdownTile or TileType.RepeatCountdownTile) {
-                    editorTile.tileTextHandler.AddText(tile.countdownValue.ToString(), 42, Color.green);
-                }
-
-                _grid.GetGridDictionary()[tile.gridPosition].SetEditorTile(editorTile);
+                _tileTypeParser.TileTypeToGameObject(tileData, _grid, out TileBase tileBase);
+                if (tileBase is  null) break;
+                
+                tileBase.gridPosition = tileData.gridPosition;
+                _grid.GetGridDictionary()[tileData.gridPosition].SetTileBase(tileBase);
             }
         }
 
         private void OnTileClick(InputAction.CallbackContext ctx) {
 
-            EditorTileGridObject editorTileGridObject = _grid?.GetGridObject(Utils.GetMouseWorldPosition2D());
-
+            TileGridObject tileGridObject = _grid?.GetGridObject(Utils.GetMouseWorldPosition2D());
+            
             // Check if player click on GridObject
-            if (editorTileGridObject is null) return;
-
-            if (setStartingPosition) {
-                levelToEdit.startingGridPosition = editorTileGridObject.GetXY();
-                setStartingPosition = false;
-                Debug.Log("Starting position is set to: " + editorTileGridObject.GetXY());
-                return;
-            }
-
-            TileData tileData = FindTileData(editorTileGridObject.GetXY());
-
+            if (tileGridObject is null) return;
+            
+            // If true, stop function, because we do not want change any visual or data
+            // we only want set starting position
+            if (SetStartingPosition(tileGridObject)) return;
+            
+            //Find tileData in LevelData
+            TileData tileData = FindTileData(tileGridObject.GetXY());
+            
             //Edit data of the clicked tile
-            EditData(tileData);
-
-            //Change visual with text in the grid
-            ChangeVisual(editorTileGridObject.GetTile(), tileData);
+            // changes in tileData will be saved in LevelData
+            EditDataInLevelData(tileData);
+            
+            //Re-InitGrid because i need to update the visual
+            //This is not the effective way to do it, but it works and the levels are small, so I can use it here
+            //And plus the editor will not be in the final game
+            InitGrid();
         }
 
-        private void ChangeVisual(EditorTile editorTile, TileData tileData) {
-            //Change visual of editorTile
-            editorTile.tileVisualHandler.SetMainState(TileVisualParser.TileTypeToTileMainVisualState(selectedTileType));
-
-            if (selectedTileType is not (TileType.CountdownTile or TileType.RepeatCountdownTile)) {
-                editorTile.tileTextHandler.RemoveText();
-                return;
-            }
-
-            if (editorTile.tileTextHandler.middleText is null) {
-                editorTile.tileTextHandler.AddText("", 42, Color.green);
-            }
-
-            editorTile.tileTextHandler.UpdateText(tileData.countdownValue.ToString());
+        // Set new player starting position
+        private bool SetStartingPosition(TileGridObject tileGridObject) {
+            if (!setStartingPosition) return false;
+            
+            levelToEdit.startingGridPosition = tileGridObject.GetXY();
+            setStartingPosition = false;
+            Debug.Log("Starting position is set to: " + tileGridObject.GetXY());
+            return true;
         }
 
         //tileData -> actual data of tile we clicked. In TileData are stored all information about tile
-        private void EditData(TileData tileData) {
+        //Editing actual level data, not a level editor visual data
+        private void EditDataInLevelData(TileData tileData) {
             if (tileData is null) return;
 
-            tileData.tileType = selectedTileType;
+            tileData.tileTypeData = selectedTileTypeData;
 
-            switch (selectedTileType) {
-                case TileType.EmptyTile:
-                case TileType.DefaultTile:
-                    tileData.countdownValue = 0;
-                    break;
-                case TileType.CountdownTile:
-                case TileType.RepeatCountdownTile:
-                    tileData.countdownValue = selectedCountdownValue;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+            if (selectedTileTypeData.tilePrefab.GetComponent<CountdownTileBase>()) {
+                tileData.countdownValue = selectedCountdownValue;
             }
         }
-
+        
         [Command]
         private void ClearGrid() {
-            foreach (KeyValuePair<Vector2Int, EditorTileGridObject> entry in _grid.GetGridDictionary()) {
+            foreach (KeyValuePair<Vector2Int, TileGridObject> entry in _grid.GetGridDictionary()) {
                 Destroy(entry.Value.GetTile().gameObject);
             }
         }
 
+        // Find TileData in LevelData storage
         private TileData FindTileData(Vector2Int position) {
             return levelToEdit.tiles.FirstOrDefault(tile => tile.gridPosition == position);
         }

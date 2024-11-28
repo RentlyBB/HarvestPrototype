@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Scripts.TileCore.Enums;
+using _Scripts.TileCore.ScriptableObjects;
 using UnityEngine;
 
 namespace _Scripts.GameplayCore {
-    [CreateAssetMenu(fileName = "New Level", menuName = "Custom/New Level", order = 0)]
+    [CreateAssetMenu(fileName = "Level", menuName = "Level/New Level", order = 0)]
     public class LevelData : ScriptableObject {
         public int gridWidth;
         public int gridHeight;
@@ -33,7 +33,6 @@ namespace _Scripts.GameplayCore {
                 for (int x = 0; x < gridWidth; x++) {
                     int index = y * gridWidth + x;
                     tiles[index].gridPosition = new Vector2Int(x, y);
-                    tiles[index].tileType = TileType.DefaultTile; // Set a default TileType if needed
                     tiles[index].countdownValue = 0; // Default value
                 }
             }
@@ -43,7 +42,7 @@ namespace _Scripts.GameplayCore {
     [Serializable]
     public class TileData {
         public Vector2Int gridPosition;
-        public TileType tileType; // Define an enum or class for tile types
+        public TileTypeData tileTypeData; // Define an enum or class for tile types
         public int countdownValue = 0;
     }
 }

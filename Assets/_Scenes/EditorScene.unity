@@ -905,6 +905,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas Editor
       objectReference: {fileID: 0}
+    - target: {fileID: 4552076284076854188, guid: 5842ea20c90fd41489b059442c0f3840, type: 3}
+      propertyPath: tileTypeData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b14141d60df0477ebf26540d9e2c5fa, type: 2}
+    - target: {fileID: 6296466846399761073, guid: 5842ea20c90fd41489b059442c0f3840, type: 3}
+      propertyPath: tileTypeData
+      value: 
+      objectReference: {fileID: 11400000, guid: 5faf928cc67e8442f832b772c0dd5fd4, type: 2}
     - target: {fileID: 7601282584987995297, guid: 5842ea20c90fd41489b059442c0f3840, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -985,6 +993,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7989413486907455203, guid: 5842ea20c90fd41489b059442c0f3840, type: 3}
+      propertyPath: tileTypeData
+      value: 
+      objectReference: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
+    - target: {fileID: 8204311621906428259, guid: 5842ea20c90fd41489b059442c0f3840, type: 3}
+      propertyPath: tileTypeData
+      value: 
+      objectReference: {fileID: 11400000, guid: aa2cfde45528d4ec290426e0b428f396, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1000,6 +1016,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1932906691}
   - component: {fileID: 1932906692}
+  - component: {fileID: 1932906693}
   m_Layer: 0
   m_Name: LevelEditorManager
   m_TagString: Untagged
@@ -1035,10 +1052,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelToEdit: {fileID: 11400000, guid: 1f7f91bbf3bab96448f0ea8691871247, type: 2}
-  selectedTileType: 0
+  selectedTileTypeData: {fileID: 0}
   selectedCountdownValue: 0
   selectedStartingPosition: {x: 0, y: 0}
   setStartingPosition: 0
+--- !u!114 &1932906693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932906690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b08dbc100fa46a2b56b4f42deaec013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

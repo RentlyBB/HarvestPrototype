@@ -9,7 +9,7 @@ namespace _Scripts.TileCore.Tiles {
         
         private void Start() {
             tileVisualHandler.SetMainAndSubState(TileMainVisualStates.Countdown, TileSubVisualStates.Unpressed);
-            TileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
+            tileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
             countdownState = CountdownState.Counting;
         }
 

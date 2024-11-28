@@ -1,6 +1,7 @@
 ﻿using _Scripts.Managers;
 using _Scripts.TileCore.Enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Scripts.TileCore.BaseClasses {
     
@@ -17,7 +18,7 @@ namespace _Scripts.TileCore.BaseClasses {
         
         public CountdownState countdownState;
         
-        protected TileTextHandler TileTextHandler;
+        public TileTextHandler tileTextHandler;
         private bool _skipDecrease = false; 
         
         protected virtual void OnEnable() {
@@ -30,7 +31,7 @@ namespace _Scripts.TileCore.BaseClasses {
         
         protected override void Awake() {
             base.Awake();
-            TryGetComponent(out TileTextHandler);
+            TryGetComponent(out tileTextHandler);
         }
         
         protected virtual void OnDecreaseCountdownValue() {
@@ -50,7 +51,7 @@ namespace _Scripts.TileCore.BaseClasses {
                 return;
 
             countdownValue--;
-            TileTextHandler.UpdateText(countdownValue.ToString());
+            tileTextHandler.UpdateText(countdownValue.ToString());
         }
 
         protected virtual void UpdateStateAfterDecreasing() {
@@ -63,7 +64,7 @@ namespace _Scripts.TileCore.BaseClasses {
 
         protected virtual void ReadyToCollect() {
             countdownState = CountdownState.ReadyToCollect;
-            TileTextHandler.RemoveText();
+            tileTextHandler.RemoveText();
                
             tileVisualHandler.SetMainState(TileMainVisualStates.ReadyToCollect);
         }
@@ -71,14 +72,14 @@ namespace _Scripts.TileCore.BaseClasses {
         protected virtual void GoodCollect() {
             countdownState = CountdownState.Collected;
             tileVisualHandler.SetMainState(TileMainVisualStates.GoodCollect);
-            TileTextHandler.RemoveText();
+            tileTextHandler.RemoveText();
             Debug.Log("GOOD COLLECT!");
         }
         
         protected virtual void BadCollect() {
             countdownState = CountdownState.Collected;
             tileVisualHandler.SetMainState(TileMainVisualStates.BadCollect);
-            TileTextHandler.RemoveText();
+            tileTextHandler.RemoveText();
             Debug.Log("BAD COLLECT!");
         }
 
