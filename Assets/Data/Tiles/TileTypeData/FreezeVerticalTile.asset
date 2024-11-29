@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: 
   tilePrefab: {fileID: 4711044369471212171, guid: 6fa4f7e1599cf4ec29aa8321bab4756b, type: 3}
-  mainVisualStates: 8
+  mainVisualStates: 0
   defaultCountdownValue: 0

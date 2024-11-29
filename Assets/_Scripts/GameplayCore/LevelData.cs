@@ -1,48 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using _Scripts.TileCore.ScriptableObjects;
 using UnityEngine;
+using VInspector;
 
 namespace _Scripts.GameplayCore {
     [CreateAssetMenu(fileName = "Level", menuName = "Level/New Level", order = 0)]
     public class LevelData : ScriptableObject {
-        public int gridWidth;
-        public int gridHeight;
+        [ShowInInspector]public int GridWidth { get; private set; }
+        [ShowInInspector]public int GridHeight { get; private set; }
+        
         public Vector2Int startingGridPosition;
         public List<TileData> tiles = new List<TileData>();
-        
-        public void UpdateTilesList() {
-            int totalTiles = gridWidth * gridHeight;
+
+        [Button]
+        private void UpdateTilesList() {
+            int totalTiles = GridWidth * GridHeight;
 
             if (totalTiles <= 0) {
                 tiles.Clear();
                 return;
             }
+            
+            var tempTiles = new List<TileData>(totalTiles);
 
-            // Ensure the tiles list has exactly the right number of elements
-            while (tiles.Count < totalTiles) {
-                tiles.Add(new TileData());
-            }
+            // Initialize tempTiles with default TileData
+            for (int y = 0; y < GridHeight; y++) {
+                for (int x = 0; x < GridWidth; x++) {
+                    var gridPosition = new Vector2Int(x, y);
 
-            while (tiles.Count > totalTiles) {
-                tiles.RemoveAt(tiles.Count - 1);
-            }
+                    // Try to find an existing tile at this position
+                    var existingTile = tiles.FirstOrDefault(tile => tile.gridPosition == gridPosition);
 
-            // Assign default grid positions for each tile
-            for (int y = 0; y < gridHeight; y++) {
-                for (int x = 0; x < gridWidth; x++) {
-                    int index = y * gridWidth + x;
-                    tiles[index].gridPosition = new Vector2Int(x, y);
-                    tiles[index].countdownValue = 0; // Default value
+                    if (existingTile != null) {
+                        // If an existing tile matches, keep it
+                        tempTiles.Add(existingTile);
+                    } else {
+                        // Otherwise, create a new default tile
+                        var newTile = new TileData(Resources.Load<TileTypeData>("DefaultTileTypes/EmptyTile")) {
+                            gridPosition = gridPosition,
+                            countdownValue = 0
+                        };
+                        tempTiles.Add(newTile);
+                    }
                 }
             }
+
+            // Replace the old tiles list with the updated list
+            tiles = tempTiles;
+        }
+        
+        public void SetGridSize(int width, int height) {
+            GridWidth = width;
+            GridHeight = height;
+            UpdateTilesList();
         }
     }
-    
+
     [Serializable]
     public class TileData {
+        public TileData(TileTypeData tileTypeData) {
+            this.tileTypeData = tileTypeData;
+        }
+        
         public Vector2Int gridPosition;
-        public TileTypeData tileTypeData; // Define an enum or class for tile types
+        public TileTypeData tileTypeData;
         public int countdownValue = 0;
     }
 }

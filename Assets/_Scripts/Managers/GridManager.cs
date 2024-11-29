@@ -37,7 +37,7 @@ namespace _Scripts.Managers {
             // }
             
             //LoadLevel();
-            cam.transform.position = new Vector3((float)currentLevelData.gridWidth / 2, (float)currentLevelData.gridHeight / 2, -10);
+            cam.transform.position = new Vector3((float)currentLevelData.GridWidth / 2, (float)currentLevelData.GridHeight / 2, -10);
         }
 
         
@@ -57,7 +57,7 @@ namespace _Scripts.Managers {
             
             ClearGrid();
 
-            _grid = new Grid<TileGridObject>(currentLevelData.gridWidth, currentLevelData.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
+            _grid = new Grid<TileGridObject>(currentLevelData.GridWidth, currentLevelData.GridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
             if (_grid == null) return false;
 
             GridInit?.Invoke(_grid);

@@ -15,5 +15,5 @@ MonoBehaviour:
   description: Countdown Tile, each player step it deacrese the countdown value by
     1. Has to be collected when countdown value is 0.
   tilePrefab: {fileID: 8959427488391185319, guid: 00d626d062fa54297a35c5bc6166fb67, type: 3}
-  mainVisualStates: 1
+  mainVisualStates: 0
   defaultCountdownValue: 1

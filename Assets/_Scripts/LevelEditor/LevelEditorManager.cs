@@ -5,6 +5,7 @@ using _Scripts.GameplayCore;
 using _Scripts.GridCore;
 using _Scripts.TileCore.BaseClasses;
 using _Scripts.TileCore.ScriptableObjects;
+using _Scripts.Utilities;
 using QFSW.QC;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -40,7 +41,6 @@ namespace _Scripts.LevelEditor {
             TryGetComponent(out _tileTypeParser);
             
             _gameInput = new GameInput();
-
             _gameInput.Gameplay.MouseClick.performed += OnTileClick;
         }
 
@@ -55,10 +55,8 @@ namespace _Scripts.LevelEditor {
 
         private void Start() {
             if (_cam is not null) {
-                _cam.transform.position = new Vector3((float)levelToEdit.gridWidth / 2, (float)levelToEdit.gridHeight / 2, -10);
+                _cam.transform.position = new Vector3((float)levelToEdit.GridWidth / 2, (float)levelToEdit.GridHeight / 2, -10);
             }
-
-            //EditCurrentLevel();
         }
 
         public void EditCurrentLevel() {
@@ -70,7 +68,7 @@ namespace _Scripts.LevelEditor {
             if (_grid != null) {
                 ClearGrid();
             }
-            _grid = new Grid<TileGridObject>(levelToEdit.gridWidth, levelToEdit.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
+            _grid = new Grid<TileGridObject>(levelToEdit.GridWidth, levelToEdit.GridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
 
             // TileData - Holds data for only one tile in the grid 
             foreach (TileData tileData in levelToEdit.tiles) {
@@ -141,7 +139,15 @@ namespace _Scripts.LevelEditor {
                 tileData.countdownValue = selectedCountdownValue;
             }
         }
-        
+
+
+        [Command]
+        public void UpdateGridSize(int width, int height) {
+            levelToEdit.SetGridSize(width,height);
+            InitGrid();
+        }
+
+
         [Command]
         private void ClearGrid() {
             foreach (KeyValuePair<Vector2Int, TileGridObject> entry in _grid.GetGridDictionary()) {
@@ -150,6 +156,7 @@ namespace _Scripts.LevelEditor {
                 Destroy(entry.Value.GetTile().gameObject);
             }
         }
+        
 
         // Find TileData in LevelData storage
         private TileData FindTileData(Vector2Int position) {
@@ -171,9 +178,7 @@ namespace _Scripts.LevelEditor {
 
             Debug.Log("ScriptableObject created and saved at: " + path);
 
-            levelData.gridWidth = gridWidth;
-            levelData.gridHeight = gridHeight;
-            levelData.UpdateTilesList();
+            levelData.SetGridSize(gridWidth, gridHeight);
             #endif
         }
 

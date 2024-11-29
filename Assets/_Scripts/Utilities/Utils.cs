@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace _Scripts {
+namespace _Scripts.Utilities {
     public static class Utils {
         /// <summary>
         /// Creates a TextMesh in world space at the specified position with the given text, font size, and color.

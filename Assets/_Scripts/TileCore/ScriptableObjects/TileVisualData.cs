@@ -36,7 +36,7 @@ namespace _Scripts.TileCore.ScriptableObjects {
             if (_stateSpritesDictionary.TryGetValue(compositeState, out Sprite sprite)) {
                 return sprite;
             }
-            Debug.LogWarning($"Sprite not found for state {mainState} - {subState}");
+            //Debug.LogWarning($"Sprite not found for state {mainState} - {subState}");
             return null;
         }
     }
