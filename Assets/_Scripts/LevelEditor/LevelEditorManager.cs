@@ -54,6 +54,10 @@ namespace _Scripts.LevelEditor {
         }
 
         private void Start() {
+            CenterCamera();
+        }
+
+        private void CenterCamera() {
             if (_cam is not null) {
                 _cam.transform.position = new Vector3((float)levelToEdit.GridWidth / 2, (float)levelToEdit.GridHeight / 2, -10);
             }
@@ -140,13 +144,12 @@ namespace _Scripts.LevelEditor {
             }
         }
 
-
         [Command]
         public void UpdateGridSize(int width, int height) {
             levelToEdit.SetGridSize(width,height);
             InitGrid();
+            CenterCamera();
         }
-
 
         [Command]
         private void ClearGrid() {
@@ -156,7 +159,6 @@ namespace _Scripts.LevelEditor {
                 Destroy(entry.Value.GetTile().gameObject);
             }
         }
-        
 
         // Find TileData in LevelData storage
         private TileData FindTileData(Vector2Int position) {

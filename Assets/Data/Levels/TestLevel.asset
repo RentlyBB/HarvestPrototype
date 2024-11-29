@@ -12,23 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30dd1c658b7f4471873ec4ff976746ec, type: 3}
   m_Name: TestLevel
   m_EditorClassIdentifier: 
-  startingGridPosition: {x: 2, y: 1}
+  startingGridPosition: {x: 0, y: 2}
   tiles:
   - gridPosition: {x: 0, y: 0}
     tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
     countdownValue: 1
   - gridPosition: {x: 1, y: 0}
     tileTypeData: {fileID: 11400000, guid: aa2cfde45528d4ec290426e0b428f396, type: 2}
-    countdownValue: 0
+    countdownValue: 2
   - gridPosition: {x: 2, y: 0}
     tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
     countdownValue: 4
-  - gridPosition: {x: 3, y: 0}
-    tileTypeData: {fileID: 11400000, guid: aa2cfde45528d4ec290426e0b428f396, type: 2}
-    countdownValue: 0
-  - gridPosition: {x: 4, y: 0}
-    tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
-    countdownValue: 0
   - gridPosition: {x: 0, y: 1}
     tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
     countdownValue: 0
@@ -38,24 +32,12 @@ MonoBehaviour:
   - gridPosition: {x: 2, y: 1}
     tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
     countdownValue: 0
-  - gridPosition: {x: 3, y: 1}
-    tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
-    countdownValue: 0
-  - gridPosition: {x: 4, y: 1}
-    tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
-    countdownValue: 0
   - gridPosition: {x: 0, y: 2}
     tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
     countdownValue: 2
   - gridPosition: {x: 1, y: 2}
-    tileTypeData: {fileID: 11400000, guid: aa2cfde45528d4ec290426e0b428f396, type: 2}
-    countdownValue: 0
+    tileTypeData: {fileID: 11400000, guid: 1b14141d60df0477ebf26540d9e2c5fa, type: 2}
+    countdownValue: 3
   - gridPosition: {x: 2, y: 2}
     tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
     countdownValue: 3
-  - gridPosition: {x: 3, y: 2}
-    tileTypeData: {fileID: 11400000, guid: aa2cfde45528d4ec290426e0b428f396, type: 2}
-    countdownValue: 0
-  - gridPosition: {x: 4, y: 2}
-    tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
-    countdownValue: 0
