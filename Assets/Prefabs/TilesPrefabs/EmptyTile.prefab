@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMoveOn: 0
   gridPosition: {x: 0, y: 0}
+  tileVisualHandler: {fileID: 0}
 --- !u!114 &3736134596703054036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,5 +114,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileVisualData: {fileID: 11400000, guid: 084bfa1f1be3071458510165c1ad32dd, type: 2}
-  _currentMainState: 6
+  _currentMainState: 5
   _currentSubState: 0

@@ -14,6 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateSpritesList:
   - compositeState:
+      mainState: 0
+      subState: 0
+    sprite: {fileID: 21300000, guid: d366efce5becf4c9f97521c1a6f0d2f1, type: 3}
+  - compositeState:
+      mainState: 0
+      subState: 1
+    sprite: {fileID: 21300000, guid: c040b63979bbd4d9c8d5db5fcd6baaa4, type: 3}
+  - compositeState:
       mainState: 1
       subState: 0
     sprite: {fileID: 21300000, guid: 9f3399e53dc0404498b087c5013430ce, type: 3}
@@ -22,34 +30,26 @@ MonoBehaviour:
       subState: 1
     sprite: {fileID: 21300000, guid: 7183e6407719a754da1deceb0083ea56, type: 3}
   - compositeState:
-      mainState: 3
+      mainState: 2
       subState: 0
     sprite: {fileID: 21300000, guid: d366efce5becf4c9f97521c1a6f0d2f1, type: 3}
   - compositeState:
-      mainState: 3
+      mainState: 2
       subState: 1
     sprite: {fileID: 21300000, guid: c040b63979bbd4d9c8d5db5fcd6baaa4, type: 3}
   - compositeState:
-      mainState: 4
+      mainState: 3
       subState: 0
     sprite: {fileID: 21300000, guid: fc676b05e7dad44eea4268f33707ff58, type: 3}
   - compositeState:
-      mainState: 4
+      mainState: 3
       subState: 1
     sprite: {fileID: 21300000, guid: 8b741fda57a594a2b8277c3c7748b3a9, type: 3}
   - compositeState:
-      mainState: 5
+      mainState: 4
       subState: 0
     sprite: {fileID: 21300000, guid: 59aad1171c57fff4d8b6287348296958, type: 3}
   - compositeState:
-      mainState: 5
+      mainState: 4
       subState: 1
     sprite: {fileID: 21300000, guid: b749e4e371716d54c853b75d7f725f18, type: 3}
-  - compositeState:
-      mainState: 2
-      subState: 0
-    sprite: {fileID: 21300000, guid: b12b1319e52782742a573021d329424d, type: 3}
-  - compositeState:
-      mainState: 2
-      subState: 1
-    sprite: {fileID: 21300000, guid: b12b1319e52782742a573021d329424d, type: 3}

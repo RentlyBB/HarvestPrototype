@@ -18,8 +18,8 @@ namespace Editor {
 
             foreach (var pair in tileVisualData.stateSpritesList) {
                 EditorGUILayout.BeginHorizontal();
-                pair.compositeState.mainState = (TileMainVisualStates)EditorGUILayout.EnumPopup(pair.compositeState.mainState, GUILayout.Width(100));
-                pair.compositeState.subState = (TileSubVisualStates)EditorGUILayout.EnumPopup(pair.compositeState.subState, GUILayout.Width(100));
+                pair.compositeState.mainState = (TileMainVisualStates)EditorGUILayout.EnumPopup(pair.compositeState.mainState, GUILayout.Width(130));
+                pair.compositeState.subState = (TileSubVisualStates)EditorGUILayout.EnumPopup(pair.compositeState.subState, GUILayout.Width(130));
                 pair.sprite = (Sprite)EditorGUILayout.ObjectField(pair.sprite, typeof(Sprite), false);
                 EditorGUILayout.EndHorizontal();
             }

@@ -101,7 +101,6 @@ MonoBehaviour:
   canMoveOn: 1
   gridPosition: {x: 0, y: 0}
   tileVisualHandler: {fileID: 0}
-  horizontalFreeze: 0
 --- !u!114 &3302572282978228560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0cc5c47fb74f589fcc5d896b3a33f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileVisualData: {fileID: 11400000, guid: bd22a1fb97a674c2bbc02db4255c3090, type: 2}
-  _currentMainState: 8
+  tileVisualData: {fileID: 11400000, guid: 021f2beffac85498da4e98a65cab8840, type: 2}
+  _currentMainState: 0
   _currentSubState: 0

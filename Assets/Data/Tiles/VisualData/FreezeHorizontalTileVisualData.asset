@@ -10,22 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc563b26817c4b09b352bd08586a1d4d, type: 3}
-  m_Name: FreezeTileVisualData
+  m_Name: FreezeHorizontalTileVisualData
   m_EditorClassIdentifier: 
   stateSpritesList:
   - compositeState:
-      mainState: 7
+      mainState: 0
       subState: 0
     sprite: {fileID: 21300000, guid: 3d7776af44fa7429b94f0f3e70bb5231, type: 3}
   - compositeState:
-      mainState: 7
+      mainState: 0
       subState: 1
     sprite: {fileID: 21300000, guid: bf3bf2e202fc945778c0b7758ea32ceb, type: 3}
-  - compositeState:
-      mainState: 8
-      subState: 0
-    sprite: {fileID: 21300000, guid: 51e3f7dc0650c44fe856b22d65b2693c, type: 3}
-  - compositeState:
-      mainState: 8
-      subState: 1
-    sprite: {fileID: 21300000, guid: 7a07d9bac35d14a8c8701e06d115a773, type: 3}

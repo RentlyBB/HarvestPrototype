@@ -49,7 +49,7 @@ namespace _Scripts.TileCore.Tiles {
             countdownValue = _originalCountdownValue;
             tileTextHandler.RemoveText();
             tileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
-            tileVisualHandler.SetMainState(TileMainVisualStates.Countdown);
+            tileVisualHandler.SetMainState(TileMainVisualStates.DefaultState2);
             _repeated = true;
             SkipNextDecrease();
 
