@@ -1,5 +1,6 @@
 using System;
 using _Scripts.TileCore.Enums;
+using UnityEngine;
 
 namespace _Scripts.TileCore.Composites {
     [Serializable]
@@ -17,6 +18,7 @@ namespace _Scripts.TileCore.Composites {
             if (obj is TileCompositeState other) {
                 return mainState == other.mainState && subState == other.subState;
             }
+            Debug.LogWarning("Visual state not found! - " + mainState + " and " + subState );
             return false;
         }
 

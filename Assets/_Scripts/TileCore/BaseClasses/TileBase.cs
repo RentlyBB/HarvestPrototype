@@ -15,7 +15,7 @@ namespace _Scripts.TileCore.BaseClasses {
             TryGetComponent(out tileVisualHandler);
             canMoveOn = true;
         }
-        
+
         public virtual void OnPlayerStep() {
             tileVisualHandler.SetSubState(TileSubVisualStates.Pressed);
         }
@@ -23,10 +23,11 @@ namespace _Scripts.TileCore.BaseClasses {
         public virtual void OnPlayerStepAfterDecreasing() {
             
         }
-
-
+        
         public virtual void OnPlayerLeave() {
             tileVisualHandler.SetSubState(TileSubVisualStates.Unpressed);
         }
+        
+        
     }
 }

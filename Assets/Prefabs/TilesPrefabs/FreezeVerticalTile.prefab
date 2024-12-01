@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3669139036353989084}
   - component: {fileID: 4300748844158401125}
-  - component: {fileID: -4677901382336294405}
+  - component: {fileID: 4511564743503789603}
   - component: {fileID: 3302572282978228560}
   m_Layer: 0
   m_Name: FreezeVerticalTile
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4677901382336294405
+--- !u!114 &4511564743503789603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,10 +95,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4711044369471212171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d9f53cec94647279773bbdc4c4162d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f2bbf8575ed47889caed580832ba7f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canMoveOn: 1
+  canMoveOn: 0
   gridPosition: {x: 0, y: 0}
   tileVisualHandler: {fileID: 0}
 --- !u!114 &3302572282978228560
@@ -114,5 +114,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileVisualData: {fileID: 11400000, guid: 021f2beffac85498da4e98a65cab8840, type: 2}
-  _currentMainState: 0
-  _currentSubState: 0

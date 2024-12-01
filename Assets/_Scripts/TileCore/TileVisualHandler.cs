@@ -10,16 +10,18 @@ namespace _Scripts.TileCore {
 
         public TileVisualData tileVisualData; // Assign this in the Inspector
 
-        public TileMainVisualStates _currentMainState;
-        public TileSubVisualStates _currentSubState = TileSubVisualStates.Unpressed;
+        public TileMainVisualStates CurrentMainState { get; private set;}
+        public TileSubVisualStates CurrentSubState { get; private set; }
 
-        
+
         private SpriteRenderer _spriteRenderer;
 
 
         private Color _originalColor;
         
         private void Awake() {
+            CurrentSubState = TileSubVisualStates.Unpressed;
+            
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _originalColor = _spriteRenderer.color;
         }
@@ -33,13 +35,13 @@ namespace _Scripts.TileCore {
             HandleTransparency();
 
             // Retrieve and apply the appropriate sprite for the current composite state
-            Sprite sprite = tileVisualData.GetSprite(_currentMainState, _currentSubState);
+            Sprite sprite = tileVisualData.GetSprite(CurrentMainState, CurrentSubState);
             _spriteRenderer.sprite = sprite;
             
         }
 
         private void HandleTransparency() {
-            if (_currentMainState is TileMainVisualStates.Empty) {
+            if (CurrentMainState is TileMainVisualStates.Empty) {
                 Color col = _spriteRenderer.color;
                 col.a = 0;
                 _spriteRenderer.color = col;
@@ -54,20 +56,20 @@ namespace _Scripts.TileCore {
         }
 
         public void SetMainAndSubState(TileMainVisualStates newMainState, TileSubVisualStates newSubState) {
-            _currentMainState = newMainState;
-            _currentSubState = newSubState;
+            CurrentMainState = newMainState;
+            CurrentSubState = newSubState;
             UpdateSprite();
         }
 
         public void SetMainState(TileMainVisualStates newMainState) {
-            _currentMainState = newMainState;
+            CurrentMainState = newMainState;
             UpdateSprite();
         }
 
         public void SetSubState(TileSubVisualStates newSubState) {
-            if (_currentMainState is TileMainVisualStates.Empty) return;
+            if (CurrentMainState is TileMainVisualStates.Empty) return;
 
-            _currentSubState = newSubState;
+            CurrentSubState = newSubState;
             UpdateSprite();
         }
 

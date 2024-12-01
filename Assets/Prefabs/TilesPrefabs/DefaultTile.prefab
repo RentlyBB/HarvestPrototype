@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4300748844158401125}
   - component: {fileID: 9010868458999039883}
   - component: {fileID: 3302572282978228560}
+  - component: {fileID: -1928050742266296734}
   m_Layer: 0
   m_Name: DefaultTile
   m_TagString: Untagged
@@ -100,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canMoveOn: 1
   gridPosition: {x: 0, y: 0}
+  tileVisualHandler: {fileID: 0}
 --- !u!114 &3302572282978228560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,3 +115,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileVisualData: {fileID: 11400000, guid: 46863a9d3f9cf400fa99de41b7f1ce3d, type: 2}
+--- !u!114 &-1928050742266296734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4711044369471212171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89da78a2eb384dfc895346a454562a33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
