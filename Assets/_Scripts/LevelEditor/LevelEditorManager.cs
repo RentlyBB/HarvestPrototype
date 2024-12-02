@@ -59,7 +59,7 @@ namespace _Scripts.LevelEditor {
 
         private void CenterCamera() {
             if (_cam is not null) {
-                _cam.transform.position = new Vector3((float)levelToEdit.GridWidth / 2, (float)levelToEdit.GridHeight / 2, -10);
+                _cam.transform.position = new Vector3((float)levelToEdit.gridWidth / 2, (float)levelToEdit.gridHeight / 2, -10);
             }
         }
 
@@ -72,7 +72,7 @@ namespace _Scripts.LevelEditor {
             if (_grid != null) {
                 ClearGrid();
             }
-            _grid = new Grid<TileGridObject>(levelToEdit.GridWidth, levelToEdit.GridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
+            _grid = new Grid<TileGridObject>(levelToEdit.gridWidth, levelToEdit.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
 
             // TileData - Holds data for only one tile in the grid 
             foreach (TileData tileData in levelToEdit.tiles) {

@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using _Scripts.TileCore.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VInspector;
 
 namespace _Scripts.GameplayCore {
     [CreateAssetMenu(fileName = "Level", menuName = "Level/New Level", order = 0)]
     public class LevelData : ScriptableObject {
-   public int GridWidth { get; private set; }
-      public int GridHeight { get; private set; }
+        public int gridWidth;
+        public int gridHeight;
         
         public Vector2Int startingGridPosition;
         public List<TileData> tiles = new List<TileData>();
 
         [Button]
         private void UpdateTilesList() {
-            int totalTiles = GridWidth * GridHeight;
+            int totalTiles = gridWidth * gridHeight;
 
             if (totalTiles <= 0) {
                 tiles.Clear();
@@ -26,8 +27,8 @@ namespace _Scripts.GameplayCore {
             var tempTiles = new List<TileData>(totalTiles);
 
             // Initialize tempTiles with default TileData
-            for (int y = 0; y < GridHeight; y++) {
-                for (int x = 0; x < GridWidth; x++) {
+            for (int y = 0; y < gridHeight; y++) {
+                for (int x = 0; x < gridWidth; x++) {
                     var gridPosition = new Vector2Int(x, y);
 
                     // Try to find an existing tile at this position
@@ -52,8 +53,8 @@ namespace _Scripts.GameplayCore {
         }
         
         public void SetGridSize(int width, int height) {
-            GridWidth = width;
-            GridHeight = height;
+            gridWidth = width;
+            gridHeight = height;
             UpdateTilesList();
         }
     }
