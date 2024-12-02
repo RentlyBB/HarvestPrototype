@@ -8,8 +8,8 @@ using VInspector;
 namespace _Scripts.GameplayCore {
     [CreateAssetMenu(fileName = "Level", menuName = "Level/New Level", order = 0)]
     public class LevelData : ScriptableObject {
-        [ShowInInspector]public int GridWidth { get; private set; }
-        [ShowInInspector]public int GridHeight { get; private set; }
+   public int GridWidth { get; private set; }
+      public int GridHeight { get; private set; }
         
         public Vector2Int startingGridPosition;
         public List<TileData> tiles = new List<TileData>();
