@@ -13,17 +13,13 @@ namespace _Scripts.TileCore {
         public TileMainVisualStates CurrentMainState { get; private set;}
         public TileSubVisualStates CurrentSubState { get; private set; }
 
-
         private SpriteRenderer _spriteRenderer;
 
 
-        private Color _originalColor;
-        
         private void Awake() {
             CurrentSubState = TileSubVisualStates.Unpressed;
             
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _originalColor = _spriteRenderer.color;
         }
 
         private void UpdateSprite() {
@@ -71,14 +67,6 @@ namespace _Scripts.TileCore {
 
             CurrentSubState = newSubState;
             UpdateSprite();
-        }
-
-        public void SetColorOver() {
-            _spriteRenderer.color = Color.cyan;
-        }
-
-        public void ResetColorOver() {
-            _spriteRenderer.color = _originalColor;
         }
     }
 }

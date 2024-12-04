@@ -43,6 +43,8 @@ namespace _Scripts.TileCore.BaseClasses {
             }
 
             UpdateCountdownValue();
+            
+            
             UpdateStateAfterDecreasing();
         }
 
@@ -83,7 +85,7 @@ namespace _Scripts.TileCore.BaseClasses {
             Debug.Log("BAD COLLECT!");
         }
 
-        protected void SkipNextDecrease() {
+        public void SkipNextDecrease() {
             _skipDecrease = true;
         }
     }
