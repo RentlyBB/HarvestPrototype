@@ -16,11 +16,11 @@ MonoBehaviour:
   - compositeState:
       mainState: 0
       subState: 0
-    sprite: {fileID: 21300000, guid: d366efce5becf4c9f97521c1a6f0d2f1, type: 3}
+    sprite: {fileID: 21300000, guid: b12b1319e52782742a573021d329424d, type: 3}
   - compositeState:
       mainState: 0
       subState: 1
-    sprite: {fileID: 21300000, guid: c040b63979bbd4d9c8d5db5fcd6baaa4, type: 3}
+    sprite: {fileID: 21300000, guid: 09ecccbfdeb71374f9ff04ab1587504a, type: 3}
   - compositeState:
       mainState: 1
       subState: 0

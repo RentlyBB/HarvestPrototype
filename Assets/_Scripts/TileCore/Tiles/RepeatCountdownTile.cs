@@ -11,7 +11,7 @@ namespace _Scripts.TileCore.Tiles {
         private void Start() {
             _repeated = false;
             _originalCountdownValue = countdownValue;
-            tileVisualHandler.SetMainAndSubState(TileMainVisualStates.ReadyToCollect, TileSubVisualStates.Unpressed);
+            tileVisualHandler.SetMainAndSubState(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
             tileTextHandler.AddText(countdownValue.ToString(), 72, Color.green);
             countdownState = CountdownState.Counting;
         }
