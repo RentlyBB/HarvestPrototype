@@ -32,7 +32,6 @@ namespace _Scripts.TileCore {
                 _originalVisualMainState = _tileVisualHandler.CurrentMainState;
                 _tileVisualHandler.SetMainState(TileMainVisualStates.FreezeState);
                 
-
             } else {
                 Debug.LogError("TileVisualHandler is missing on this tile!");
             }
