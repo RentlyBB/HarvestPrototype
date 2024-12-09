@@ -5,7 +5,7 @@ using UnityEngine;
 namespace _Scripts.TileCore.Tiles {
     public class EmptyTile : TileBase {
 
-        private void Start() {
+        public override void SetupTile() {
             tileVisualHandler.SetMainState(TileMainVisualStates.Empty);
             canMoveOn = false;
         }

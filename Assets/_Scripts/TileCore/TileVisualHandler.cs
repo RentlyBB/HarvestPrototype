@@ -15,10 +15,8 @@ namespace _Scripts.TileCore {
 
         private SpriteRenderer _spriteRenderer;
 
-
         private void Awake() {
             CurrentSubState = TileSubVisualStates.Unpressed;
-            
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 

@@ -36,7 +36,7 @@ namespace _Scripts.Managers {
             //     }
             // }
             
-            //LoadLevel();
+            LoadLevel();
             cam.transform.position = new Vector3((float)currentLevelData.gridWidth / 2, (float)currentLevelData.gridHeight / 2, -10);
         }
 
@@ -85,6 +85,10 @@ namespace _Scripts.Managers {
                 
                 tileBase.gridPosition = tileData.gridPosition;
                 _grid.GetGridDictionary()[tileData.gridPosition].SetTileBase(tileBase);
+
+                tileBase.SetupTile();
+                
+                tileBase.tileAnimationHandler.SpawnTile();
             }
         }
 

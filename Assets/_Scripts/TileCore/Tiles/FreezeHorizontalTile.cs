@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace _Scripts.TileCore.Tiles {
     public class FreezeHorizontalTile : TileBase {
-        private void Start() {
+
+        public override void SetupTile() {
             tileVisualHandler.SetMainAndSubState(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
         }
 

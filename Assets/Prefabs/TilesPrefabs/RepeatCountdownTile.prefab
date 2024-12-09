@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8307488146651639760}
   - component: {fileID: 4302934449436180117}
   - component: {fileID: -5288820456677822812}
+  - component: {fileID: 8947363787899413324}
   m_Layer: 0
   m_Name: RepeatCountdownTile
   m_TagString: Untagged
@@ -103,6 +104,7 @@ MonoBehaviour:
   canMoveOn: 0
   gridPosition: {x: 0, y: 0}
   tileVisualHandler: {fileID: 0}
+  tileAnimationHandler: {fileID: 0}
   countdownValue: 0
   countdownState: 0
   tileTextHandler: {fileID: 0}
@@ -142,5 +144,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89da78a2eb384dfc895346a454562a33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8947363787899413324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4555759028944369810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 490f253eb74c4bccb36ca851a740ac65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

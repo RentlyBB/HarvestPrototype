@@ -1,5 +1,6 @@
 ﻿using _Scripts.Managers;
 using _Scripts.TileCore.Enums;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -43,8 +44,6 @@ namespace _Scripts.TileCore.BaseClasses {
             }
 
             UpdateCountdownValue();
-            
-            
             UpdateStateAfterDecreasing();
         }
 
@@ -53,6 +52,12 @@ namespace _Scripts.TileCore.BaseClasses {
                 return;
 
             countdownValue--;
+            
+            //Countdown animation
+            if (countdownValue >= 0) {
+                tileAnimationHandler.CountdownAnimation();
+            }
+
             tileTextHandler.UpdateText(countdownValue.ToString());
         }
 

@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace _Scripts.TileCore.Tiles {
     public class FreezeVerticalTile : TileBase {
-        private void Start() {
+
+        public override void SetupTile() {
             tileVisualHandler.SetMainAndSubState(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
         }
 
@@ -16,7 +17,6 @@ namespace _Scripts.TileCore.Tiles {
 
         private void FreezeLine() {
             var grid = GridManager.Instance.GetGrid();
-
 
             for (var i = 0; i < grid.GetHeight(); i++) {
                 var tile = grid.GetGridObject(new Vector2(gridPosition.x, i)).GetTile();

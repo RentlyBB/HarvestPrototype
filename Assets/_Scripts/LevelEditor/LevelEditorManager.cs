@@ -83,6 +83,9 @@ namespace _Scripts.LevelEditor {
                 
                 tileBase.gridPosition = tileData.gridPosition;
                 _grid.GetGridDictionary()[tileData.gridPosition].SetTileBase(tileBase);
+                
+                tileBase.SetupTile();
+                tileBase.transform.localScale = Vector3.one;
             }
 
             var pos = _grid.GetWorldPositionCellCenter(levelToEdit.startingGridPosition);

@@ -161,6 +161,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
+    Standalone: com.DefaultCompany.HarvestPrototype
     iPhone: com.DefaultCompany.HarvestPrototype
   buildNumber:
     Standalone: 0

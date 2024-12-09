@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/RefactorScene.unity
     guid: 74643427f39974d8f98f53e31f7aa8d2
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/TransitionScene.unity
     guid: df0a22ad056b44cca817da6d0769859f
   m_configObjects: {}

@@ -10,6 +10,7 @@ namespace _Scripts.TileCore {
         public void AddText(string text, int fontSize, Color color) {
             middleText = Utils.CreateTextWorld(text, new Vector3(transform.position.x, transform.position.y + 0.05f, -1), fontSize, transform, color);
         }
+        
 
         public void RemoveText() {
             if(middleText is null) return;

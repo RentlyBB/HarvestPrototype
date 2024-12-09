@@ -62,7 +62,7 @@ namespace _Scripts.Utilities {
             // Add a TextMeshPro component to the GameObject
             TextMeshPro textMeshPro = textObject.AddComponent<TextMeshPro>();
 
-            TMP_FontAsset font = Resources.Load<TMP_FontAsset>("Fonts/digital-7 SDF");
+            TMP_FontAsset font = Resources.Load<TMP_FontAsset>("Fonts/CHUNKY BAR SDF");
             
             // Set the text, position, and other properties
             textMeshPro.text = text;

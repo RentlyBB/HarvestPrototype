@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace _Scripts.TileCore.Tiles {
     public class DefaultTile : TileBase {
-        private void Start() {
+        
+        public override void SetupTile() {
             tileVisualHandler.SetMainState(TileMainVisualStates.DefaultState);
         }
     }
