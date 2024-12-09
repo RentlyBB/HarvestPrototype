@@ -45,6 +45,10 @@ namespace _Scripts.TileCore {
         public void CountdownAnimation() {
             transform.DOShakeScale(0.3f, 0.05f, 10, 0, false);
         }
-
+        
+        [Button]
+        public void FreezeAnimation() {
+            transform.DOShakePosition(0.3f, 0.05f, 10, 0);
+        }
     }
 }
