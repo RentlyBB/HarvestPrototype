@@ -6,7 +6,7 @@ namespace _Scripts.TileCore.Tiles {
     public class EmptyTile : TileBase {
 
         public override void SetupTile() {
-            tileVisualHandler.SetMainState(TileMainVisualStates.Empty);
+            tileVisualHandler.QueueVisualChange(TileMainVisualStates.Empty, null);
             canMoveOn = false;
         }
     }

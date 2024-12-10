@@ -26,16 +26,14 @@ namespace _Scripts.TileCore {
         public void FreezeTile() {
             
             GameplayManager.UnfreezeTiles += UnfreezeTile;
-            
-            if (_tileVisualHandler) {
-                // Safe the last visual state before freezing
-                _originalVisualMainState = _tileVisualHandler.CurrentMainState;
-                _tileVisualHandler.SetMainState(TileMainVisualStates.FreezeState);
-                
-            } else {
-                Debug.LogError("TileVisualHandler is missing on this tile!");
-            }
         }
+
+        public void FreezeVisual() {
+            // Safe the last visual state before freezing
+            _originalVisualMainState = _tileVisualHandler.CurrentMainState;
+            _tileVisualHandler?.QueueVisualChange(TileMainVisualStates.FreezeState, null);
+        }
+
 
         [Button]
         private void UnfreezeTile() {
@@ -43,11 +41,7 @@ namespace _Scripts.TileCore {
             TryGetComponent(out CountdownTileBase countdownTileBase);
             countdownTileBase?.SkipNextDecrease();
             
-            if (_tileVisualHandler != null) {
-                _tileVisualHandler.SetMainState(_originalVisualMainState);
-            }else {
-                Debug.LogError("TileVisualHandler is missing on this tile!");
-            }
+            _tileVisualHandler?.QueueVisualChange(_originalVisualMainState, null);
             
             GameplayManager.UnfreezeTiles -= UnfreezeTile;
         }

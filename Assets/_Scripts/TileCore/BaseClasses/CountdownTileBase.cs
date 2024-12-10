@@ -73,19 +73,22 @@ namespace _Scripts.TileCore.BaseClasses {
             countdownState = CountdownState.ReadyToCollect;
             tileTextHandler.RemoveText();
                
-            tileVisualHandler.SetMainState(TileMainVisualStates.ReadyToCollect);
+            //tileVisualHandler.SetMainState(TileMainVisualStates.ReadyToCollect);
+            tileVisualHandler.QueueVisualChange(TileMainVisualStates.ReadyToCollect, null);
         }
         
         protected virtual void GoodCollect() {
             countdownState = CountdownState.Collected;
-            tileVisualHandler.SetMainState(TileMainVisualStates.GoodCollect);
+            //tileVisualHandler.SetMainState(TileMainVisualStates.GoodCollect);
+            tileVisualHandler.QueueVisualChange(TileMainVisualStates.GoodCollect, null);
             tileTextHandler.RemoveText();
             Debug.Log("GOOD COLLECT!");
         }
         
         protected virtual void BadCollect() {
             countdownState = CountdownState.Collected;
-            tileVisualHandler.SetMainState(TileMainVisualStates.BadCollect);
+            //tileVisualHandler.SetMainState(TileMainVisualStates.BadCollect);
+            tileVisualHandler.QueueVisualChange(TileMainVisualStates.BadCollect, null);
             tileTextHandler.RemoveText();
             Debug.Log("BAD COLLECT!");
         }

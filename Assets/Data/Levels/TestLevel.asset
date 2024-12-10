@@ -26,7 +26,7 @@ MonoBehaviour:
     tileTypeData: {fileID: 11400000, guid: ca4d596b3b89645c3a9a9ef1f97ed0ca, type: 2}
     countdownValue: 8
   - gridPosition: {x: 0, y: 1}
-    tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
+    tileTypeData: {fileID: 11400000, guid: 16b1e104a0ef54dea9d7c8137d597f85, type: 2}
     countdownValue: 8
   - gridPosition: {x: 1, y: 1}
     tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}

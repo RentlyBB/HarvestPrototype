@@ -8,7 +8,7 @@ namespace _Scripts.TileCore.Tiles {
     public class FreezeVerticalTile : TileBase {
 
         public override void SetupTile() {
-            tileVisualHandler.SetMainAndSubState(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
+            tileVisualHandler.QueueVisualChange(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
         }
 
         public override void OnPlayerStepAfterDecreasing() {
@@ -37,6 +37,7 @@ namespace _Scripts.TileCore.Tiles {
                 if (tile.TryGetComponent(out TileFreezeHandler tileFreezeHandler)) {
                     yield return new WaitForSeconds(0.1f);
                     tile.tileAnimationHandler.FreezeAnimation();
+                    tileFreezeHandler.FreezeVisual();
                 }
             }
         }

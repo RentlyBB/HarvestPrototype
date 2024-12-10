@@ -7,7 +7,8 @@ namespace _Scripts.TileCore.Tiles {
     public class DefaultTile : TileBase {
         
         public override void SetupTile() {
-            tileVisualHandler.SetMainState(TileMainVisualStates.DefaultState);
+            // tileVisualHandler.SetMainState(TileMainVisualStates.DefaultState);
+            tileVisualHandler.QueueVisualChange(TileMainVisualStates.DefaultState, null);
         }
     }
 }
