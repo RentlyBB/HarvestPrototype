@@ -26,7 +26,6 @@ namespace _Scripts.TileCore.BaseClasses {
         public abstract void SetupTile();
             
         public virtual void OnPlayerStep() {
-            //tileVisualHandler.SetSubState(TileSubVisualStates.Pressed);
             tileVisualHandler.QueueVisualChange(null, TileSubVisualStates.Pressed);
         }
 
@@ -35,7 +34,6 @@ namespace _Scripts.TileCore.BaseClasses {
         }
         
         public virtual void OnPlayerLeave() {
-            // tileVisualHandler.SetSubState(TileSubVisualStates.Unpressed);
             tileVisualHandler.QueueVisualChange(null, TileSubVisualStates.Unpressed);
         }
         
