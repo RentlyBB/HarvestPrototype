@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Scripts.GridCore;
 using _Scripts.Managers;
+using DG.Tweening;
 using UnityEngine;
 using VInspector;
 
@@ -11,17 +13,10 @@ namespace _Scripts.PlayerCore {
     public class MovementHandler : MonoBehaviour {
         
         [Header("Movement Settings")]
-        public float maxSpeed = 75; // Maximum speed for movement
-        public float movementSmoothTime = 0.05f; // Smoothing time for movement
-        public float targetReachThreshold = 0.0005f; // Distance to consider the target reached
+        public float timeToReachTarget = 0.4f; // Maximum speed for movement
 
-        public float movementDelay;
-
-        public bool startMoving = false;
-        
         private TileGridObject _currentTile;
         private Vector2 _targetWorldPosition;
-        private Vector2 _velocity = Vector2.zero; // Used by SmoothDamp for smooth movement
 
         private TileGridObject _startingTile;
         private TilePositionValidator _tilePositionValidator;
@@ -35,15 +30,11 @@ namespace _Scripts.PlayerCore {
         }
 
         private void OnEnable() {
-            InputManager.OnClickOnTile += AddTargetTile;
+            GameplayManager.MovePlayer += AddTargetTile;
         }
       
         private void OnDisable() {
-            InputManager.OnClickOnTile -= AddTargetTile;
-        }
-
-        private void Update() {
-            Moving();
+            GameplayManager.MovePlayer -= AddTargetTile;
         }
         
         //Teleport player to GridPosition - used on load level
@@ -68,47 +59,31 @@ namespace _Scripts.PlayerCore {
                 return;
             }
 
-            // Next move has to be delayed because we want to see sprite change
-            // Without the delay it is not visible that the tile was pressed and player
-            // character just floating around the grid
-            StartCoroutine(DelayedNextMove());
+            MoveToNextPosition();
         }
 
-        private IEnumerator DelayedNextMove() {
-            yield return new WaitForSeconds(movementDelay);
+        
+        private async Task MoveToNextPosition() {
             _targetWorldPosition = _targetTilesQueue.Peek().GetWorldPositionCellCenter();
 
             _currentTile?.GetTile().OnPlayerLeave();
-
-            startMoving = true;
+            
+            var targetPosition = new Vector3(_targetWorldPosition.x, _targetWorldPosition.y, transform.position.z);
+            transform.DOMove(targetPosition, timeToReachTarget).OnComplete(OnReachedTarget);
+            
         }
 
-        private void Moving() {
-            if(!startMoving) return;
-            
-            Vector2 tempDampPosition = Vector2.SmoothDamp(transform.position, _targetWorldPosition, ref _velocity, movementSmoothTime, maxSpeed);
-            
-            // Apply the new position, keeping the original Z value
-            transform.position = new Vector3(tempDampPosition.x, tempDampPosition.y, transform.position.z);
-            
-            // Check if the object has reached the target position
-            if (!(Vector2.Distance(transform.position, _targetWorldPosition) <= targetReachThreshold))
-                return;
-            
-            OnReachedTarget();
-        }
+     
 
         // Called when the final target position is reached
         private void OnReachedTarget() {
             // When player reached position, we need to update the current position
             _currentTile = _targetTilesQueue.Peek(); 
             
-            _gameplayManagerInstance?.PhaseHandler(_targetTilesQueue.Peek());
+            //_gameplayManagerInstance?.PhaseHandler(_targetTilesQueue.Peek());
             
             //Now we can remove that target from the List
             _targetTilesQueue.Dequeue();
-            
-            startMoving = false;
             
             if(_targetTilesQueue.Count != 0) ValidatingNextTile();
         }

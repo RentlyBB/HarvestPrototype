@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using _Scripts.Managers;
 using _Scripts.TileCore.BaseClasses;
 using _Scripts.TileCore.Enums;
-using DG.Tweening;
 using UnityEngine;
 
 namespace _Scripts.TileCore.Tiles {
