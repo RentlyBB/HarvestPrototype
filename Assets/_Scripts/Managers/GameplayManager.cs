@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Scripts.GridCore;
 using _Scripts.TileCore.BaseClasses;
+using _Scripts.TileCore.Tiles;
 using _Scripts.UnitySingleton;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace _Scripts.Managers {
@@ -12,48 +14,67 @@ namespace _Scripts.Managers {
         public static UnityAction CountdownDecreasing = delegate { };
         public static UnityAction UnfreezeTiles = delegate { };
 
-        private readonly Queue<TileGridObject> _phaseQueue = new Queue<TileGridObject>();
+        private readonly Queue<Func<Task>> _phaseQueue = new Queue<Func<Task>>();
         private bool _isPhaseRunning = false;
 
-        /// <summary>
-        /// Handles the phases during puzzle solving.
-        /// </summary>
-        /// <param name="pressedTile">The tile that was pressed.</param>
         public void PhaseHandler(TileGridObject pressedTile) {
-            _phaseQueue.Enqueue(pressedTile);
+            _phaseQueue.Enqueue(() => UnfreezePhase());
+            _phaseQueue.Enqueue(() => FreezePhase(pressedTile));
+            _phaseQueue.Enqueue(() => PlayerStepPhase(pressedTile));
+            _phaseQueue.Enqueue(() => CountdownPhase());
+            _phaseQueue.Enqueue(() => PostStepPhase(pressedTile));
 
             if (!_isPhaseRunning) {
-                StartCoroutine(ProcessPhaseQueue());
+                ProcessPhaseQueue();
             }
         }
-        
-        private IEnumerator ProcessPhaseQueue() {
+
+        private async void ProcessPhaseQueue() {
             _isPhaseRunning = true;
-
             while (_phaseQueue.Count > 0) {
-                var pressedTile = _phaseQueue.Dequeue();
-
-                // Get the TileBase component
-                pressedTile.GetTile().TryGetComponent(out TileBase tileBase);
-
-                // Phase #1: Unfreeze Tiles
-                UnfreezeTiles?.Invoke();
-                yield return null;
-
-                // Phase #2: Player steps on the tile
-                tileBase?.OnPlayerStep();
-                yield return null;
-
-                // Phase #3: Countdown Decreasing
-                CountdownDecreasing?.Invoke();
-                yield return null;
-
-                // Phase #4: After countdown, any post-step logic
-                tileBase?.OnPlayerStepAfterDecreasing();
-                yield return null;
+                var currentPhase = _phaseQueue.Dequeue();
+                await currentPhase();
+                await Task.Delay(50);
             }
-
             _isPhaseRunning = false;
+        }
+
+        private async Task UnfreezePhase() {
+            Debug.Log("Unfreeze phase started.");
+            UnfreezeTiles?.Invoke();
+            await Task.Delay(0);
+            Debug.Log("Unfreeze phase completed.");
+        }
+
+        private async Task PlayerStepPhase(TileGridObject pressedTile) {
+            Debug.Log("Player step phase started.");
+            pressedTile.GetTile().TryGetComponent(out TileBase tileBase);
+            tileBase?.OnPlayerStep();
+            await Task.Delay(0);
+            Debug.Log("Player step phase completed.");
+        }
+        
+        private async Task FreezePhase(TileGridObject pressedTile) {
+            Debug.Log("Freeze phase started.");
+            if (pressedTile.GetTile().TryGetComponent(out FreezeVerticalTile freezeTile)) {
+                await freezeTile.FreezeLine();
+            }
+            Debug.Log("Freeze phase completed.");
+        }
+
+        private async Task CountdownPhase() {
+            Debug.Log("Countdown phase started.");
+            CountdownDecreasing?.Invoke();
+            await Task.Delay(0);
+            Debug.Log("Countdown phase completed.");
+        }
+
+        private async Task PostStepPhase(TileGridObject pressedTile) {
+            Debug.Log("Post-step phase started.");
+            pressedTile.GetTile().TryGetComponent(out TileBase tileBase);
+            tileBase?.OnPlayerStepAfterDecreasing();
+            await Task.Delay(0);
+            Debug.Log("Post-step phase completed.");
         }
     }
 }

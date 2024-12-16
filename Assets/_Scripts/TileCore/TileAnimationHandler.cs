@@ -15,40 +15,30 @@ namespace _Scripts.TileCore {
             _originalScale = transform.localScale;
         }
 
-        private IEnumerator SpawnTileAnimation() {
-            var i = Random.Range(0.1f, 0.5f);
-            yield return new WaitForSeconds(i);
-            // In
-            transform.DOScale(_originalScale, 0.4f).SetEase(Ease.OutBack);
-        }
-        
-        private IEnumerator DespawnTileAnimation() {
-            var i = Random.Range(0.1f, 0.5f);
-            yield return new WaitForSeconds(i);
-            // Out
-            transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack);
-        }
-        
         [Button]
-        public void DespawnTile() {
-             transform.localScale = _originalScale;
-             StartCoroutine(DespawnTileAnimation());
-        }
-
-        [Button]
-        public void SpawnTile() {
+        public Tween SpawnTileAnimation() {
             transform.localScale = Vector3.zero;
-            StartCoroutine(SpawnTileAnimation());
-        }
-
-        [Button]
-        public void CountdownAnimation() {
-            transform.DOShakeScale(0.3f, 0.05f, 10, 0, false);
+            var delay = Random.Range(0.1f, 0.5f); // Each tile gets a unique delay
+            return transform.DOScale(_originalScale, 0.4f)
+                .SetEase(Ease.OutBack)
+                .SetDelay(delay); // Apply delay to this specific tile's Tween
         }
         
         [Button]
-        public void FreezeAnimation() {
-            transform.DOShakePosition(0.3f, 0.05f, 10, 0);
+        public Tween DespawnTileAnimation() {
+            transform.localScale = _originalScale;
+            var delay = Random.Range(0.1f, 0.5f);
+            return transform.DOScale(Vector3.zero, 0.5f)
+                .SetEase(Ease.InBack)
+                .SetDelay(delay);
+        }
+        
+        public Tween CountdownAnimation() {
+            return transform.DOShakeScale(0.3f, 0.05f, 10, 0, false);
+        }
+
+        public Tween FreezeAnimation() {
+            return transform.DOShakePosition(0.3f, 0.05f, 10, 0);
         }
     }
 }

@@ -25,18 +25,9 @@ namespace _Scripts.TileCore.Tiles {
 
                 if (tile.TryGetComponent(out TileFreezeHandler tileFreezeHandler)) {
                     tileFreezeHandler.FreezeTile();
-                }
-            }
-            
-            //Freeze tile visual code
-            yield return new WaitForSeconds(0.2f);
-            for (var i = 0; i < grid.GetWidth(); i++) {
-                var tile = grid.GetGridObject(new Vector2(i, gridPosition.y)).GetTile();
-
-                if (tile.TryGetComponent(out TileFreezeHandler tileFreezeHandler)) {
-                    yield return new WaitForSeconds(0.1f);
-                    tile.tileAnimationHandler.FreezeAnimation();
                     tileFreezeHandler.FreezeVisual();
+                    tile.tileAnimationHandler.FreezeAnimation();
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
         }

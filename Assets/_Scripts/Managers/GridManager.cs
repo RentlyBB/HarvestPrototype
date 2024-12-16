@@ -89,7 +89,7 @@ namespace _Scripts.Managers {
 
                 tileBase.SetupTile();
                 
-                tileBase.tileAnimationHandler.SpawnTile();
+                tileBase.tileAnimationHandler.SpawnTileAnimation();
             }
         }
 
