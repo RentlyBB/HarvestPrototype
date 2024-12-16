@@ -1,5 +1,6 @@
 using System;
 using _Scripts.GridCore;
+using _Scripts.UnitySingleton;
 using _Scripts.Utilities;
 using UnityEngine;
 using UnityEngine.Events;

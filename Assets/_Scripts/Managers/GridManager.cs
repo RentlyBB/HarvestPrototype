@@ -5,6 +5,7 @@ using _Scripts.GridCore;
 using _Scripts.PlayerCore;
 using _Scripts.TileCore.BaseClasses;
 using _Scripts.TileCore.Enums;
+using _Scripts.UnitySingleton;
 using QFSW.QC;
 using UnityEngine;
 using UnityEngine.Events;

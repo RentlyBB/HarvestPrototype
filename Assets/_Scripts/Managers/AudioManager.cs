@@ -1,3 +1,4 @@
+using _Scripts.UnitySingleton;
 using UnityEngine;
 using UnitySingleton;
 

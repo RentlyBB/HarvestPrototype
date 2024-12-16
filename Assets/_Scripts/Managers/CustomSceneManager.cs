@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using _Scripts.UnitySingleton;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnitySingleton;
