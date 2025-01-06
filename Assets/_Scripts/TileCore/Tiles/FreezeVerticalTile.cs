@@ -12,7 +12,12 @@ namespace _Scripts.TileCore.Tiles {
             tileVisualHandler.QueueVisualChange(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
         }
 
-        public async Task FreezeLine() {
+        public override void OnPlayerStep() {
+            base.OnPlayerStep();
+            StartCoroutine(FreezeLine());
+        }
+
+        private IEnumerator FreezeLine() {
             var grid = GridManager.Instance.GetGrid();
             
             // Freeze Tile
@@ -22,7 +27,7 @@ namespace _Scripts.TileCore.Tiles {
                     tileFreezeHandler.FreezeTile();
                     tileFreezeHandler.FreezeVisual();
                     tile.tileAnimationHandler.FreezeAnimation();
-                    await Task.Delay(100);
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
         }

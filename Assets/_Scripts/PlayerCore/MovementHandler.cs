@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Scripts.GridCore;
 using _Scripts.Managers;
+using _Scripts.TileCore.BaseClasses;
 using DG.Tweening;
 using UnityEngine;
 using VInspector;
@@ -58,19 +59,18 @@ namespace _Scripts.PlayerCore {
                 _targetTilesQueue.Dequeue();
                 return;
             }
-
+            
             MoveToNextPosition();
         }
 
         
-        private async Task MoveToNextPosition() {
+        private void MoveToNextPosition() {
             _targetWorldPosition = _targetTilesQueue.Peek().GetWorldPositionCellCenter();
 
             _currentTile?.GetTile().OnPlayerLeave();
             
             var targetPosition = new Vector3(_targetWorldPosition.x, _targetWorldPosition.y, transform.position.z);
             transform.DOMove(targetPosition, timeToReachTarget).OnComplete(OnReachedTarget);
-            
         }
 
      
@@ -81,6 +81,9 @@ namespace _Scripts.PlayerCore {
             _currentTile = _targetTilesQueue.Peek(); 
             
             //_gameplayManagerInstance?.PhaseHandler(_targetTilesQueue.Peek());
+            _currentTile.GetTile().TryGetComponent(out TileBase tileBase);
+            tileBase?.OnPlayerStep();
+            
             
             //Now we can remove that target from the List
             _targetTilesQueue.Dequeue();

@@ -17,7 +17,6 @@ namespace _Scripts.TileCore.BaseClasses {
             TryGetComponent(out tileAnimationHandler);
             canMoveOn = true;
         }
-
         
         /// <summary>
         /// This is a setup method that is called when the tile spawns into the grid. Use this method instead of Unity’s Start() method.

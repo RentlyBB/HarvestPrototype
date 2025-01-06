@@ -19,20 +19,19 @@ namespace _Scripts.Managers {
         private bool _isPhaseRunning = false;
 
         private void OnEnable() {
+            
+            //TODO: !!!!!!! TOTO nemuze spoustet PhaseFazi protoze to umozni klikat na tile na kterém hrác stoji, coz by nemelo byt mozne
             InputManager.OnClickOnTile += PhaseHandler;
         }
       
         private void OnDisable() {
             InputManager.OnClickOnTile -= PhaseHandler;
         }
-        
-        public void PhaseHandler(TileGridObject pressedTile) {
-            
-            _phaseQueue.Enqueue(() => UnfreezePhase());
+
+        private void PhaseHandler(TileGridObject pressedTile) {
             _phaseQueue.Enqueue(() => PlayerMovePhase(pressedTile));
-            _phaseQueue.Enqueue(() => FreezePhase(pressedTile));
-            _phaseQueue.Enqueue(() => PlayerStepPhase(pressedTile));
             _phaseQueue.Enqueue(() => CountdownPhase());
+            _phaseQueue.Enqueue(() => UnfreezePhase());
             _phaseQueue.Enqueue(() => PostStepPhase(pressedTile));
 
             if (!_isPhaseRunning) {
@@ -50,43 +49,27 @@ namespace _Scripts.Managers {
             _isPhaseRunning = false;
         }
 
-        private async Task UnfreezePhase() {
-            Debug.Log("Unfreeze phase started.");
-            UnfreezeTiles?.Invoke();
-            await Task.Delay(100);
-            Debug.Log("Unfreeze phase completed.");
-        }
-
         private async Task PlayerMovePhase(TileGridObject pressedTile) {
             Debug.Log("Player Move phase started.");
             //Find player and make him move
             MovePlayer?.Invoke(pressedTile);
-            //await to player move completed
-            await Task.Delay(100);
-            Debug.Log("Player Move phase completed.");
-        }
-
-        private async Task PlayerStepPhase(TileGridObject pressedTile) {
-            Debug.Log("Player step phase started.");
-            pressedTile.GetTile().TryGetComponent(out TileBase tileBase);
-            tileBase?.OnPlayerStep();
             await Task.Delay(0);
-            Debug.Log("Player step phase completed.");
-        }
-        
-        private async Task FreezePhase(TileGridObject pressedTile) {
-            Debug.Log("Freeze phase started.");
-            if (pressedTile.GetTile().TryGetComponent(out FreezeVerticalTile freezeTile)) {
-                await freezeTile.FreezeLine();
-            }
-            Debug.Log("Freeze phase completed.");
+            Debug.Log("Player Move phase completed.");
         }
 
         private async Task CountdownPhase() {
             Debug.Log("Countdown phase started.");
-            await Task.Delay(0);
             CountdownDecreasing?.Invoke();
+            await Task.Delay(0);
             Debug.Log("Countdown phase completed.");
+        }
+        
+        // Unfreeze must be first, otherwise all freezeTile would be negated.
+        private async Task UnfreezePhase() {
+            Debug.Log("Unfreeze phase started.");
+            UnfreezeTiles?.Invoke();
+            await Task.Delay(0);
+            Debug.Log("Unfreeze phase completed.");
         }
 
         private async Task PostStepPhase(TileGridObject pressedTile) {

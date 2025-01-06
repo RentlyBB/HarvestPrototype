@@ -24,12 +24,14 @@ namespace _Scripts.TileCore {
 
         [Button]
         public void FreezeTile() {
-            
             GameplayManager.UnfreezeTiles += UnfreezeTile;
+            TryGetComponent(out CountdownTileBase countdownTileBase);
+            countdownTileBase?.SkipNextDecrease();
         }
 
         public void FreezeVisual() {
             // Safe the last visual state before freezing
+            //TODO: Predelat last visual state, dela to bug v prechodu se not ready to collect na ready to collect
             _originalVisualMainState = _tileVisualHandler.CurrentMainState;
             _tileVisualHandler?.QueueVisualChange(TileMainVisualStates.FreezeState, null);
         }
@@ -37,12 +39,8 @@ namespace _Scripts.TileCore {
 
         [Button]
         private void UnfreezeTile() {
-            
-            TryGetComponent(out CountdownTileBase countdownTileBase);
-            countdownTileBase?.SkipNextDecrease();
-            
+            Debug.Log("UNFREEZE MRDKO");
             _tileVisualHandler?.QueueVisualChange(_originalVisualMainState, null);
-            
             GameplayManager.UnfreezeTiles -= UnfreezeTile;
         }
     }
