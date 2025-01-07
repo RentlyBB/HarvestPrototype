@@ -23,11 +23,11 @@ namespace _Scripts.TileCore.BaseClasses {
         private bool _skipDecrease = false; 
         
         protected virtual void OnEnable() {
-            GameplayManager.CountdownDecreasing += OnDecreaseCountdownValue;
+            GameplayManager.OnCountdownDecreasing += OnDecreaseCountdownValue;
         }
 
         protected virtual void OnDisable() {
-            GameplayManager.CountdownDecreasing -= OnDecreaseCountdownValue;
+            GameplayManager.OnCountdownDecreasing -= OnDecreaseCountdownValue;
         }
         
         protected override void Awake() {

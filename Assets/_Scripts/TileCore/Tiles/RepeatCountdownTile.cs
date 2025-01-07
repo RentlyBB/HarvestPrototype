@@ -33,9 +33,6 @@ namespace _Scripts.TileCore.Tiles {
             }
         }
         
-        public override void OnPlayerStepAfterDecreasing() {
-        }
-
         private void RepeatCountdown() {
             countdownState = CountdownState.Counting;
             countdownValue = _originalCountdownValue;

@@ -15,7 +15,7 @@ namespace _Scripts.TileCore {
 
       
         private void OnDisable() {
-            GameplayManager.UnfreezeTiles -= UnfreezeTile;
+            GameplayManager.OnUnfreezeTiles -= UnfreezeTile;
         }
 
         private void Awake() {
@@ -24,7 +24,7 @@ namespace _Scripts.TileCore {
 
         [Button]
         public void FreezeTile() {
-            GameplayManager.UnfreezeTiles += UnfreezeTile;
+            GameplayManager.OnUnfreezeTiles += UnfreezeTile;
             TryGetComponent(out CountdownTileBase countdownTileBase);
             countdownTileBase?.SkipNextDecrease();
         }
@@ -41,7 +41,7 @@ namespace _Scripts.TileCore {
         private void UnfreezeTile() {
             Debug.Log("UNFREEZE MRDKO");
             _tileVisualHandler?.QueueVisualChange(_originalVisualMainState, null);
-            GameplayManager.UnfreezeTiles -= UnfreezeTile;
+            GameplayManager.OnUnfreezeTiles -= UnfreezeTile;
         }
     }
 }

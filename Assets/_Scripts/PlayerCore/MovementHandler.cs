@@ -7,11 +7,14 @@ using _Scripts.Managers;
 using _Scripts.TileCore.BaseClasses;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 using VInspector;
 
 namespace _Scripts.PlayerCore {
     [RequireComponent(typeof(TilePositionValidator))]
     public class MovementHandler : MonoBehaviour {
+        
+        public static event UnityAction<TileGridObject> OnPlayerReachedTarget = delegate { };
         
         [Header("Movement Settings")]
         public float timeToReachTarget = 0.4f; // Maximum speed for movement
@@ -21,23 +24,21 @@ namespace _Scripts.PlayerCore {
 
         private TileGridObject _startingTile;
         private TilePositionValidator _tilePositionValidator;
-        private GameplayManager _gameplayManagerInstance;
         
         private readonly Queue<TileGridObject> _targetTilesQueue = new Queue<TileGridObject>();
 
         private void Awake() {
             TryGetComponent(out _tilePositionValidator);
-            _gameplayManagerInstance = GameplayManager.Instance;
         }
 
         private void OnEnable() {
-            GameplayManager.MovePlayer += AddTargetTile;
+            GameplayManager.OnPlayerMovement += AddTargetTile;
         }
       
         private void OnDisable() {
-            GameplayManager.MovePlayer -= AddTargetTile;
+            GameplayManager.OnPlayerMovement += AddTargetTile;
         }
-        
+
         //Teleport player to GridPosition - used on load level
         public void SetStartingTile(TileGridObject tileGridObject) {
             _currentTile = tileGridObject; // Set current tile
@@ -62,7 +63,6 @@ namespace _Scripts.PlayerCore {
             
             MoveToNextPosition();
         }
-
         
         private void MoveToNextPosition() {
             _targetWorldPosition = _targetTilesQueue.Peek().GetWorldPositionCellCenter();
@@ -73,17 +73,15 @@ namespace _Scripts.PlayerCore {
             transform.DOMove(targetPosition, timeToReachTarget).OnComplete(OnReachedTarget);
         }
 
-     
-
         // Called when the final target position is reached
         private void OnReachedTarget() {
             // When player reached position, we need to update the current position
             _currentTile = _targetTilesQueue.Peek(); 
             
-            //_gameplayManagerInstance?.PhaseHandler(_targetTilesQueue.Peek());
-            _currentTile.GetTile().TryGetComponent(out TileBase tileBase);
-            tileBase?.OnPlayerStep();
+            // _currentTile.GetTile().TryGetComponent(out TileBase tileBase);
+            // tileBase?.OnPlayerStep();
             
+            OnPlayerReachedTarget?.Invoke(_currentTile);
             
             //Now we can remove that target from the List
             _targetTilesQueue.Dequeue();
