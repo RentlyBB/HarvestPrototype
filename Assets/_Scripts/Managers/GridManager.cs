@@ -41,7 +41,6 @@ namespace _Scripts.Managers {
             cam.transform.position = new Vector3((float)currentLevelData.gridWidth / 2, (float)currentLevelData.gridHeight / 2, -10);
         }
 
-        
         [Command]
         public void LoadLevel() {
 
@@ -50,6 +49,11 @@ namespace _Scripts.Managers {
             }
 
             _playerMovementHandler?.SetStartingTile(_grid.GetGridObject(currentLevelData.startingGridPosition));
+            
+            //TODO: Collect and save data to game manager, or some living data asset.
+            // This is important for phase runner
+            // Right now i want collect only CountdownTiles and RepeatCountdownTiles
+            // I have to do the same thing when player uses the freezetile, i need to know which tiles are frozen to be able to unfroze them
         }
 
         //Creates an empty grid
