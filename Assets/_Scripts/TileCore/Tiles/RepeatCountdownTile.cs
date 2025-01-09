@@ -1,4 +1,5 @@
-﻿using _Scripts.TileCore.BaseClasses;
+﻿using System.Threading.Tasks;
+using _Scripts.TileCore.BaseClasses;
 using _Scripts.TileCore.Enums;
 using UnityEngine;
 
@@ -16,8 +17,8 @@ namespace _Scripts.TileCore.Tiles {
             countdownState = CountdownState.Counting;
         }
 
-        public override void OnPlayerStep() {
-            base.OnPlayerStep();
+        public override async Task OnPlayerStep() {
+            await base.OnPlayerStep();
 
             if (countdownState == CountdownState.Collected) return;
 
@@ -31,6 +32,8 @@ namespace _Scripts.TileCore.Tiles {
             } else {
                 BadCollect();
             }
+
+            await Task.Yield();
         }
         
         private void RepeatCountdown() {

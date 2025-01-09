@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Threading.Tasks;
 using _Scripts.Managers;
 using _Scripts.TileCore.BaseClasses;
 using _Scripts.TileCore.Enums;
@@ -11,12 +12,12 @@ namespace _Scripts.TileCore.Tiles {
             tileVisualHandler.QueueVisualChange(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
         }
 
-        public override void OnPlayerStep() {
-            base.OnPlayerStep();
-            StartCoroutine(FreezeLine());
+        public override async Task OnPlayerStep() {
+            await base.OnPlayerStep();
+            await FreezeLine();
         }
 
-        private IEnumerator FreezeLine() {
+        private async Task FreezeLine() {
             var grid = GridManager.Instance.GetGrid();
 
             // Freeze Tile
@@ -26,9 +27,11 @@ namespace _Scripts.TileCore.Tiles {
                     tileFreezeHandler.FreezeTile();
                     tileFreezeHandler.FreezeVisual();
                     tile.tileAnimationHandler.FreezeAnimation();
-                    yield return new WaitForSeconds(0.1f);
+                    await Task.Delay(100);
                 }
             }
+
+            await Task.Yield();
         }
     }
 }

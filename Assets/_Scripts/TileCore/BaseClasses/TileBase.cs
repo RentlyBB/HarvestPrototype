@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using _Scripts.TileCore.Enums;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -24,8 +25,9 @@ namespace _Scripts.TileCore.BaseClasses {
         /// </summary>
         public abstract void SetupTile();
             
-        public virtual void OnPlayerStep() {
+        public virtual async Task OnPlayerStep() {
             tileVisualHandler.QueueVisualChange(null, TileSubVisualStates.Pressed);
+            await Task.Yield();
         }
 
         public virtual void OnPlayerStepAfterDecreasing() {

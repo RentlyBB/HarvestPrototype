@@ -15,10 +15,10 @@ namespace _Scripts.TileCore.ScriptableObjects {
         [ShowIf("_isCountdownTile")]
         public int defaultCountdownValue;
         
-        private bool _isCountdownTile = false;
+        [HideInInspector]public bool isCountdownTile = false;
         
         private void OnValidate() {
-            _isCountdownTile = tilePrefab?.GetComponent<CountdownTileBase>();
+            isCountdownTile = tilePrefab?.GetComponent<CountdownTileBase>();
         }
         
     }

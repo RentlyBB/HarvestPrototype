@@ -25,7 +25,7 @@ namespace _Scripts.Managers {
         [Command]
         public void EditLevel() {
             _checkOnLoad = true;
-            _levelToLoad = GridManager.Instance.currentLevelData;
+            _levelToLoad = GridManager.Instance.loadedLevelData;
             SceneManager.LoadScene(EditorScene);
         }
 
@@ -53,8 +53,7 @@ namespace _Scripts.Managers {
                 editor.EditCurrentLevel();
             } else if (scene.name.Equals(GameScene)) {
                 var grid = GridManager.Instance;
-                grid.currentLevelData = _levelToLoad;
-                grid.LoadLevel();
+                grid.IntiAndFillGrid(_levelToLoad);
             }
             
             _checkOnLoad = false;

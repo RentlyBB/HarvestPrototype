@@ -4,70 +4,56 @@ using _Scripts.GameplayCore;
 using _Scripts.GridCore;
 using _Scripts.PlayerCore;
 using _Scripts.TileCore.BaseClasses;
-using _Scripts.TileCore.Enums;
 using _Scripts.UnitySingleton;
-using QFSW.QC;
 using UnityEngine;
-using UnityEngine.Events;
-using UnitySingleton;
 
 namespace _Scripts.Managers {
     public class GridManager : MonoSingleton<GridManager> {
         
-        public static UnityAction<Grid<TileGridObject>> GridInit = delegate { };
-
-        public LevelData currentLevelData;
-
         public Camera cam;
-        
+        [HideInInspector] public LevelData loadedLevelData;  // It must be removed from here. I put it here because EditorHandler counts on GridManager having the level data.
         private Grid<TileGridObject> _grid;
         private MovementHandler _playerMovementHandler;
         private TileTypeParser _tileTypeParser;
 
+        private void OnEnable() {
+            GameplayManager.OnLoadLevel += IntiAndFillGrid;
+        }
+
+        private void OnDisable() {
+            GameplayManager.OnLoadLevel -= IntiAndFillGrid;
+        }
+
         protected override void Awake() {
             base.Awake();
+            
+            // TODO: this should be anywhere else but here.
             GameObject.FindWithTag("Player").TryGetComponent(out _playerMovementHandler);
             TryGetComponent(out _tileTypeParser);
         }
        
-        private void Start() {
-            // foreach (TileData tileData in currentLevelData.tiles) {
-            //     if (tileData.tileType is (TileType.CountdownTile or TileType.RepeatCountdownTile)) {
-            //         //Debug.Log("+1");
-            //     }
-            // }
-            
-            LoadLevel();
-            cam.transform.position = new Vector3((float)currentLevelData.gridWidth / 2, (float)currentLevelData.gridHeight / 2, -10);
-        }
-
-        [Command]
-        public void LoadLevel() {
-
+        public void IntiAndFillGrid(LevelData currentLevelData) {
+            //I need to do that because of level editor
+            loadedLevelData = currentLevelData;
             if (InitGrid()) {
                 FillGrid();
             }
 
-            _playerMovementHandler?.SetStartingTile(_grid.GetGridObject(currentLevelData.startingGridPosition));
+            //Set player starting position
+            _playerMovementHandler?.SetStartingTile(_grid.GetGridObject(loadedLevelData.startingGridPosition));
             
-            //TODO: Collect and save data to game manager, or some living data asset.
-            // This is important for phase runner
-            // Right now i want collect only CountdownTiles and RepeatCountdownTiles
-            // I have to do the same thing when player uses the freezetile, i need to know which tiles are frozen to be able to unfroze them
+            //Center the camera
+            cam.transform.position = new Vector3((float)loadedLevelData.gridWidth / 2, (float)loadedLevelData.gridHeight / 2, -10);
         }
 
-        //Creates an empty grid
+        //Creates an empty grid with right sizes
         private bool InitGrid() {
-
-            
             ClearGrid();
-
-            _grid = new Grid<TileGridObject>(currentLevelData.gridWidth, currentLevelData.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
-            if (_grid == null) return false;
-
-            GridInit?.Invoke(_grid);
-            return true;
+            _grid = new Grid<TileGridObject>(loadedLevelData.gridWidth, loadedLevelData.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
+            return _grid != null;
         }
+        
+        //Clear the whole grid from all tiles
         private void ClearGrid() {
 
             if (_grid == null)
@@ -78,11 +64,11 @@ namespace _Scripts.Managers {
             }
         }
 
-        //Load grid with the data from LevelData
-        public void FillGrid() {
+        //Load grid with the tiles from LevelData
+        private void FillGrid() {
 
             // TileData - Holds data for only one tile in the grid 
-            foreach (TileData tileData in currentLevelData.tiles) {
+            foreach (TileData tileData in loadedLevelData.tiles) {
                 if (tileData.tileTypeData is null) continue;
 
                 _tileTypeParser.TileTypeToGameObject(tileData, _grid, out TileBase tileBase);
@@ -90,9 +76,8 @@ namespace _Scripts.Managers {
                 
                 tileBase.gridPosition = tileData.gridPosition;
                 _grid.GetGridDictionary()[tileData.gridPosition].SetTileBase(tileBase);
-
-                tileBase.SetupTile();
                 
+                tileBase.SetupTile();
                 tileBase.tileAnimationHandler.SpawnTileAnimation();
             }
         }

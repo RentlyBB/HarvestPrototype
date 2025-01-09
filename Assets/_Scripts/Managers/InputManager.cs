@@ -13,8 +13,6 @@ namespace _Scripts.Managers {
 
         private GameInput _gameInput;
 
-        private Grid<TileGridObject> _grid;
-
         private void OnEnable() {
 
             if (_gameInput == null) {
@@ -24,22 +22,16 @@ namespace _Scripts.Managers {
 
             _gameInput.Gameplay.Enable();
 
-            GridManager.GridInit += SetGrid;
         }
 
         private void OnDisable() {
-
             _gameInput.Gameplay.Disable();
-            GridManager.GridInit -= SetGrid;
-        }
-
-        private void SetGrid(Grid<TileGridObject> grid) {
-            _grid = grid;
         }
 
         public void OnMouseClick(InputAction.CallbackContext context) {
             if (context.phase == InputActionPhase.Performed) {
-                var tileGridObject = _grid?.GetGridObject(Utils.GetMouseWorldPosition2D());
+                // Get the grid from the grid manager and then get the tile player clicked
+                var tileGridObject = GridManager.Instance.GetGrid()?.GetGridObject(Utils.GetMouseWorldPosition2D());
 
                 // Check if player click on GridObject
                 if (tileGridObject is null) return;

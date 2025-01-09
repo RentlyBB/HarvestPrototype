@@ -32,11 +32,11 @@ namespace _Scripts.PlayerCore {
         }
 
         private void OnEnable() {
-            GameplayManager.OnPlayerMovement += AddTargetTile;
+            InputManager.OnClickOnTile += AddTargetTile;
         }
       
         private void OnDisable() {
-            GameplayManager.OnPlayerMovement += AddTargetTile;
+            InputManager.OnClickOnTile -= AddTargetTile;
         }
 
         //Teleport player to GridPosition - used on load level
@@ -77,9 +77,6 @@ namespace _Scripts.PlayerCore {
         private void OnReachedTarget() {
             // When player reached position, we need to update the current position
             _currentTile = _targetTilesQueue.Peek(); 
-            
-            // _currentTile.GetTile().TryGetComponent(out TileBase tileBase);
-            // tileBase?.OnPlayerStep();
             
             OnPlayerReachedTarget?.Invoke(_currentTile);
             

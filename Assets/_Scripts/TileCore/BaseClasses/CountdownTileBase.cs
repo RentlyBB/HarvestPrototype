@@ -1,4 +1,5 @@
-﻿using _Scripts.Managers;
+﻿using System.Threading.Tasks;
+using _Scripts.Managers;
 using _Scripts.TileCore.Enums;
 using DG.Tweening;
 using UnityEngine;
@@ -22,20 +23,12 @@ namespace _Scripts.TileCore.BaseClasses {
         public TileTextHandler tileTextHandler;
         private bool _skipDecrease = false; 
         
-        protected virtual void OnEnable() {
-            GameplayManager.OnCountdownDecreasing += OnDecreaseCountdownValue;
-        }
-
-        protected virtual void OnDisable() {
-            GameplayManager.OnCountdownDecreasing -= OnDecreaseCountdownValue;
-        }
-        
         protected override void Awake() {
             base.Awake();
             TryGetComponent(out tileTextHandler);
         }
         
-        protected virtual void OnDecreaseCountdownValue() {
+        public virtual async Task OnDecreaseCountdownValue() {
             if(countdownState == CountdownState.Collected) return;
 
             if (_skipDecrease) {
@@ -43,11 +36,11 @@ namespace _Scripts.TileCore.BaseClasses {
                 return;
             }
 
-            UpdateCountdownValue();
-            UpdateStateAfterDecreasing();
+            await UpdateCountdownValue();
+            await UpdateStateAfterDecreasing();
         }
 
-        protected virtual void UpdateCountdownValue() {
+        protected virtual async Task UpdateCountdownValue() {
             if (countdownState is not (CountdownState.Counting or CountdownState.ReadyToCollect))
                 return;
 
@@ -59,27 +52,28 @@ namespace _Scripts.TileCore.BaseClasses {
             }
 
             tileTextHandler.UpdateText(countdownValue.ToString());
+
+            await Task.Yield();
         }
 
-        protected virtual void UpdateStateAfterDecreasing() {
+        protected virtual async Task UpdateStateAfterDecreasing() {
             if (countdownValue == 0) {
                 ReadyToCollect();
             } else if(countdownValue < 0) {
                 BadCollect();
             }
+
+            await Task.Yield();
         }
 
         protected virtual void ReadyToCollect() {
             countdownState = CountdownState.ReadyToCollect;
             tileTextHandler.RemoveText();
-               
-            //tileVisualHandler.SetMainState(TileMainVisualStates.ReadyToCollect);
             tileVisualHandler.QueueVisualChange(TileMainVisualStates.ReadyToCollect, null);
         }
         
         protected virtual void GoodCollect() {
             countdownState = CountdownState.Collected;
-            //tileVisualHandler.SetMainState(TileMainVisualStates.GoodCollect);
             tileVisualHandler.QueueVisualChange(TileMainVisualStates.GoodCollect, null);
             tileTextHandler.RemoveText();
             Debug.Log("GOOD COLLECT!");
@@ -87,7 +81,6 @@ namespace _Scripts.TileCore.BaseClasses {
         
         protected virtual void BadCollect() {
             countdownState = CountdownState.Collected;
-            //tileVisualHandler.SetMainState(TileMainVisualStates.BadCollect);
             tileVisualHandler.QueueVisualChange(TileMainVisualStates.BadCollect, null);
             tileTextHandler.RemoveText();
             Debug.Log("BAD COLLECT!");
