@@ -26,16 +26,18 @@ namespace _Scripts.TileCore.BaseClasses {
         public abstract void SetupTile();
             
         public virtual async Task OnPlayerStep() {
-            tileVisualHandler.QueueVisualChange(null, TileSubVisualStates.Pressed);
+            tileVisualHandler?.ProcessVisualChange(null, TileSubVisualStates.Pressed);
             await Task.Yield();
         }
 
-        public virtual void OnPlayerStepAfterDecreasing() {
+        public virtual async Task OnPlayerStepAfterDecreasing() {
             
+            
+            await Task.Yield();
         }
         
         public virtual void OnPlayerLeave() {
-            tileVisualHandler.QueueVisualChange(null, TileSubVisualStates.Unpressed);
+            tileVisualHandler?.ProcessVisualChange(null, TileSubVisualStates.Unpressed);
         }
         
         

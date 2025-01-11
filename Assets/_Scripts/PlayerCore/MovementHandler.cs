@@ -8,6 +8,7 @@ using _Scripts.TileCore.BaseClasses;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using VInspector;
 
 namespace _Scripts.PlayerCore {
@@ -23,54 +24,42 @@ namespace _Scripts.PlayerCore {
         private Vector2 _targetWorldPosition;
 
         private TileGridObject _startingTile;
-        private TilePositionValidator _tilePositionValidator;
+        public TilePositionValidator tilePositionValidator;
         
         private readonly Queue<TileGridObject> _targetTilesQueue = new Queue<TileGridObject>();
 
         private void Awake() {
-            TryGetComponent(out _tilePositionValidator);
-        }
-
-        private void OnEnable() {
-            InputManager.OnClickOnTile += AddTargetTile;
-        }
-      
-        private void OnDisable() {
-            InputManager.OnClickOnTile -= AddTargetTile;
+            TryGetComponent(out tilePositionValidator);
         }
 
         //Teleport player to GridPosition - used on load level
-        public void SetStartingTile(TileGridObject tileGridObject) {
+        public async void SetStartingTile(TileGridObject tileGridObject) {
             _currentTile = tileGridObject; // Set current tile
             Vector2 startingPosition = tileGridObject.GetWorldPositionCellCenter();
             transform.position = new Vector3(startingPosition.x, startingPosition.y, transform.position.z);
-            tileGridObject.GetTile().OnPlayerStep();
+            await tileGridObject.GetTile().OnPlayerStep();
         }
         
-        private void AddTargetTile(TileGridObject tileGridObject) {
+        public bool AddTargetTile(TileGridObject tileGridObject) {
             _targetTilesQueue.Enqueue(tileGridObject);
 
-            if (_targetTilesQueue.Count == 1) {
-                ValidatingNextTile();
-            }
-        }
-
-        private void ValidatingNextTile() {
-            if (!_tilePositionValidator.ValidateNextTilePosition(_currentTile.GetXY(), _targetTilesQueue.Peek().GetXY())) {
+            if (!tilePositionValidator.ValidateNextTilePosition(_currentTile.GetXY(), _targetTilesQueue.Peek().GetXY())) {
                 _targetTilesQueue.Dequeue();
-                return;
+                return false;
             }
             
-            MoveToNextPosition();
+            // Next tile position is valid so we return true
+            return true;
         }
-        
-        private void MoveToNextPosition() {
-            _targetWorldPosition = _targetTilesQueue.Peek().GetWorldPositionCellCenter();
 
+        public async Task MoveToNextPosition() {
+            _targetWorldPosition = _targetTilesQueue.Peek().GetWorldPositionCellCenter();
+            
             _currentTile?.GetTile().OnPlayerLeave();
             
             var targetPosition = new Vector3(_targetWorldPosition.x, _targetWorldPosition.y, transform.position.z);
-            transform.DOMove(targetPosition, timeToReachTarget).OnComplete(OnReachedTarget);
+            await transform.DOMove(targetPosition, timeToReachTarget).OnComplete(OnReachedTarget).AsyncWaitForCompletion();
+            
         }
 
         // Called when the final target position is reached
@@ -82,8 +71,12 @@ namespace _Scripts.PlayerCore {
             
             //Now we can remove that target from the List
             _targetTilesQueue.Dequeue();
-            
-            if(_targetTilesQueue.Count != 0) ValidatingNextTile();
+        }
+
+
+        public void Reset() {
+            _targetTilesQueue.Clear();
+            _targetWorldPosition = new Vector2();
         }
     }
 }

@@ -48,10 +48,10 @@ namespace _Scripts.TileCore.BaseClasses {
             
             //Countdown animation
             if (countdownValue >= 0) {
-                tileAnimationHandler.CountdownAnimation();
+                tileAnimationHandler?.CountdownAnimation();
             }
 
-            tileTextHandler.UpdateText(countdownValue.ToString());
+            tileTextHandler?.UpdateText(countdownValue.ToString());
 
             await Task.Yield();
         }
@@ -68,21 +68,21 @@ namespace _Scripts.TileCore.BaseClasses {
 
         protected virtual void ReadyToCollect() {
             countdownState = CountdownState.ReadyToCollect;
-            tileTextHandler.RemoveText();
-            tileVisualHandler.QueueVisualChange(TileMainVisualStates.ReadyToCollect, null);
+            tileTextHandler?.RemoveText();
+            tileVisualHandler?.ProcessVisualChange(TileMainVisualStates.ReadyToCollect, null);
         }
         
         protected virtual void GoodCollect() {
             countdownState = CountdownState.Collected;
-            tileVisualHandler.QueueVisualChange(TileMainVisualStates.GoodCollect, null);
-            tileTextHandler.RemoveText();
+            tileVisualHandler?.ProcessVisualChange(TileMainVisualStates.GoodCollect, null);
+            tileTextHandler?.RemoveText();
             Debug.Log("GOOD COLLECT!");
         }
         
         protected virtual void BadCollect() {
             countdownState = CountdownState.Collected;
-            tileVisualHandler.QueueVisualChange(TileMainVisualStates.BadCollect, null);
-            tileTextHandler.RemoveText();
+            tileVisualHandler?.ProcessVisualChange(TileMainVisualStates.BadCollect, null);
+            tileTextHandler?.RemoveText();
             Debug.Log("BAD COLLECT!");
         }
 

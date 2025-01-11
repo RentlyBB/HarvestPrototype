@@ -27,13 +27,13 @@ namespace _Scripts.TileCore {
             // Safe the last visual state before freezing
             //TODO: Predelat last visual state, dela to bug v prechodu z not ready to collect na ready to collect
             _originalVisualMainState = _tileVisualHandler.CurrentMainState;
-            _tileVisualHandler?.QueueVisualChange(TileMainVisualStates.FreezeState, null);
+            _tileVisualHandler?.ProcessVisualChange(TileMainVisualStates.FreezeState, null);
         }
 
 
         [Button]
         public void UnfreezeTile() {
-            _tileVisualHandler?.QueueVisualChange(_originalVisualMainState, null);
+            _tileVisualHandler?.ProcessVisualChange(_originalVisualMainState, null);
         }
     }
 }

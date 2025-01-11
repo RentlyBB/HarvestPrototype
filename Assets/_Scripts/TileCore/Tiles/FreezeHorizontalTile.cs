@@ -9,7 +9,7 @@ namespace _Scripts.TileCore.Tiles {
     public class FreezeHorizontalTile : TileBase {
 
         public override void SetupTile() {
-            tileVisualHandler.QueueVisualChange(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
+            tileVisualHandler.ProcessVisualChange(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
         }
 
         public override async Task OnPlayerStep() {
@@ -26,7 +26,7 @@ namespace _Scripts.TileCore.Tiles {
                 if (tile.TryGetComponent(out TileFreezeHandler tileFreezeHandler)) {
                     tileFreezeHandler.FreezeTile();
                     tileFreezeHandler.FreezeVisual();
-                    tile.tileAnimationHandler.FreezeAnimation();
+                    tile.tileAnimationHandler?.FreezeAnimation();
                     await Task.Delay(100);
                 }
             }
