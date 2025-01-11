@@ -60,6 +60,7 @@ namespace _Scripts.PlayerCore {
             var targetPosition = new Vector3(_targetWorldPosition.x, _targetWorldPosition.y, transform.position.z);
             await transform.DOMove(targetPosition, timeToReachTarget).OnComplete(OnReachedTarget).AsyncWaitForCompletion();
             
+            
         }
 
         // Called when the final target position is reached

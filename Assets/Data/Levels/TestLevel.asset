@@ -29,10 +29,10 @@ MonoBehaviour:
     tileTypeData: {fileID: 11400000, guid: 16b1e104a0ef54dea9d7c8137d597f85, type: 2}
     countdownValue: 8
   - gridPosition: {x: 1, y: 1}
-    tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
-    countdownValue: 0
+    tileTypeData: {fileID: 11400000, guid: aa2cfde45528d4ec290426e0b428f396, type: 2}
+    countdownValue: 5
   - gridPosition: {x: 2, y: 1}
-    tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
+    tileTypeData: {fileID: 11400000, guid: 16b1e104a0ef54dea9d7c8137d597f85, type: 2}
     countdownValue: 6
   - gridPosition: {x: 0, y: 2}
     tileTypeData: {fileID: 11400000, guid: aa2cfde45528d4ec290426e0b428f396, type: 2}
