@@ -62,6 +62,7 @@ namespace _Scripts.Managers {
 
         private async void StartPhaseRunner(TileGridObject pressedTile) {
             await StepOnTilePhase(pressedTile);
+            await Task.Delay(200);
             await CountdownPhase();
             await UnfreezePhase();
         }
