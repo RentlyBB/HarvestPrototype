@@ -289,6 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f2c5b9b4ef4050bdad1b9b6da4055b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelToLoad: {fileID: 0}
 --- !u!4 &636686182
 Transform:
   m_ObjectHideFlags: 0
@@ -355,7 +356,7 @@ PrefabInstance:
     - target: {fileID: 7193799041948271164, guid: ae9b1f95b2f884ca4abd87186dbb8ce6, type: 3}
       propertyPath: levelData
       value: 
-      objectReference: {fileID: 11400000, guid: 7ad73cfd34d254bcb9b506f3f8192136, type: 2}
+      objectReference: {fileID: 11400000, guid: 6d8c826e829d0174a82c8cbd34928ee2, type: 2}
     - target: {fileID: 7389558082382071086, guid: ae9b1f95b2f884ca4abd87186dbb8ce6, type: 3}
       propertyPath: m_Name
       value: GameplayManager

@@ -4,11 +4,12 @@ using _Scripts.LevelEditor;
 using _Scripts.UnitySingleton;
 using QFSW.QC;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnitySingleton;
 
 namespace _Scripts.Managers {
     public class EditorHandler : PersistentMonoSingleton<EditorHandler> {
-        private LevelData _levelToLoad;
+        public LevelData levelToLoad;
         private const string EditorScene = "EditorScene";
         private const string GameScene = "RefactorScene";
         private bool _checkOnLoad = false;
@@ -25,7 +26,7 @@ namespace _Scripts.Managers {
         [Command]
         public void EditLevel() {
             _checkOnLoad = true;
-            _levelToLoad = GridManager.Instance.loadedLevelData;
+            levelToLoad = GridManager.Instance.loadedLevelData;
             SceneManager.LoadScene(EditorScene);
         }
 
@@ -33,7 +34,7 @@ namespace _Scripts.Managers {
         [Command]
         public void TestLevel() {
             _checkOnLoad = true;
-            _levelToLoad = LevelEditorManager.Instance.levelToEdit;
+            levelToLoad = LevelEditorManager.Instance.levelToEdit;
             SceneManager.LoadScene(GameScene);
         }
 
@@ -49,11 +50,12 @@ namespace _Scripts.Managers {
             
             if (scene.name.Equals(EditorScene)) {
                 var editor = LevelEditorManager.Instance;
-                editor.levelToEdit = _levelToLoad;
+                editor.levelToEdit = levelToLoad;
                 editor.EditCurrentLevel();
             } else if (scene.name.Equals(GameScene)) {
-                var grid = GridManager.Instance;
-                grid.IntiAndFillGrid(_levelToLoad);
+                var gameplayManager = GameplayManager.Instance;
+                gameplayManager.levelData = levelToLoad;
+                gameplayManager.LoadLevel();
             }
             
             _checkOnLoad = false;

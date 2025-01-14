@@ -9,11 +9,10 @@ using _Scripts.TileCore.BaseClasses;
 using _Scripts.TileCore.Enums;
 using _Scripts.UnitySingleton;
 using DG.Tweening;
-using Mono.CSharp;
 using QFSW.QC;
-using QFSW.QC.Actions;
 using UnityEngine;
 using UnityEngine.Events;
+using VInspector;
 
 namespace _Scripts.Managers {
     public class GameplayManager : MonoSingleton<GameplayManager> {
@@ -26,7 +25,7 @@ namespace _Scripts.Managers {
         public List<CountdownTileBase> countdownTileBases = new List<CountdownTileBase>();
         public List<TileBase> frozenTiles = new List<TileBase>();
         
-        private readonly Queue<Queue<Func<Task>>> _phaseQueue = new Queue<Queue<Func<Task>>>();
+        private readonly LinkedList<Queue<Func<Task>>> _phaseQueue = new LinkedList<Queue<Func<Task>>>();
 
         private Queue<Func<Task>> _currentPhaseBulk = new Queue<Func<Task>>();
         
@@ -47,11 +46,12 @@ namespace _Scripts.Managers {
         }
 
         private void Start() {
-            LoadLevel();
+            //LoadLevel();
         }
         
         [Command]
-        private void LoadLevel() {
+        [Button]
+        public void LoadLevel() {
             
             // Kill and reset everything
             ClearTempData();
@@ -83,28 +83,31 @@ namespace _Scripts.Managers {
         // CountdownPhase
         // UnfreezePhase 
         private void PhaseHandler(TileGridObject pressedTile) {
-
-            Queue<Func<Task>> phaseBulk = new Queue<Func<Task>>();
-            phaseBulk.Enqueue(() => MovementPhase(pressedTile));
-            phaseBulk.Enqueue(() => DelayMethod(50));
-            phaseBulk.Enqueue(() => StepOnTilePhase(pressedTile));
-            phaseBulk.Enqueue(() => DelayMethod(100));
-            phaseBulk.Enqueue(CountdownPhase);
-            phaseBulk.Enqueue(() => DelayMethod(200));
-            phaseBulk.Enqueue(UnfreezePhase);
-            phaseBulk.Enqueue(() => DelayMethod(50));
-            
-            _phaseQueue.Enqueue(phaseBulk);
+            _phaseQueue.AddLast(CreatePhaseBulk(pressedTile));
 
             if (!_isPhaseRunning) {
                 ProcessPhaseQueue();
             }
         }
 
+        private Queue<Func<Task>> CreatePhaseBulk(TileGridObject pressedTile) {
+            Queue<Func<Task>> phaseBulk = new Queue<Func<Task>>();
+            phaseBulk.Enqueue(() => MovementPhase(pressedTile));
+            // phaseBulk.Enqueue(() => DelayMethod(50));
+            phaseBulk.Enqueue(() => StepOnTilePhase(pressedTile));
+            //phaseBulk.Enqueue(() => DelayMethod(100));
+            phaseBulk.Enqueue(CountdownPhase);
+            phaseBulk.Enqueue(() => DelayMethod(200));
+            phaseBulk.Enqueue(UnfreezePhase);
+            //phaseBulk.Enqueue(() => DelayMethod(50));
+            return phaseBulk;
+        }
+
         private async void ProcessPhaseQueue() {
             _isPhaseRunning = true;
             while (_phaseQueue.Count > 0) {
-                _currentPhaseBulk = _phaseQueue.Dequeue();
+                _currentPhaseBulk = _phaseQueue.First.Value;
+                _phaseQueue.RemoveFirst();
 
                 while (_currentPhaseBulk.Count > 0) {
                     var currentPhase = _currentPhaseBulk.Dequeue();
@@ -120,7 +123,14 @@ namespace _Scripts.Managers {
             _currentPhaseBulk.Clear();
         }
 
-        
+        private void AddPhaseBulkFirst() {
+            
+            //TODO: Somehow create a new Phase Bulk with new pressedTile
+            // This is needed for new push tile
+            //_phaseQueue.AddFirst(CreatePhaseBulk());
+        }
+
+
         /// <summary>
         /// MOVEMENT PHASE
         /// - Check if the pressed tile is valid and if player can go there
@@ -152,6 +162,7 @@ namespace _Scripts.Managers {
         /// <param name="pressedTile"></param>
         private async Task StepOnTilePhase(TileGridObject pressedTile) {
             await pressedTile.GetTile()?.OnPlayerStep()!;
+            await Task.Delay(100);
         }
         
         /// <summary>
@@ -187,7 +198,7 @@ namespace _Scripts.Managers {
                 
                 tileBase.tileAnimationHandler?.FreezeAnimation();
                 tileFreezeHandler?.UnfreezeTile();
-                await Task.Delay(100);
+                await Task.Delay(200);
             }
             await Task.Yield();
         }

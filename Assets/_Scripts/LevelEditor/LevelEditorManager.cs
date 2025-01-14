@@ -17,9 +17,7 @@ using UnityEditor;
 #endif
 
 namespace _Scripts.LevelEditor {
-
     public class LevelEditorManager : MonoSingleton<LevelEditorManager> {
-
         public LevelData levelToEdit;
 
         public TileTypeData selectedTileTypeData;
@@ -40,7 +38,7 @@ namespace _Scripts.LevelEditor {
             GameObject.FindWithTag("MainCamera").TryGetComponent(out _cam);
 
             TryGetComponent(out _tileTypeParser);
-            
+
             _gameInput = new GameInput();
             _gameInput.Gameplay.MouseClick.performed += OnTileClick;
         }
@@ -73,18 +71,19 @@ namespace _Scripts.LevelEditor {
             if (_grid != null) {
                 ClearGrid();
             }
+
             _grid = new Grid<TileGridObject>(levelToEdit.gridWidth, levelToEdit.gridHeight, 1, transform.position, (g, x, y) => new TileGridObject(g, x, y));
 
             // TileData - Holds data for only one tile in the grid 
             foreach (TileData tileData in levelToEdit.tiles) {
                 if (tileData.tileTypeData is null) continue;
-                
+
                 _tileTypeParser.TileTypeToGameObject(tileData, _grid, out TileBase tileBase);
-                if (tileBase is  null) break;
-                
+                if (tileBase is null) break;
+
                 tileBase.gridPosition = tileData.gridPosition;
                 _grid.GetGridDictionary()[tileData.gridPosition].SetTileBase(tileBase);
-                
+
                 tileBase.SetupTile();
                 tileBase.transform.localScale = Vector3.one;
             }
@@ -94,23 +93,22 @@ namespace _Scripts.LevelEditor {
         }
 
         private void OnTileClick(InputAction.CallbackContext ctx) {
-
             TileGridObject tileGridObject = _grid?.GetGridObject(Utils.GetMouseWorldPosition2D());
-            
+
             // Check if player click on GridObject
             if (tileGridObject is null) return;
-            
+
             // If true, stop function, because we do not want change any visual or data
             // we only want set starting position
             if (SetStartingPosition(tileGridObject)) return;
-            
+
             //Find tileData in LevelData
             TileData tileData = FindTileData(tileGridObject.GetXY());
-            
+
             //Edit data of the clicked tile
             // changes in tileData will be saved in LevelData
             EditDataInLevelData(tileData);
-            
+
             //Re-InitGrid because i need to update the visual
             //This is not the effective way to do it, but it works and the levels are small, so I can use it here
             //And plus the editor will not be in the final game
@@ -120,7 +118,7 @@ namespace _Scripts.LevelEditor {
         // Set new player starting position
         private bool SetStartingPosition(TileGridObject tileGridObject) {
             if (!setStartingPosition) return false;
-            
+
             levelToEdit.startingGridPosition = tileGridObject.GetXY();
 
 
@@ -130,8 +128,8 @@ namespace _Scripts.LevelEditor {
 
             var pos = tileGridObject.GetWorldPositionCellCenter();
             playerMarker.position = new Vector3(pos.x, pos.y, -1);
-           
-            
+
+
             setStartingPosition = false;
             return true;
         }
@@ -150,7 +148,7 @@ namespace _Scripts.LevelEditor {
 
         [Command]
         public void UpdateGridSize(int width, int height) {
-            levelToEdit.SetGridSize(width,height);
+            levelToEdit.SetGridSize(width, height);
             InitGrid();
             CenterCamera();
         }
@@ -158,8 +156,8 @@ namespace _Scripts.LevelEditor {
         [Command]
         private void ClearGrid() {
             foreach (KeyValuePair<Vector2Int, TileGridObject> entry in _grid.GetGridDictionary()) {
-                if(entry.Value.GetTile() is null) continue;
-                
+                if (entry.Value.GetTile() is null) continue;
+
                 Destroy(entry.Value.GetTile().gameObject);
             }
         }
@@ -171,13 +169,13 @@ namespace _Scripts.LevelEditor {
 
         [Command]
         public void CreateNewLevel(string levelName, int gridWidth, int gridHeight) {
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             LevelData levelData = ScriptableObject.CreateInstance<LevelData>();
-            string path = "Assets/Levels/" + levelName + ".asset";
+            string path = "Assets/Data/Levels/" + levelName + ".asset";
             AssetDatabase.CreateAsset(levelData, path);
 
             levelToEdit = levelData;
-            
+
             // Save the asset database and refresh the editor to reflect the changes
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -185,18 +183,18 @@ namespace _Scripts.LevelEditor {
             Debug.Log("ScriptableObject created and saved at: " + path);
 
             levelData.SetGridSize(gridWidth, gridHeight);
-            #endif
+#endif
         }
 
         public void SaveLevel() {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             EditorUtility.SetDirty(levelToEdit); // Mark as dirty
             AssetDatabase.SaveAssets(); // Save all assets
             AssetDatabase.Refresh(); // Refresh asset database
             Debug.Log($"{levelToEdit.name} saved successfully!");
-        #else
+#else
             Debug.LogWarning("Saving ScriptableObjects is only supported in the Editor.");
-        #endif
+#endif
         }
     }
 }
