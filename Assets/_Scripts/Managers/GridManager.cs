@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using _Scripts.GameplayCore;
 using _Scripts.GridCore;
+using _Scripts.LevelEditor;
 using _Scripts.PlayerCore;
 using _Scripts.TileCore.BaseClasses;
 using _Scripts.UnitySingleton;

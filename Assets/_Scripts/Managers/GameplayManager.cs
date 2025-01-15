@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using _Scripts.GameplayCore;
 using _Scripts.GridCore;
+using _Scripts.LevelEditor;
 using _Scripts.PlayerCore;
 using _Scripts.TileCore;
 using _Scripts.TileCore.BaseClasses;
@@ -15,6 +15,8 @@ using UnityEngine.Events;
 using VInspector;
 
 namespace _Scripts.Managers {
+    
+    // TODO: Break it to the parts like: PhaseHandler.cs LevelLoader.cs
     public class GameplayManager : MonoSingleton<GameplayManager> {
         public static event UnityAction<LevelData> OnLoadLevel = delegate { };
 
@@ -104,19 +106,23 @@ namespace _Scripts.Managers {
         }
 
         private async void ProcessPhaseQueue() {
-            _isPhaseRunning = true;
-            while (_phaseQueue.Count > 0) {
-                _currentPhaseBulk = _phaseQueue.First.Value;
-                _phaseQueue.RemoveFirst();
+            try {
+                _isPhaseRunning = true;
+                while (_phaseQueue.Count > 0) {
+                    _currentPhaseBulk = _phaseQueue.First.Value;
+                    _phaseQueue.RemoveFirst();
 
-                while (_currentPhaseBulk.Count > 0) {
-                    var currentPhase = _currentPhaseBulk.Dequeue();
-                    await currentPhase();
+                    while (_currentPhaseBulk.Count > 0) {
+                        var currentPhase = _currentPhaseBulk.Dequeue();
+                        await currentPhase();
+                    }
                 }
-            }
 
-            await Task.Yield();
-            _isPhaseRunning = false;
+                await Task.Yield();
+                _isPhaseRunning = false;
+            } catch (Exception e) {
+                throw e.GetBaseException();
+            }
         }
 
         private void SkipCurrentPhaseBulk() {
