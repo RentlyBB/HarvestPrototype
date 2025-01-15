@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridWidth: 2
   gridHeight: 4
+  worldLevelID: 1
   startingGridPosition: {x: 1, y: 0}
   tiles:
   - gridPosition: {x: 0, y: 0}

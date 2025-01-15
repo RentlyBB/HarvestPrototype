@@ -2,7 +2,6 @@ using System;
 using _Scripts.TileCore.BaseClasses;
 using _Scripts.TileCore.Enums;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VInspector;
 
 namespace _Scripts.TileCore.ScriptableObjects {

@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using _Scripts.TileCore.ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VInspector;
 
-namespace _Scripts.GameplayCore {
+namespace _Scripts.LevelEditor {
     [CreateAssetMenu(fileName = "Level", menuName = "Level/New Level", order = 0)]
     public class LevelData : ScriptableObject {
+        
         public int gridWidth;
         public int gridHeight;
+
+        //Under which world this level is
+        public int worldLevelID;
         
         public Vector2Int startingGridPosition;
         public List<TileData> tiles = new List<TileData>();
