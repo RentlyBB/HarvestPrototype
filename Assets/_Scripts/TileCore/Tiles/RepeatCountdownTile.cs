@@ -40,7 +40,7 @@ namespace _Scripts.TileCore.Tiles {
             countdownState = CountdownState.Counting;
             countdownValue = _originalCountdownValue;
             tileTextHandler?.RemoveText();
-            tileTextHandler?.AddText(countdownValue.ToString(), 72, new Color32(61,61,61,255));
+            tileTextHandler?.AddText(countdownValue.ToString(), 72, new Color32(128,128,128,255));
             tileVisualHandler?.ProcessVisualChange(TileMainVisualStates.DefaultState2, null);
             _repeated = true;
             SkipNextDecrease();

@@ -10,7 +10,7 @@ namespace _Scripts.TileCore.Tiles {
         
         public override void SetupTile() {
             tileVisualHandler?.ProcessVisualChange(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
-            tileTextHandler?.AddText(countdownValue.ToString(), 72, new Color32(61,61,61,255));
+            tileTextHandler?.AddText(countdownValue.ToString(), 72, new Color32(128,128,128,255));
             countdownState = CountdownState.Counting;
         }
 

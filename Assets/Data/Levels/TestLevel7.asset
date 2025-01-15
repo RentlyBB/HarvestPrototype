@@ -33,8 +33,8 @@ MonoBehaviour:
     tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
     countdownValue: 0
   - gridPosition: {x: 1, y: 2}
-    tileTypeData: {fileID: 11400000, guid: 93cf2e5ea61934e41ba3d23bf1d5b625, type: 2}
-    countdownValue: 0
+    tileTypeData: {fileID: 11400000, guid: 1b14141d60df0477ebf26540d9e2c5fa, type: 2}
+    countdownValue: 2
   - gridPosition: {x: 0, y: 3}
     tileTypeData: {fileID: 11400000, guid: aa2cfde45528d4ec290426e0b428f396, type: 2}
     countdownValue: 1
