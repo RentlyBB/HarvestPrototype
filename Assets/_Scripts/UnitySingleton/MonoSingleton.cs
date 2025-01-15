@@ -1,155 +1,87 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿using UnityEngine;
 using UnitySingleton;
 
-using UnityEngine;
+namespace _Scripts.UnitySingleton {
 
-namespace UnitySingleton
-{
+    public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T> {
 
-    /// <summary>
-    /// The basic MonoBehaviour singleton implementation, this singleton is destroyed after scene changes, use <see cref="PersistentMonoSingleton{T}"/> if you want a persistent and global singleton instance.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public abstract class MonoSingleton<T> : MonoBehaviour, ISingleton where T : MonoSingleton<T>
-    {
+        protected static T instance;
+        protected static readonly object lockObj = new object();
+        protected static bool isQuitting = false;
 
-        #region Fields
-
-        /// <summary>
-        /// The instance.
-        /// </summary>
-        private static T instance;
-
-        /// <summary>
-        /// The initialization status of the singleton's instance.
-        /// </summary>
         private SingletonInitializationStatus initializationStatus = SingletonInitializationStatus.None;
 
-        #endregion
+        public static T Instance {
+            get {
+                if (isQuitting) {
+                    Debug.LogWarning($"[MonoSingleton] Instance of {typeof(T)} requested after application is quitting. Returning null.");
+                    return null;
+                }
 
-        #region Properties
-
-        /// <summary>
-        /// Gets the instance.
-        /// </summary>
-        /// <value>The instance.</value>
-        public static T Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindObjectOfType<T>();
-                    if (instance == null)
-                    {
-                        GameObject obj = new GameObject();
-                        obj.name = typeof(T).Name;
-                        instance = obj.AddComponent<T>();
-                        instance.OnMonoSingletonCreated();
+                lock (lockObj) {
+                    if (instance == null) {
+                        instance = FindObjectOfType<T>();
+                        if (instance == null) {
+                            GameObject obj = new GameObject(typeof(T).Name);
+                            instance = obj.AddComponent<T>();
+                            instance.OnMonoSingletonCreated();
+                        }
                     }
+                    return instance;
                 }
-                return instance;
             }
         }
 
-        /// <summary>
-        /// Gets whether the singleton's instance is initialized.
-        /// </summary>
-        public virtual bool IsInitialized => this.initializationStatus == SingletonInitializationStatus.Initialized;
+        public virtual bool IsInitialized => initializationStatus == SingletonInitializationStatus.Initialized;
 
-        #endregion
-
-        #region Unity Messages
-
-        /// <summary>
-        /// Use this for initialization.
-        /// </summary>
-        protected virtual void Awake()
-        {
-            if (instance == null)
-            {
-                instance = this as T;
-
-                // Initialize existing instance
-                InitializeSingleton();
-            }
-            else
-            {
-
-                // Destory duplicates
-                if (Application.isPlaying)
-                {
+        protected virtual void Awake() {
+            lock (lockObj) {
+                if (instance == null) {
+                    instance = this as T;
+                    InitializeSingleton();
+                } else if (instance != this) {
+                    Debug.LogWarning($"[MonoSingleton] Duplicate instance of {typeof(T)} found. Destroying duplicate.");
                     Destroy(gameObject);
-                }
-                else
-                {
-                    DestroyImmediate(gameObject);
+                    return;
                 }
             }
         }
 
-        #endregion
-
-        #region Protected Methods
-
-        /// <summary>
-        /// This gets called once the singleton's instance is created.
-        /// </summary>
-        protected virtual void OnMonoSingletonCreated()
-        {
-
+        protected virtual void OnApplicationQuit() {
+            isQuitting = true;
         }
 
-        protected virtual void OnInitializing()
-        {
+        protected virtual void OnMonoSingletonCreated() { }
 
-        }
+        protected virtual void OnInitializing() { }
 
-        protected virtual void OnInitialized()
-        {
+        protected virtual void OnInitialized() { }
 
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        public virtual void InitializeSingleton()
-        {
-            if (this.initializationStatus != SingletonInitializationStatus.None)
-            {
+        public virtual void InitializeSingleton() {
+            if (initializationStatus != SingletonInitializationStatus.None) {
                 return;
             }
 
-            this.initializationStatus = SingletonInitializationStatus.Initializing;
+            initializationStatus = SingletonInitializationStatus.Initializing;
             OnInitializing();
-            this.initializationStatus = SingletonInitializationStatus.Initialized;
+            initializationStatus = SingletonInitializationStatus.Initialized;
             OnInitialized();
         }
 
         public virtual void ClearSingleton() { }
 
-        public static void CreateInstance()
-        {
-            DestroyInstance();
-            instance = Instance;
-        }
-
-        public static void DestroyInstance()
-        {
-            if (instance == null)
-            {
+        public static void DestroyInstance() {
+            if (instance == null) {
                 return;
             }
 
             instance.ClearSingleton();
-            instance = default(T);
+            Destroy(instance.gameObject);
+            instance = null;
         }
 
-        #endregion
-
+        public static void ResetSingleton() {
+            DestroyInstance();
+        }
     }
-
 }

@@ -1,31 +1,41 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnitySingleton;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace UnitySingleton
-{
+namespace _Scripts.UnitySingleton {
 
-    /// <summary>
-    /// This singleton is persistent across scenes by calling <see cref="UnityEngine.Object.DontDestroyOnLoad(Object)"/>.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public abstract class PersistentMonoSingleton<T> : MonoSingleton<T> where T : MonoSingleton<T>
-    {
+    public abstract class PersistentMonoSingleton<T> : MonoSingleton<T> where T : MonoSingleton<T> {
 
-        #region Protected Methods
-
-        protected override void OnInitializing()
-        {
-            base.OnInitializing();
-            if (Application.isPlaying)
-            {
-                DontDestroyOnLoad(gameObject);
+        protected override void Awake() {
+            lock (lockObj) {
+                if (instance == null) {
+                    instance = this as T;
+                    InitializeSingleton();
+                    DontDestroyOnLoad(gameObject);
+                } else if (instance != this) {
+                    Debug.LogWarning($"[PersistentMonoSingleton] Duplicate instance of {typeof(T)} found. Destroying duplicate.");
+                    Destroy(gameObject);
+                    return;
+                }
             }
         }
 
-        #endregion
+        protected override void OnApplicationQuit() {
+            base.OnApplicationQuit();
+            isQuitting = true;
+        }
 
+        protected virtual void ClearSceneReferences() { }
+
+        private void OnEnable() {
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+        }
+
+        private void OnDisable() {
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        }
+
+        private void OnSceneUnloaded(Scene scene) {
+            ClearSceneReferences();
+        }
     }
-
 }
