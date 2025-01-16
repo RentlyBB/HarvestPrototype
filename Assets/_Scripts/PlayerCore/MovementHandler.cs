@@ -17,6 +17,8 @@ namespace _Scripts.PlayerCore {
         [Header("Movement Settings")]
         public float timeToReachTarget = 0.4f; // Maximum speed for movement
 
+        [SerializeField] public AnimationCurve movementEase;
+
         private TileGridObject _currentTile;
         private Vector2 _targetWorldPosition;
 
@@ -53,11 +55,13 @@ namespace _Scripts.PlayerCore {
             _targetWorldPosition = _targetTilesQueue.Peek().GetWorldPositionCellCenter();
             
             _currentTile?.GetTile().OnPlayerLeave();
-            
+
             var targetPosition = new Vector3(_targetWorldPosition.x, _targetWorldPosition.y, transform.position.z);
-            await transform.DOMove(targetPosition, timeToReachTarget).OnComplete(OnReachedTarget).AsyncWaitForCompletion();
-            
-            
+
+            await transform.DOScale(0.85f, timeToReachTarget/2).AsyncWaitForCompletion();
+            transform.DOScale(1.2f, 0.4f);
+            await transform.DOMove(targetPosition, timeToReachTarget).SetEase(movementEase).OnComplete(OnReachedTarget).AsyncWaitForCompletion();
+            await transform.DOScale(1f, 0.1f).AsyncWaitForCompletion();
         }
 
         // Called when the final target position is reached

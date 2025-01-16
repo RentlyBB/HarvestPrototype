@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using _Scripts.TileCore.Enums;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -36,7 +37,8 @@ namespace _Scripts.TileCore.BaseClasses {
             await Task.Yield();
         }
         
-        public virtual void OnPlayerLeave() {
+        public virtual async Task OnPlayerLeave() {
+            await Task.Delay(230);
             tileVisualHandler?.ProcessVisualChange(null, TileSubVisualStates.Unpressed);
         }
         
