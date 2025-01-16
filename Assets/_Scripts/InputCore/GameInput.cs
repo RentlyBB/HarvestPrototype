@@ -31,7 +31,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""name"": ""MouseClick"",
                     ""type"": ""Button"",
                     ""id"": ""b78020de-4226-455b-b6cd-bfc1f2ca1829"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
