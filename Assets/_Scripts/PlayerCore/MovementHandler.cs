@@ -3,12 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Scripts.GridCore;
-using _Scripts.Managers;
-using _Scripts.TileCore.BaseClasses;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using VInspector;
 
 namespace _Scripts.PlayerCore {
@@ -74,7 +71,7 @@ namespace _Scripts.PlayerCore {
             _targetTilesQueue.Dequeue();
         }
 
-
+        [Button]
         public void Reset() {
             _targetTilesQueue.Clear();
             _targetWorldPosition = new Vector2();

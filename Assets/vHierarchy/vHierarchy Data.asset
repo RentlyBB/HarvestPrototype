@@ -19,27 +19,30 @@ MonoBehaviour:
     - goDatas_byGlobalId:
         keys:
         - globalObjectIdString: GlobalObjectId_V1-2-74643427f39974d8f98f53e31f7aa8d2-7389558082382071086-1127471458
-        - globalObjectIdString: GlobalObjectId_V1-2-74643427f39974d8f98f53e31f7aa8d2-1600922886581845357-8553940564483476963
         - globalObjectIdString: GlobalObjectId_V1-2-74643427f39974d8f98f53e31f7aa8d2-8240575755716138280-7293688636046237488
-        - globalObjectIdString: GlobalObjectId_V1-2-74643427f39974d8f98f53e31f7aa8d2-48448608-0
-        - globalObjectIdString: GlobalObjectId_V1-2-74643427f39974d8f98f53e31f7aa8d2-1309946027-0
+        - globalObjectIdString: GlobalObjectId_V1-2-74643427f39974d8f98f53e31f7aa8d2-1600922886581845357-8553940564483476963
         - globalObjectIdString: GlobalObjectId_V1-2-74643427f39974d8f98f53e31f7aa8d2-3141409991646892696-6910647281225092512
-        - globalObjectIdString: GlobalObjectId_V1-2-74643427f39974d8f98f53e31f7aa8d2-1622304751-0
         - globalObjectIdString: GlobalObjectId_V1-2-74643427f39974d8f98f53e31f7aa8d2-636686180-0
         values:
         - colorIndex: 3
-          iconNameOrGuid: Settings Icon
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
         - colorIndex: 3
-          iconNameOrGuid: Settings Icon
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
         - colorIndex: 3
-          iconNameOrGuid: Settings Icon
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
         - colorIndex: 3
-          iconNameOrGuid: Settings Icon
-        - colorIndex: 3
-          iconNameOrGuid: Folder Icon
-        - colorIndex: 3
-          iconNameOrGuid: Settings Icon
-        - colorIndex: 3
-          iconNameOrGuid: Folder Icon
+          iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
         - colorIndex: 2
           iconNameOrGuid: 
+          isIconRecursive: 0
+          isColorRecursive: 0
+  bookmarks: []
+  bookmarkedScenePaths: []

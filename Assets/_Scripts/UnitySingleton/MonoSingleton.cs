@@ -20,7 +20,7 @@ namespace _Scripts.UnitySingleton {
 
                 lock (lockObj) {
                     if (instance == null) {
-                        instance = FindObjectOfType<T>();
+                        instance = FindFirstObjectByType<T>();
                         if (instance == null) {
                             GameObject obj = new GameObject(typeof(T).Name);
                             instance = obj.AddComponent<T>();
