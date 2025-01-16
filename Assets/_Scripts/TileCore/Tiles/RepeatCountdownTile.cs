@@ -13,7 +13,7 @@ namespace _Scripts.TileCore.Tiles {
             _repeated = false;
             _originalCountdownValue = countdownValue;
             tileVisualHandler?.ProcessVisualChange(TileMainVisualStates.DefaultState, TileSubVisualStates.Unpressed);
-            tileTextHandler?.AddText(countdownValue.ToString(), 72, new Color32(215,195,29, 255));
+            tileTextHandler?.AddText(countdownValue.ToString(), 72, new Color32(180,160,20, 255));
             countdownState = CountdownState.Counting;
         }
 
