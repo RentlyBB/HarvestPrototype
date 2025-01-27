@@ -99,7 +99,7 @@ namespace _Scripts.Managers {
             phaseBulk.Enqueue(() => StepOnTilePhase(pressedTile));
             //phaseBulk.Enqueue(() => DelayMethod(100));
             phaseBulk.Enqueue(CountdownPhase);
-            phaseBulk.Enqueue(() => DelayMethod(200));
+            //phaseBulk.Enqueue(() => DelayMethod(100));
             phaseBulk.Enqueue(UnfreezePhase);
             //phaseBulk.Enqueue(() => DelayMethod(50));
             return phaseBulk;

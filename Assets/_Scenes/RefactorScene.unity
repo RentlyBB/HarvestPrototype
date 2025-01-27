@@ -369,7 +369,7 @@ PrefabInstance:
     - target: {fileID: 7193799041948271164, guid: ae9b1f95b2f884ca4abd87186dbb8ce6, type: 3}
       propertyPath: levelData
       value: 
-      objectReference: {fileID: 11400000, guid: 6d8c826e829d0174a82c8cbd34928ee2, type: 2}
+      objectReference: {fileID: 11400000, guid: c49198add9eb74346a37ea5e8511f897, type: 2}
     - target: {fileID: 7389558082382071086, guid: ae9b1f95b2f884ca4abd87186dbb8ce6, type: 3}
       propertyPath: m_Name
       value: GameplayManager
@@ -1080,16 +1080,20 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5028608778661996262, guid: efe07aada16bb884ca465be86e0df427, type: 3}
+      propertyPath: timeToReachTarget
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5028608778661996262, guid: efe07aada16bb884ca465be86e0df427, type: 3}
       propertyPath: movementEase.m_Curve.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5028608778661996262, guid: efe07aada16bb884ca465be86e0df427, type: 3}
       propertyPath: movementEase.m_Curve.Array.data[1].time
-      value: 1
+      value: 0.4541626
       objectReference: {fileID: 0}
     - target: {fileID: 5028608778661996262, guid: efe07aada16bb884ca465be86e0df427, type: 3}
       propertyPath: movementEase.m_Curve.Array.data[1].value
-      value: 1
+      value: 0.99292374
       objectReference: {fileID: 0}
     - target: {fileID: 5028608778661996262, guid: efe07aada16bb884ca465be86e0df427, type: 3}
       propertyPath: movementEase.m_Curve.Array.data[1].inSlope
