@@ -11,12 +11,12 @@ namespace _Scripts.TileCore {
         
         private TileVisualHandler _tileVisualHandler;
 
-        private TileMainVisualStates _originalVisualMainState;
+        [ShowInInspector]private TileMainVisualStates _originalVisualMainState;
         
         private void Awake() {
             TryGetComponent(out _tileVisualHandler);
         }
-
+        
         [Button]
         public void FreezeTile() {
             TryGetComponent(out CountdownTileBase countdownTileBase);
@@ -25,7 +25,6 @@ namespace _Scripts.TileCore {
 
         public void FreezeVisual() {
             // Safe the last visual state before freezing
-            //TODO: Predelat last visual state, dela to bug v prechodu z not ready to collect na ready to collect
             _originalVisualMainState = _tileVisualHandler.CurrentMainState;
             _tileVisualHandler?.ProcessVisualChange(TileMainVisualStates.FreezeState, null);
         }
