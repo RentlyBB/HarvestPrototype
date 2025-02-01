@@ -80,10 +80,7 @@ namespace _Scripts.Managers {
         }
 
        
-        // MovementPhase
-        // OnStepPhase
-        // CountdownPhase
-        // UnfreezePhase 
+        
         private void PhaseHandler(TileGridObject pressedTile) {
             _phaseQueue.AddLast(CreatePhaseBulk(pressedTile));
 
@@ -92,15 +89,16 @@ namespace _Scripts.Managers {
             }
         }
 
+        // MovementPhase
+        // OnStepPhase
+        // CountdownPhase
         private Queue<Func<Task>> CreatePhaseBulk(TileGridObject pressedTile) {
             Queue<Func<Task>> phaseBulk = new Queue<Func<Task>>();
             phaseBulk.Enqueue(() => MovementPhase(pressedTile));
-            // phaseBulk.Enqueue(() => DelayMethod(50));
             phaseBulk.Enqueue(() => StepOnTilePhase(pressedTile));
             phaseBulk.Enqueue(() => DelayMethod(200));
             phaseBulk.Enqueue(CountdownPhase);
             phaseBulk.Enqueue(() => DelayMethod(200));
-            //phaseBulk.Enqueue(UnfreezePhase);
             return phaseBulk;
         }
 
@@ -180,10 +178,8 @@ namespace _Scripts.Managers {
             }
         }
 
-        
         /// <summary>
         /// UNFREEZE PHASE
-        /// TODO: This should not be a game phase because it should be part of the AfterCountdownPhase 
         /// </summary>
         private async Task UnfreezePhase() {
 
