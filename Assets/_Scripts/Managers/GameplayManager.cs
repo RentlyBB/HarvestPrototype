@@ -79,8 +79,6 @@ namespace _Scripts.Managers {
             frozenTiles.Clear();
         }
 
-       
-        
         private void PhaseHandler(TileGridObject pressedTile) {
             _phaseQueue.AddLast(CreatePhaseBulk(pressedTile));
 
@@ -96,9 +94,8 @@ namespace _Scripts.Managers {
             Queue<Func<Task>> phaseBulk = new Queue<Func<Task>>();
             phaseBulk.Enqueue(() => MovementPhase(pressedTile));
             phaseBulk.Enqueue(() => StepOnTilePhase(pressedTile));
-            phaseBulk.Enqueue(() => DelayMethod(200));
             phaseBulk.Enqueue(CountdownPhase);
-            phaseBulk.Enqueue(() => DelayMethod(200));
+            //phaseBulk.Enqueue(() => DelayMethod(200));
             return phaseBulk;
         }
 

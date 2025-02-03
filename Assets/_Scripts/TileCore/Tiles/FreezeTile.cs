@@ -75,7 +75,11 @@ namespace _Scripts.TileCore.Tiles {
                     if(countdownTileBase && countdownTileBase.countdownState != CountdownState.Collected) return;
                     tileFreezeHandler.UnfreezeTile();
                     tile.tileAnimationHandler?.FreezeAnimation();
-                    await Task.Delay(150);
+
+                    // skip delay at last tile in grid row/column
+                    if (i != _axisSize) {
+                        await Task.Delay(150);
+                    }
                 }
             }
 
