@@ -164,8 +164,7 @@ namespace _Scripts.Managers {
         /// </summary>
         /// <param name="pressedTile"></param>
         private async Task StepOnTilePhase(TileGridObject pressedTile) {
-            await pressedTile.GetTile()?.OnPlayerStep()!;
-            await Task.Delay(100);
+            await pressedTile.GetTile().OnPlayerStep()!;
         }
         
         /// <summary>

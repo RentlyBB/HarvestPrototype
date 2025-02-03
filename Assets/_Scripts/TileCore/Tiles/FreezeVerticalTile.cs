@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Threading.Tasks;
 using _Scripts.Managers;
 using _Scripts.TileCore.BaseClasses;
@@ -15,6 +14,7 @@ namespace _Scripts.TileCore.Tiles {
         public override async Task OnPlayerStep() {
             await base.OnPlayerStep();
             await FreezeLine();
+            await Task.Delay(200);
         }
 
         private async Task FreezeLine() {
