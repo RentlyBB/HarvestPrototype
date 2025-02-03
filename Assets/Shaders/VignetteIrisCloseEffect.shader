@@ -16,6 +16,8 @@ Shader "Custom/UnifiedVignetteClosingEffect"
 
         // Feather for the smooth edge:
         _Feather("Feather", Range(0.001, 0.2)) = 0.01
+        
+        _Color ("Overlay Color", COLOR) = (0,0,0,1)
     }
     SubShader
     {
@@ -45,6 +47,9 @@ Shader "Custom/UnifiedVignetteClosingEffect"
             // Feather for the transition edge
             float _Feather;
 
+            //Color of the overlay circle
+            fixed4 _Color;
+
             fixed4 frag(v2f_img i) : SV_Target
             {
                 // Get the current UV coordinates.
@@ -68,9 +73,9 @@ Shader "Custom/UnifiedVignetteClosingEffect"
                 // Pixels with a distance less than (effectiveRadius - _Feather) will be clear.
                 // Outside effectiveRadius, they become fully black.
                 float alpha = smoothstep(effectiveRadius - _Feather, effectiveRadius, d);
-
+                
                 // Output pure black with the computed alpha.
-                return fixed4(0, 0, 0, alpha);
+                return fixed4(_Color.rgb, alpha);
             }
             ENDCG
         }

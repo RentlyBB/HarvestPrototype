@@ -26,7 +26,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _CloseAmount: 0
-    - _Feather: 0.0075
+    - _Feather: 0.0108
     - _IrisFeather: 0.001
     - _IrisRadius: 0
     - _VignetteFeather: 0.01
@@ -34,7 +34,8 @@ Material:
     - _VignetteRadius: 0.87
     m_Colors:
     - _Center: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _CloseCenter: {r: 0.23, g: 0.11, b: 0, a: 0}
+    - _CloseCenter: {r: 0.74, g: 0.35, b: 0, a: 0}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _VignetteCenter: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
