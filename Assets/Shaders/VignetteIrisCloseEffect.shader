@@ -1,4 +1,4 @@
-Shader "Custom/UnifiedVignetteClosingEffect"
+Shader "Custom/UnifiedVignetteClosingEffect_Color_Roundness"
 {
     Properties
     {
@@ -8,7 +8,7 @@ Shader "Custom/UnifiedVignetteClosingEffect"
 
         // Closing (iris) properties:
         _CloseCenter("Closing Center", Vector) = (0.5, 0.5, 0, 0)
-        // Set Iris Radius above 1 so that by default the closing effect is off-screen.
+        // Set Iris Radius above 1 so that the closing effect is initially off-screen.
         _IrisRadius("Iris Radius", Range(0, 2)) = 1.2
 
         // Interpolation factor between default and closing states:
@@ -16,15 +16,21 @@ Shader "Custom/UnifiedVignetteClosingEffect"
 
         // Feather for the smooth edge:
         _Feather("Feather", Range(0.001, 0.2)) = 0.01
-        
-        _Color ("Overlay Color", COLOR) = (0,0,0,1)
+
+        // Overlay color: change this to control the color of the vignette.
+        _OverlayColor("Overlay Color", Color) = (0, 0, 0, 1)
+
+        // New: Roundness factor:
+        // 1 means fully round (aspect ratio is fully corrected)
+        // 0 means no correction (effect computed in raw UV space, likely oval)
+        _Roundness("Roundness", Range(0, 1)) = 1.0
     }
     SubShader
     {
         Tags { "Queue" = "Overlay" "RenderType" = "Transparent" }
         Pass
         {
-            // Draw on top regardless of depth.
+            // Always draw on top regardless of depth.
             ZTest Always Cull Off ZWrite Off
             Blend SrcAlpha OneMinusSrcAlpha
 
@@ -41,41 +47,50 @@ Shader "Custom/UnifiedVignetteClosingEffect"
             float4 _CloseCenter;
             float _IrisRadius;
 
-            // Interpolation between states
+            // Interpolation parameter
             float _CloseAmount;
 
             // Feather for the transition edge
             float _Feather;
 
-            //Color of the overlay circle
-            fixed4 _Color;
+            // Overlay color
+            float4 _OverlayColor;
+
+            // New roundness factor (0: oval, 1: round)
+            float _Roundness;
 
             fixed4 frag(v2f_img i) : SV_Target
             {
-                // Get the current UV coordinates.
+                // Get the normalized UV coordinates.
                 float2 uv = i.uv;
 
                 // Interpolate between the default vignette center and the closing center.
                 float2 effectiveCenter = lerp(_VignetteCenter.xy, _CloseCenter.xy, _CloseAmount);
 
-                // Similarly, interpolate between the default radius and the iris (closing) radius.
+                // Interpolate between the default radius and the iris (closing) radius.
                 float effectiveRadius = lerp(_VignetteRadius, _IrisRadius, _CloseAmount);
 
-                // Compute the aspect ratio and adjust the x coordinate.
+                // Compute the screen aspect ratio.
                 float aspect = _ScreenParams.x / _ScreenParams.y;
+                // Compute the difference vector from the effective center.
                 float2 diff = uv - effectiveCenter;
-                diff.x *= aspect;
+
+                // Blend the x-coordinate correction between "no correction" (1.0) and "full correction" (aspect).
+                // When _Roundness == 0, roundFactor = 1 and no correction is applied (resulting in an oval shape).
+                // When _Roundness == 1, roundFactor = aspect and full correction is applied (resulting in a circle).
+                float roundFactor = lerp(1.0, aspect, _Roundness);
+                diff.x *= roundFactor;
 
                 // Compute the distance from the effective center.
                 float d = length(diff);
 
-                // Compute the alpha (blackness) using smoothstep.
-                // Pixels with a distance less than (effectiveRadius - _Feather) will be clear.
-                // Outside effectiveRadius, they become fully black.
+                // Compute the alpha (mask strength) using smoothstep.
+                // Pixels with a distance less than (effectiveRadius - _Feather) remain clear,
+                // and outside effectiveRadius they become fully overlay-colored.
                 float alpha = smoothstep(effectiveRadius - _Feather, effectiveRadius, d);
-                
-                // Output pure black with the computed alpha.
-                return fixed4(_Color.rgb, alpha);
+
+                // Output the overlay color with the computed alpha.
+                return fixed4(_OverlayColor.rgb, alpha);
             }
             ENDCG
         }
