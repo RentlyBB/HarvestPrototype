@@ -19,7 +19,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _IrisRadius
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
@@ -35,7 +35,7 @@ Material:
     - _VignetteRadius: 0.75
     m_Colors:
     - _Center: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _CloseCenter: {r: 0.23, g: 0.73, b: 0, a: 0}
+    - _CloseCenter: {r: 0.62, g: 0.31, b: 0, a: 0}
     - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _OverlayColor: {r: 0, g: 0, b: 0, a: 1}
     - _VignetteCenter: {r: 0.5, g: 0.5, b: 0, a: 0}
