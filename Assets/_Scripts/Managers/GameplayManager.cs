@@ -173,31 +173,5 @@ namespace _Scripts.Managers {
                 await tile.OnDecreaseCountdownValue();
             }
         }
-
-        /// <summary>
-        /// UNFREEZE PHASE
-        /// </summary>
-        private async Task UnfreezePhase() {
-
-            Grid<TileGridObject> grid = GridManager.Instance.GetGrid();
-            
-            foreach (TileData tile in levelData.tiles) {
-                TileBase tileBase = grid.GetGridObject(tile.gridPosition).GetTile();
-
-                if(!tileBase) 
-                    continue;
-                
-                if (tileBase.tileVisualHandler?.CurrentMainState != TileMainVisualStates.FreezeState)
-                    continue;
-                
-                if (!tileBase.TryGetComponent(out TileFreezeHandler tileFreezeHandler))
-                    continue;
-                
-                tileBase.tileAnimationHandler?.FreezeAnimation();
-                tileFreezeHandler?.UnfreezeTile();
-                await Task.Delay(200);
-            }
-            await Task.Yield();
-        }
     }
 }

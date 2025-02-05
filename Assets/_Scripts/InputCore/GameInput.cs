@@ -35,6 +35,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseClick1"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef210fd0-36a6-4194-a81f-749b646cfb8f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -46,6 +55,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Mouse"",
                     ""action"": ""MouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9395254-cf3d-484a-b3e2-567a13e49357"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse"",
+                    ""action"": ""MouseClick1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -63,6 +83,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_MouseClick = m_Gameplay.FindAction("MouseClick", throwIfNotFound: true);
+        m_Gameplay_MouseClick1 = m_Gameplay.FindAction("MouseClick1", throwIfNotFound: true);
     }
 
     ~@GameInput()
@@ -130,11 +151,13 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Gameplay;
     private List<IGameplayActions> m_GameplayActionsCallbackInterfaces = new List<IGameplayActions>();
     private readonly InputAction m_Gameplay_MouseClick;
+    private readonly InputAction m_Gameplay_MouseClick1;
     public struct GameplayActions
     {
         private @GameInput m_Wrapper;
         public GameplayActions(@GameInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @MouseClick => m_Wrapper.m_Gameplay_MouseClick;
+        public InputAction @MouseClick1 => m_Wrapper.m_Gameplay_MouseClick1;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -147,6 +170,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @MouseClick.started += instance.OnMouseClick;
             @MouseClick.performed += instance.OnMouseClick;
             @MouseClick.canceled += instance.OnMouseClick;
+            @MouseClick1.started += instance.OnMouseClick1;
+            @MouseClick1.performed += instance.OnMouseClick1;
+            @MouseClick1.canceled += instance.OnMouseClick1;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -154,6 +180,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @MouseClick.started -= instance.OnMouseClick;
             @MouseClick.performed -= instance.OnMouseClick;
             @MouseClick.canceled -= instance.OnMouseClick;
+            @MouseClick1.started -= instance.OnMouseClick1;
+            @MouseClick1.performed -= instance.OnMouseClick1;
+            @MouseClick1.canceled -= instance.OnMouseClick1;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -183,5 +212,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     public interface IGameplayActions
     {
         void OnMouseClick(InputAction.CallbackContext context);
+        void OnMouseClick1(InputAction.CallbackContext context);
     }
 }

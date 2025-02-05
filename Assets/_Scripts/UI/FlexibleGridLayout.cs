@@ -19,7 +19,7 @@ namespace _Scripts.UI {
 
         public bool fitX;
         public bool fitY;
-        
+
         public override void CalculateLayoutInputHorizontal() {
             base.CalculateLayoutInputHorizontal();
 
@@ -40,7 +40,9 @@ namespace _Scripts.UI {
                 columns = Mathf.CeilToInt(transform.childCount / (float)rows);
             }
 
-            // Calculate cell size
+            if (columns == 0 || rows == 0)return;
+
+        // Calculate cell size
             float parentWidth = rectTransform.rect.width;
             float parentHeight = rectTransform.rect.height;
 

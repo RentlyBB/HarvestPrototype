@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using _Scripts.UnitySingleton;
 using UnityEngine;
 using VHierarchy.Libs;
 using VInspector;
 
 namespace _Scripts.GameplayCore {
-    public class GameDataHandler : MonoBehaviour {
+    public class GameDataHandler : PersistentMonoSingleton<GameDataHandler> {
         
         private const string FileNameGameData = "GameData.json";
 
@@ -17,17 +18,37 @@ namespace _Scripts.GameplayCore {
             var world = new World();
 
             world.worldID = loadGameData.worlds.Count;
-            world.isUnlocked = false;
-            
+            world.isUnlocked = world.worldID == 0;
+
             loadGameData.worlds.Add(world);
 
             var json = JsonUtility.ToJson(loadGameData, true);
-            
             var filePathGameData = Path.Combine(Application.persistentDataPath, FileNameGameData);
-            
             File.WriteAllText(filePathGameData, json);
 
             Debug.Log("World Created");
+        }
+
+        [Button]
+        public void AddLevelToWorld(int worldID) {
+            
+            var loadGameData = LoadGameData() ?? new GameData();
+            
+            // Check if world exists
+            if(worldID > (loadGameData.worlds.Count - 1)) return;
+            
+            var level = new Level();
+            level.levelID = loadGameData.worlds[worldID].levels.Count;
+            level.isUnlocked = worldID == 0 && level.levelID == 0;
+            level.levelType = level.levelID % 2 == 0 ? LevelType.Default : LevelType.Special;
+            
+            loadGameData.worlds[worldID].levels.Add(level);
+            
+            var json = JsonUtility.ToJson(loadGameData, true);
+            var filePathGameData = Path.Combine(Application.persistentDataPath, FileNameGameData);
+            File.WriteAllText(filePathGameData, json);
+
+            Debug.Log("Level Created");
         }
         
         [Button]
@@ -45,7 +66,7 @@ namespace _Scripts.GameplayCore {
         }
         
 
-        private GameData LoadGameData() {
+        public GameData LoadGameData() {
             var loadedGameData = new GameData();
             
             var filePathGameData = Path.Combine(Application.persistentDataPath, FileNameGameData);
@@ -53,8 +74,6 @@ namespace _Scripts.GameplayCore {
             if (File.Exists(filePathGameData)) {
                 var jsonString = File.ReadAllText(filePathGameData);
                 JsonUtility.FromJsonOverwrite(jsonString, loadedGameData);
-                // Or if you want a new instance, you can use a different approach:
-                // var loadedData = JsonUtility.FromJson<LevelData>(jsonString);
             }
 
             return loadedGameData;
@@ -80,15 +99,20 @@ namespace _Scripts.GameplayCore {
     public class World {
         public int worldID;
         public bool isUnlocked = false;
-        public WorldCollectibles collectibles = new WorldCollectibles();
+        public List<Level> levels = new List<Level>();
     }
 
     [Serializable]
-    public class WorldCollectibles {
-        public int collectToUnlock = 0;
-        public int maxCollectibleCount = 0;
-        public int collectibleCollected = 0;
+    public class Level {
+        public int levelID;
+        public bool isUnlocked = false;
+        public LevelType levelType;
     }
 
-   
+    [Serializable]
+    public enum LevelType {
+        Default,
+        Special
+    }
+
 }

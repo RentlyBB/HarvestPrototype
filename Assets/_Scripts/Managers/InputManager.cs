@@ -10,6 +10,7 @@ using UnitySingleton;
 namespace _Scripts.Managers {
     public class InputManager : MonoSingleton<InputManager>, GameInput.IGameplayActions {
         public static event UnityAction<TileGridObject> OnClickOnTile = delegate { };
+        public static event UnityAction OnClickOnTile1 = delegate { };
 
         private GameInput _gameInput;
 
@@ -21,7 +22,6 @@ namespace _Scripts.Managers {
             }
 
             _gameInput.Gameplay.Enable();
-
         }
 
         private void OnDisable() {
@@ -39,6 +39,12 @@ namespace _Scripts.Managers {
 
                 //Click on grid
                 OnClickOnTile?.Invoke(tileGridObject);
+            }
+        }
+        
+        public void OnMouseClick1(InputAction.CallbackContext context) {
+            if (context.phase == InputActionPhase.Performed) {
+                OnClickOnTile1?.Invoke();
             }
         }
     }
