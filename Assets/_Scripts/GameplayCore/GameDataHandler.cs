@@ -40,7 +40,6 @@ namespace _Scripts.GameplayCore {
             var level = new Level();
             level.levelID = loadGameData.worlds[worldID].levels.Count;
             level.isUnlocked = worldID == 0 && level.levelID == 0;
-            level.levelType = level.levelID % 2 == 0 ? LevelType.Default : LevelType.Special;
             
             loadGameData.worlds[worldID].levels.Add(level);
             
@@ -106,13 +105,5 @@ namespace _Scripts.GameplayCore {
     public class Level {
         public int levelID;
         public bool isUnlocked = false;
-        public LevelType levelType;
     }
-
-    [Serializable]
-    public enum LevelType {
-        Default,
-        Special
-    }
-
 }
