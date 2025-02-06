@@ -4,9 +4,7 @@ using System.Threading.Tasks;
 using _Scripts.GridCore;
 using _Scripts.LevelEditor;
 using _Scripts.PlayerCore;
-using _Scripts.TileCore;
 using _Scripts.TileCore.BaseClasses;
-using _Scripts.TileCore.Enums;
 using _Scripts.UnitySingleton;
 using DG.Tweening;
 using QFSW.QC;
@@ -79,11 +77,6 @@ namespace _Scripts.Managers {
             frozenTiles.Clear();
         }
 
-       
-        // MovementPhase
-        // OnStepPhase
-        // CountdownPhase
-        // UnfreezePhase 
         private void PhaseHandler(TileGridObject pressedTile) {
             _phaseQueue.AddLast(CreatePhaseBulk(pressedTile));
 
@@ -92,16 +85,15 @@ namespace _Scripts.Managers {
             }
         }
 
+        // MovementPhase
+        // OnStepPhase
+        // CountdownPhase
         private Queue<Func<Task>> CreatePhaseBulk(TileGridObject pressedTile) {
             Queue<Func<Task>> phaseBulk = new Queue<Func<Task>>();
             phaseBulk.Enqueue(() => MovementPhase(pressedTile));
-            // phaseBulk.Enqueue(() => DelayMethod(50));
             phaseBulk.Enqueue(() => StepOnTilePhase(pressedTile));
-            //phaseBulk.Enqueue(() => DelayMethod(100));
             phaseBulk.Enqueue(CountdownPhase);
-            phaseBulk.Enqueue(() => DelayMethod(200));
-            phaseBulk.Enqueue(UnfreezePhase);
-            //phaseBulk.Enqueue(() => DelayMethod(50));
+            //phaseBulk.Enqueue(() => DelayMethod(200));
             return phaseBulk;
         }
 
@@ -167,8 +159,7 @@ namespace _Scripts.Managers {
         /// </summary>
         /// <param name="pressedTile"></param>
         private async Task StepOnTilePhase(TileGridObject pressedTile) {
-            await pressedTile.GetTile()?.OnPlayerStep()!;
-            await Task.Delay(100);
+            await pressedTile.GetTile().OnPlayerStep()!;
         }
         
         /// <summary>
@@ -179,34 +170,6 @@ namespace _Scripts.Managers {
             foreach (CountdownTileBase tile in countdownTileBases) {
                 await tile.OnDecreaseCountdownValue();
             }
-        }
-
-        
-        /// <summary>
-        /// UNFREEZE PHASE
-        /// TODO: This should not be a game phase because it should be part of the AfterCountdownPhase 
-        /// </summary>
-        private async Task UnfreezePhase() {
-
-            Grid<TileGridObject> grid = GridManager.Instance.GetGrid();
-            
-            foreach (TileData tile in levelData.tiles) {
-                TileBase tileBase = grid.GetGridObject(tile.gridPosition).GetTile();
-
-                if(!tileBase) 
-                    continue;
-                
-                if (tileBase.tileVisualHandler?.CurrentMainState != TileMainVisualStates.FreezeState)
-                    continue;
-                
-                if (!tileBase.TryGetComponent(out TileFreezeHandler tileFreezeHandler))
-                    continue;
-                
-                tileBase.tileAnimationHandler?.FreezeAnimation();
-                tileFreezeHandler?.UnfreezeTile();
-                await Task.Delay(200);
-            }
-            await Task.Yield();
         }
     }
 }

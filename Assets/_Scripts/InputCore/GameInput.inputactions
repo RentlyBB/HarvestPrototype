@@ -9,7 +9,16 @@
                     "name": "MouseClick",
                     "type": "Button",
                     "id": "b78020de-4226-455b-b6cd-bfc1f2ca1829",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseClick1",
+                    "type": "Button",
+                    "id": "ef210fd0-36a6-4194-a81f-749b646cfb8f",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -24,6 +33,17 @@
                     "processors": "",
                     "groups": "Mouse",
                     "action": "MouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9395254-cf3d-484a-b3e2-567a13e49357",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse",
+                    "action": "MouseClick1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

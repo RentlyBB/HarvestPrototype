@@ -21,11 +21,13 @@ namespace _Scripts.TileCore.BaseClasses {
         public CountdownState countdownState;
         
         public TileTextHandler tileTextHandler;
+        public TileFreezeHandler tileFreezeHandler;
         private bool _skipDecrease = false; 
         
         protected override void Awake() {
             base.Awake();
             TryGetComponent(out tileTextHandler);
+            TryGetComponent(out tileFreezeHandler);
         }
         
         public virtual async Task OnDecreaseCountdownValue() {
@@ -33,6 +35,12 @@ namespace _Scripts.TileCore.BaseClasses {
 
             if (_skipDecrease) {
                 _skipDecrease = false;
+
+                // unfreeze tile only if its freeze
+                if (tileVisualHandler.CurrentMainState != TileMainVisualStates.FreezeState) return;
+                tileAnimationHandler?.FreezeAnimation();
+                tileFreezeHandler?.UnfreezeTile();
+
                 return;
             }
 

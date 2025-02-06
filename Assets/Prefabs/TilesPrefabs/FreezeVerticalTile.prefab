@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3669139036353989084}
   - component: {fileID: 4300748844158401125}
-  - component: {fileID: 4511564743503789603}
+  - component: {fileID: 111960224986535460}
   - component: {fileID: 3302572282978228560}
+  - component: {fileID: 6053273898087699064}
   m_Layer: 0
   m_Name: FreezeVerticalTile
   m_TagString: Untagged
@@ -51,6 +52,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -86,7 +90,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4511564743503789603
+--- !u!114 &111960224986535460
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,12 +99,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4711044369471212171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f2bbf8575ed47889caed580832ba7f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 963d95c7f1bb4fd2863df6726cd95bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canMoveOn: 0
+  canMoveOn: 1
   gridPosition: {x: 0, y: 0}
   tileVisualHandler: {fileID: 0}
+  tileAnimationHandler: {fileID: 0}
+  freezeDirection: 1
 --- !u!114 &3302572282978228560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,3 +120,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileVisualData: {fileID: 11400000, guid: 021f2beffac85498da4e98a65cab8840, type: 2}
+--- !u!114 &6053273898087699064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4711044369471212171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 490f253eb74c4bccb36ca851a740ac65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

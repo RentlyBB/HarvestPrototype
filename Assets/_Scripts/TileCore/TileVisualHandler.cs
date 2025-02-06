@@ -69,18 +69,5 @@ namespace _Scripts.TileCore {
 
             UpdateSprite();
         }
-
-        // Internal class for storing visual change tasks
-        private class VisualChangeTask {
-            public TileMainVisualStates? MainState { get; }
-            public TileSubVisualStates? SubState { get; }
-            public float Delay { get; }
-
-            public VisualChangeTask(TileMainVisualStates? mainState, TileSubVisualStates? subState, float delay) {
-                MainState = mainState;
-                SubState = subState;
-                Delay = delay;
-            }
-        }
     }
 }
